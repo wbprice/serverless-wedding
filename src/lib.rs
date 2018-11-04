@@ -1,18 +1,24 @@
-#[macro_use]
-extern crate cpython;
-#[macro_use]
-extern crate lando;
+#[macro_use] extern crate cpython;
+#[macro_use] extern crate lando;
 
-use lando::RequestExt;
+use lando::Response;
 
-gateway!(|request, _| {
-    println!("{:?}", request.path_parameters());
-    Ok(lando::Response::new(format!(
-        "hello {}",
-        request
-            .path_parameters()
-            .get("name")
-            .cloned()
-            .unwrap_or_else(|| "stranger".to_owned())
-    )))
-});
+mod models;
+
+gateway! {
+    "create" => |_, _| {
+        Ok(Response::new("create"))
+    },
+
+    "read" => |_, _| {
+        Ok(Response::new("read"))
+    },
+
+    "update" => |_, _| {
+        Ok(Response::new("update"))
+    },
+
+    "delete" => |_, _| {
+        Ok(Response::new("delete"))
+    }
+}

@@ -3,6 +3,7 @@ service: serverless-wedding
 provider:
   name: aws
   runtime: python3.6
+  stage: dev
   memorySize: 128
 
 plugins:
@@ -18,16 +19,42 @@ package:
     - ./**
 
 functions:
-  hello:
-    handler: liblambda.handler
+  create:
+    handler: liblambda.create
     package:
       include:
         - liblambda.so
     events:
       - http:
-          path: '/hello/{name}'
+          path: '/rsvp/'
+          method: POST
+
+  read:
+    handler: liblambda.read
+    package:
+      include:
+        - liblambda.so
+    events:
+      - http:
+          path: '/rsvp/'
           method: GET
-          request:
-            parameters:
-              paths:
-                name: true
+
+  update:
+    handler: liblambda.update
+    package:
+      include:
+        - liblambda.so
+    events:
+      - http:
+          path: '/rsvp/'
+          method: PUT
+
+  delete:
+    handler: liblambda.delete
+    package:
+      include:
+        - liblambda.so
+    events:
+      - http:
+          path: '/rsvp/'
+          method: delete
