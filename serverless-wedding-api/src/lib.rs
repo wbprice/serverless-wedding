@@ -6,7 +6,8 @@ use lando::Response;
 mod models;
 
 gateway! {
-    "create" => |_, _| {
+    "create" => |request, _context| {
+        print!("Hey CloudFront, this is {:?}", request);
         Ok(Response::new("create"))
     },
 
