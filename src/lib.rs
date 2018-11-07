@@ -10,10 +10,19 @@ use serde_json::{Value, Error};
 
 mod models;
 
+
 gateway! {
     "create" => |request, _context| {
-        let rsvp : models::CreateRSVP = serde_json::from_slice(request.body()).unwrap();
-        println!("{:#?}", rsvp);
+        let payload = serde_json::from_slice(request.body());
+        let payload = match payload {
+            Ok(payload) => payload,
+            Err(err) => {
+                println!("there was a problem {:?}", err);
+            }
+        };
+
+        println!("hello payload {:?}", payload);
+
         Ok(Response::new("create"))
     },
 

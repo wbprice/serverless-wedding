@@ -1,4 +1,4 @@
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct RSVP {
     household_id: String,
     id: String,
@@ -10,8 +10,9 @@ pub struct RSVP {
     reminder_submitted: bool
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct CreateRSVP {
     name: String,
-    email_address: String
+    email_address: String,
+    salutation: String
 }
