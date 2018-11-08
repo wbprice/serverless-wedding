@@ -13,13 +13,9 @@ mod models;
 
 gateway! {
     "create" => |request, _context| {
-        let payload = serde_json::from_slice(request.body());
-        let payload = match payload {
-            Ok(payload) => payload,
-            Err(err) => {
-                println!("there was a problem {:?}", err);
-            }
-        };
+        let payload : models::CreateRSVP = serde_json::from_slice(request.body()).unwrap_or_else(|error| {
+            panic!("there was an error! {:?}", error);
+        });
 
         println!("hello payload {:?}", payload);
 
