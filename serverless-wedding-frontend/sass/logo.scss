@@ -1,0 +1,26 @@
+@import "colors";
+
+.logo {
+    padding: .75em 0;
+    text-align: center;
+    box-shadow: inset 0 0 0 .1em $white,
+                inset 0 0 0 .2em $slate,
+                inset 0 0 0 .25em $white;
+    max-width: 720px;
+
+    h1 {
+        line-height: 1em;
+    }
+
+    .blaine, .cynthia {
+        display: block;
+    }
+
+    .is-getting-married {
+        display: block;
+        font-size: .3em;
+        line-height: 1em;
+        color: $darkslate;
+        letter-spacing: 5px;
+    }
+}
