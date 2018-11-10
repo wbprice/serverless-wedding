@@ -1,0 +1,33 @@
+@import "colors";
+
+.heading-type {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.body-type {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+body {
+    background-color: $salmon;
+    background-image: url("images/bg.png");
+    color: $white;
+    text-align: center;
+    @extend .body-type;
+    font-display: auto;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Abril Fatface', cursive;
+    font-display: auto;
+    @extend .heading-type;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 960px;
+}
