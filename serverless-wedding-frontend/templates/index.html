@@ -8,6 +8,9 @@
 
     <body>
         <section class="container home">
+
+            {{ __tera_context }}
+
             <nav class="site-header">
                 <ul>
                     <li>
@@ -16,19 +19,7 @@
                 </ul>
             </nav>
 
-            <section class="logo">
-
-                <section class="rings">
-                    <div class="ring his"></div>
-                    <div class="ring hers"></div>
-                </section>
-
-                <h1>
-                    <span class="blaine">Blaine</span>
-                    <span class="is-getting-married">is getting married to</span>
-                    <span class="cynthia">Ling Ling</span>
-                </h1>
-            </section>
+            {{ section.content | safe }}
 
             <footer>
 
