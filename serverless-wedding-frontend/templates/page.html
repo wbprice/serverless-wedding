@@ -1,26 +1,4 @@
-<!DOCTYPE html> 
-<html>
-    <head>
-        <title>Blaine & Cynthia</title>
-        <link rel="stylesheet" href="/style.css" />
-        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
-    </head>
+{% extends "index.html" %}
 
-    <body>
-        <section class="container home">
-            <nav class="site-header">
-                <ul>
-                    <li>
-                        <a href="#">RSVP</a>
-                    </li>
-                </ul>
-            </nav>
+{{ page.content | safe }}
 
-            {{ page.content | safe }}
-
-            <footer>
-
-            </footer>
-        </section>
-    </body>
-</html>
