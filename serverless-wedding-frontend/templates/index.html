@@ -13,9 +13,11 @@
 
             <nav class="site-header">
                 <ul>
+                    {% for page in section.pages %}
                     <li>
-                        <a href="#">RSVP</a>
+                        <a href="{{page.permalink | safe}}">{{page.title}}</a>
                     </li>
+                    {% endfor %}
                 </ul>
             </nav>
 
