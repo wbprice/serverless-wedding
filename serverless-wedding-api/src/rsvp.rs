@@ -26,12 +26,12 @@ pub struct NewRSVP {
  * Methods
  */
 
-pub fn create_rsvp(newRSVP: NewRSVP) -> RSVP {
+pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
     RSVP {
         household_id: Uuid::new_v4(),
         id: Uuid::new_v4(),
-        name: newRSVP.name,
-        email_address: newRSVP.email_address,
+        name: new_rsvp.name,
+        email_address: new_rsvp.email_address,
         attending: false,
         invitation_submitted: false,
         reminder_submitted: false
