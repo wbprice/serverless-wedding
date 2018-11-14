@@ -45,11 +45,16 @@ mod rsvp_tests {
 
     #[test]
     fn test_create_rsvp() {
-        let input = NewRSVP {
+
+        let result = create_rsvp(NewRSVP {
             name: "Blaine Price".to_string(),
             email_address: "email@example.com".to_string()
-        };
-        let result = create_rsvp(input);
-        println!("The result was {:?}", result);
+        });
+
+        assert_eq!(result.name, "Blaine Price".to_string());
+        assert_eq!(result.email_address, "email@example.com".to_string());
+        assert_eq!(result.attending, false);
+        assert_eq!(result.invitation_submitted, false);
+        assert_eq!(result.reminder_submitted, false);
     }
 }
