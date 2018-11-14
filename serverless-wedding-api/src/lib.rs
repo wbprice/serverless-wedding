@@ -18,10 +18,14 @@ gateway! {
         });
 
         let rsvp = rsvp::create_rsvp(payload);
-
-        println!("hello rsvp {:?}", rsvp);
-
-        Ok(Response::new("create"))
+        match serde_json::to_string(&rsvp) {
+            Ok(json) => {
+                return Ok(Response::new(json))
+            },
+            Err(_) => {
+                return Ok(Response::new("oh".to_string()));
+            }
+        }
     },
 
     "read" => |_, _| {
