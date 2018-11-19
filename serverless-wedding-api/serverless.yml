@@ -5,6 +5,8 @@ provider:
   runtime: python3.6
   stage: dev
   memorySize: 128
+  environment:
+    RSVP_TABLE_ARN: ${file(../serverless-wedding-infrastructure/output.json)}
 
 plugins:
   - serverless-rust
