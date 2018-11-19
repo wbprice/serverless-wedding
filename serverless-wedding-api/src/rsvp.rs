@@ -30,15 +30,16 @@ pub struct NewRSVP {
     email_address: String
 }
 
-enum rsvpTypes {
-    
+enum RsvpHashMapTypes {
+    bool,
+    String
 }
 
 /**
  * Methods
  */
 
-fn get_rsvp_hashmap(rsvp: RSVP) -> HashMap<String, > {
+fn get_rsvp_hashmap(rsvp: RSVP) -> HashMap<String, RsvpHashMapTypes> {
     let mut rsvp_hash = HashMap::new();
     rsvp_hash.insert(String::from("household_id"), rsvp.household_id.to_hyphenated().to_string());
     rsvp_hash.insert(String::from("id"), rsvp.id.to_hyphenated().to_string());
