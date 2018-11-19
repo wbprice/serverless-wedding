@@ -1,5 +1,11 @@
 extern crate uuid;
+extern crate rusoto_core;
+extern crate rusoto_dynamodb;
+
 use uuid::Uuid;
+use rusoto_core::Region;
+use rusoto_dynamodb::{DynamoDb, DynamoDbClient};
+use std::default::Default;
 
 /*
  * Models
@@ -37,6 +43,7 @@ pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
         reminder_submitted: false
     }
 }
+
 
 #[cfg(test)]
 mod rsvp_tests {
