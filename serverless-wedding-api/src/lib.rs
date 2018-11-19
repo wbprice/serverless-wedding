@@ -2,6 +2,8 @@
 #[macro_use] extern crate lando;
 #[macro_use] extern crate serde_derive;
 #[macro_use] extern crate uuid;
+#[macro_use] extern crate rusoto_core;
+#[macro_use] extern crate rusoto_dynamodb;
 
 extern crate serde;
 extern crate serde_json;
