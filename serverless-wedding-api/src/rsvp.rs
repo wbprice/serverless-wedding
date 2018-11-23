@@ -2,10 +2,13 @@ extern crate uuid;
 extern crate rusoto_core;
 extern crate rusoto_dynamodb;
 
+#[macro_use]
+extern crate dynomite_derive;
+extern crate dynomite;
+
 use uuid::Uuid;
 use rusoto_core::Region;
 use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemOutput};
-use std::default::Default;
 use std::env;
 use std::collections::HashMap;
 
@@ -38,18 +41,6 @@ enum RsvpHashMapTypes {
 /**
  * Methods
  */
-
-fn get_rsvp_hashmap(rsvp: RSVP) -> HashMap<String, RsvpHashMapTypes> {
-    let mut rsvp_hash = HashMap::new();
-    rsvp_hash.insert(String::from("household_id"), rsvp.household_id.to_hyphenated().to_string());
-    rsvp_hash.insert(String::from("id"), rsvp.id.to_hyphenated().to_string());
-    rsvp_hash.insert(String::from("name"), rsvp.name);
-    rsvp_hash.insert(String::from("email_address"), rsvp.email_address);
-    rsvp_hash.insert(String::from("attending"), rsvp.attending);
-    rsvp_hash.insert(String::from("invitation_submitted"), rsvp.invitation_submitted);
-
-    rsvp_hash
-}
 
 pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
     RSVP {
