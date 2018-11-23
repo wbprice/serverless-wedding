@@ -8,6 +8,10 @@
     font-family: 'Josefin Sans', sans-serif;
 }
 
+.underline {
+    text-decoration: underline;
+}
+
 body {
     background-color: $salmon;
     background-image: url("images/bg.png");
@@ -23,5 +27,5 @@ h1, h2, h3, h4, h5 {
 
 .container {
     margin: 0 auto;
-    max-width: 720px;
+    max-width: 960px;
 }

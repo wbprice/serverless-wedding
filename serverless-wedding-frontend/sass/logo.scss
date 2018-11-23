@@ -1,13 +1,6 @@
 @import "colors";
 
-.logo {
-    padding: .75em 0;
-    text-align: center;
-    box-shadow: inset 0 0 0 .1em $white,
-                inset 0 0 0 .2em $slate,
-                inset 0 0 0 .25em $white;
-    max-width: 720px;
-
+.title {
     h1 {
         line-height: 1em;
     }

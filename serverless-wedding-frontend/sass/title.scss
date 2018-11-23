@@ -1,0 +1,30 @@
+@import "colors";
+
+.title {
+    font-size: 5em;
+    padding-top: 1em;
+
+    .rings {
+        display: flex;
+        justify-content: center;
+        margin-bottom: .5em;
+    }
+
+    .ring {
+        width: 1em;
+        height: 1em;
+        border: .1em solid $darkslate;
+        box-shadow: inset 0 0 0em .03em $white;
+        border-radius: 100%;
+
+        &.his {
+            margin-right: -.25em;
+            margin-bottom: -.25em;
+        }
+
+        &.hers {
+            margin-left: -.25em;
+            margin-top: -.25em;
+        }
+    }
+}
