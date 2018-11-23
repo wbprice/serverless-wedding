@@ -18,10 +18,12 @@ body {
     color: $white;
     text-align: center;
     @extend .body-type;
+    font-display: auto;
 }
 
 h1, h2, h3, h4, h5 {
     font-family: 'Abril Fatface', cursive;
+    font-display: auto;
     @extend .heading-type;
 }
 

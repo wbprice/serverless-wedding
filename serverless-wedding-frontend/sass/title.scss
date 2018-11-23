@@ -1,8 +1,8 @@
 @import "colors";
 
 .title {
-    font-size: 5em;
     padding-top: 1em;
+    font-size: 5em;
 
     .rings {
         display: flex;
@@ -26,5 +26,15 @@
             margin-left: -.25em;
             margin-top: -.25em;
         }
+    }
+
+    .date {
+        color: $slate;
+        display: block;
+    }
+
+    .location {
+        margin-top: 1em;
+        font-size: 2rem;
     }
 }
