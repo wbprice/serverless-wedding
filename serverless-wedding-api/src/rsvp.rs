@@ -1,15 +1,15 @@
 use std::env;
 use uuid::Uuid;
-use dynomite::{dynamodb, DynamoDbExt, FromAttributes, Item};
-
 use rusoto_core::Region;
 use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemOutput, PutItemError};
+
+use dynomite::{dynamodb, DynamoDbExt, FromAttributes, Item};
 
 /*
  * Models
  */
 
-#[derive(Item, Debug, Clone, Deserialize, Serialize)]
+#[derive(Item, Debug, Clone, Hash, Serialize)]
 pub struct RSVP {
     household_id: String,
     #[hash]
@@ -21,7 +21,7 @@ pub struct RSVP {
     reminder_submitted: bool
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Clone, Deserialize, Serialize, Debug)]
 pub struct NewRSVP {
     name: String,
     email_address: String
@@ -44,11 +44,11 @@ pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
 }
 
 pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<PutItemOutput, PutItemError>{
-    let rsvp = create_rsvp(new_rsvp);
+    let rsvp : RSVP = create_rsvp(new_rsvp);
     let client = DynamoDbClient::new(Region::UsEast1);
     let table_name = env::var("RSVP_TABLE_ARN").is_err().to_string();
     let input = PutItemInput {
-        item: rsvp.clone().into(),
+        item: rsvp.into(),
         table_name: table_name.into(),
         ..PutItemInput::default()
     };
