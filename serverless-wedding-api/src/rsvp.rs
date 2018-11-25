@@ -3,17 +3,13 @@ use uuid::Uuid;
 use rusoto_core::Region;
 use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemOutput, PutItemError};
 
-use dynomite::{Item, FromAttributes, Attributes};
-use dynomite::dynamodb::AttributeValue;
-
 /*
  * Models
  */
 
-#[derive(Item, Debug, Clone, Hash, Serialize)]
+#[derive(Debug, Clone, Hash, Serialize)]
 pub struct RSVP {
     household_id: String,
-    #[hash]
     id: String,
     name: String,
     email_address: String,
@@ -48,10 +44,9 @@ pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<PutItemOutput, PutItemErr
     let rsvp : RSVP = create_rsvp(new_rsvp);
     let client = DynamoDbClient::new(Region::UsEast1);
     let table_name = env::var("RSVP_TABLE_ARN").is_err().to_string();
-    let attributes : Attributes = rsvp.clone().into();
-    
+
     let input = PutItemInput {
-        item: attributes,
+        item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),
         table_name: table_name.into(),
         ..PutItemInput::default()
     };

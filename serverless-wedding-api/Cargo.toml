@@ -14,9 +14,8 @@ crowbar = "0.2"
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"
+serde_dynamodb = "0.2.0"
 rusoto_core = "0.35.0"
 rusoto_dynamodb = "0.35.0"
-dynomite = "0.1.4"
-dynomite-derive = "0.1.4"
 uuid = { version = "0.7", features = ["v4", "serde"] }
 python3-sys = { version = "0.1.3", features = ["python-3-4"], optional = true }
