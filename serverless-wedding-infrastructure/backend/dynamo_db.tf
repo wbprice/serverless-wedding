@@ -1,5 +1,5 @@
 
-resource "aws_dynamodb_table" "rsvp-table" {
+resource "aws_dynamodb_table" "rsvp_table" {
     name = "rsvp_table"
     read_capacity = 10
     write_capacity = 10
