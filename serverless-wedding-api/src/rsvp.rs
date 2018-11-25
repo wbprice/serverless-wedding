@@ -7,7 +7,7 @@ use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemOutput, Put
  * Models
  */
 
-#[derive(Debug, Clone, Hash, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct RSVP {
     household_id: String,
     id: String,
@@ -18,7 +18,7 @@ pub struct RSVP {
     reminder_submitted: bool
 }
 
-#[derive(Clone, Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct NewRSVP {
     name: String,
     email_address: String
@@ -43,7 +43,19 @@ pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
 pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<PutItemOutput, PutItemError>{
     let rsvp : RSVP = create_rsvp(new_rsvp);
     let client = DynamoDbClient::new(Region::UsEast1);
-    let table_name = env::var("RSVP_TABLE_ARN").is_err().to_string();
+
+    for var in env::vars() {
+        println!("{:?}", var);
+    }
+    
+    let table_name = match env::var("RSVP_TABLE_ARN") {
+        Ok(str) => str,
+        Err(e) => {
+            panic!("No env var found! {}", e);
+        }
+    };
+
+    println!("table name: {}", table_name);
 
     let input = PutItemInput {
         item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),

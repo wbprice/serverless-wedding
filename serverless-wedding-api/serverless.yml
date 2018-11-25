@@ -6,7 +6,7 @@ provider:
   stage: dev
   memorySize: 128
   environment:
-    RSVP_TABLE_ARN: ${file(../serverless-wedding-infrastructure/output.json)}
+    RSVP_TABLE_ARN: ${file(../serverless-wedding-infrastructure/output.json):rsvp_table_arn:value};
 
 plugins:
   - serverless-rust
