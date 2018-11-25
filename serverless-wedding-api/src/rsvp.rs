@@ -1,25 +1,16 @@
-extern crate uuid;
-extern crate rusoto_core;
-extern crate rusoto_dynamodb;
-
-#[macro_use]
-extern crate dynomite_derive;
-extern crate dynomite;
 
 use uuid::Uuid;
-use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemOutput};
-use std::env;
-use std::collections::HashMap;
+use dynomite::{dynamodb, DynamoDbExt, FromAttributes, Item};
 
 /*
  * Models
  */
 
-#[derive(Deserialize, Serialize, Debug, Hash)]
+#[derive(Item, Debug, Clone, Deserialize, Serialize)]
 pub struct RSVP {
-    household_id: Uuid,
-    id: Uuid,
+    household_id: String,
+    #[hash]
+    id: String,
     name: String,
     email_address: String,
     attending: bool,
@@ -33,21 +24,16 @@ pub struct NewRSVP {
     email_address: String
 }
 
-enum RsvpHashMapTypes {
-    bool,
-    String
-}
-
 /**
  * Methods
  */
 
 pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
     RSVP {
-        household_id: Uuid::new_v4(),
-        id: Uuid::new_v4(),
+        household_id: Uuid::new_v4().to_string(),
+        id: Uuid::new_v4().to_string().into(),
         name: new_rsvp.name,
-        email_address: new_rsvp.email_address,
+        email_address: new_rsvp.email_address.into(),
         attending: false,
         invitation_submitted: false,
         reminder_submitted: false
@@ -55,21 +41,7 @@ pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
 }
 
 pub fn create_rsvp_record(new_rsvp: NewRSVP) -> RSVP {
-    let client = DynamoDbClient::new(Region::UsEast1);
-    let put_item_input = PutItemInput {
-        item: create_rsvp(new_rsvp),
-        table: env::var("RSVP_TABLE_NAME").is_err()
-    };
-
-    match client.put_item(put_item_input).sync() {
-        Ok(output) => {
-            println!("{:?}", output);
-            output
-        },
-        Err(err) => {
-            panic!(err);
-        }
-    }
+    create_rsvp(new_rsvp)
 }
 
 
@@ -99,5 +71,6 @@ mod rsvp_tests {
             name: "Blaine Price".to_string(),
             email_address: "email@example.com".to_string()
         });
+        println!("{:?}", result);
     }
 }
