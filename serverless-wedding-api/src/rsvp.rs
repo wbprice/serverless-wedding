@@ -3,7 +3,8 @@ use uuid::Uuid;
 use rusoto_core::Region;
 use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemOutput, PutItemError};
 
-use dynomite::{dynamodb, DynamoDbExt, FromAttributes, Item};
+use dynomite::{Item, FromAttributes, Attributes};
+use dynomite::dynamodb::AttributeValue;
 
 /*
  * Models
@@ -34,7 +35,7 @@ pub struct NewRSVP {
 pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
     RSVP {
         household_id: Uuid::new_v4().to_string().into(),
-        id: Uuid::new_v4().to_string().into(),
+        id: Uuid::new_v4().to_string(),
         name: new_rsvp.name.into(),
         email_address: new_rsvp.email_address.into(),
         attending: false.into(),
@@ -47,8 +48,10 @@ pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<PutItemOutput, PutItemErr
     let rsvp : RSVP = create_rsvp(new_rsvp);
     let client = DynamoDbClient::new(Region::UsEast1);
     let table_name = env::var("RSVP_TABLE_ARN").is_err().to_string();
+    let attributes : Attributes = rsvp.clone().into();
+    
     let input = PutItemInput {
-        item: rsvp.into(),
+        item: attributes,
         table_name: table_name.into(),
         ..PutItemInput::default()
     };
