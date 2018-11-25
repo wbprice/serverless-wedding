@@ -1,7 +1,8 @@
 use std::env;
 use uuid::Uuid;
 use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemOutput, PutItemError};
+use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemError};
+use serde_dynamodb;
 
 /*
  * Models

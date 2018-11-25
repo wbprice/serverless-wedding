@@ -17,11 +17,11 @@ mod rsvp;
 gateway! {
     "create" => |request, _context| {
         let payload : rsvp::NewRSVP = serde_json::from_slice(request.body()).unwrap_or_else(|error| {
-            panic!("there was an error! {:?}", error);
+            panic!("there was an error deserializing the request! {:?}", error);
         });
 
         let rsvp = rsvp::create_rsvp_record(payload).unwrap_or_else(|error| {
-            panic!("There was a problem creating the record: {:?}", error);
+            panic!("Error at the disco");
         });
 
         match serde_json::to_string(&rsvp) {
