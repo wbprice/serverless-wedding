@@ -20,7 +20,7 @@ gateway! {
             panic!("there was an error deserializing the request! {:?}", error);
         });
 
-        let rsvp = rsvp::create_rsvp_record(payload).unwrap_or_else(|error| {
+        let rsvp = rsvp::create_rsvp_record(payload).unwrap_or_else(|_| {
             panic!("Error at the disco");
         });
 
