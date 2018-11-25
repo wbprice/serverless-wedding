@@ -1,6 +1,9 @@
-
+use std::env;
 use uuid::Uuid;
 use dynomite::{dynamodb, DynamoDbExt, FromAttributes, Item};
+
+use rusoto_core::Region;
+use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemOutput, PutItemError};
 
 /*
  * Models
@@ -30,18 +33,34 @@ pub struct NewRSVP {
 
 pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
     RSVP {
-        household_id: Uuid::new_v4().to_string(),
+        household_id: Uuid::new_v4().to_string().into(),
         id: Uuid::new_v4().to_string().into(),
-        name: new_rsvp.name,
+        name: new_rsvp.name.into(),
         email_address: new_rsvp.email_address.into(),
-        attending: false,
-        invitation_submitted: false,
-        reminder_submitted: false
+        attending: false.into(),
+        invitation_submitted: false.into(),
+        reminder_submitted: false.into()
     }
 }
 
-pub fn create_rsvp_record(new_rsvp: NewRSVP) -> RSVP {
-    create_rsvp(new_rsvp)
+pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<PutItemOutput, PutItemError>{
+    let rsvp = create_rsvp(new_rsvp);
+    let client = DynamoDbClient::new(Region::UsEast1);
+    let table_name = env::var("RSVP_TABLE_ARN").is_err().to_string();
+    let input = PutItemInput {
+        item: rsvp.clone().into(),
+        table_name: table_name.into(),
+        ..PutItemInput::default()
+    };
+    
+    match client.put_item(input).sync() {
+        Ok(output) => {
+            return Ok(output);
+        },
+        Err(err) => {
+            return Err(err);
+        }
+    }
 }
 
 
