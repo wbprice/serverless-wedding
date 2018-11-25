@@ -1,3 +1,3 @@
-output "rsvp_table_arn" {
-    value = "${aws_dynamodb_table.rsvp-table.arn}"
+output "rsvp_table_name" {
+    value = "${aws_dynamodb_table.rsvp-table.name}"
 }

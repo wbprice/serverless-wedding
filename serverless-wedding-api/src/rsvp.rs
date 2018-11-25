@@ -43,19 +43,8 @@ pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
 pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<PutItemOutput, PutItemError>{
     let rsvp : RSVP = create_rsvp(new_rsvp);
     let client = DynamoDbClient::new(Region::UsEast1);
-
-    for var in env::vars() {
-        println!("{:?}", var);
-    }
-    
-    let table_name = match env::var("RSVP_TABLE_ARN") {
-        Ok(str) => str,
-        Err(e) => {
-            panic!("No env var found! {}", e);
-        }
-    };
-
-    println!("table name: {}", table_name);
+    let table_name = env::var("RSVP_TABLE_NAME")
+        .expect("Error with environment variable");
 
     let input = PutItemInput {
         item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),

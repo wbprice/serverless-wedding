@@ -1,3 +1,3 @@
-output "rsvp_table_arn" {
-    value = "${module.backend.rsvp_table_arn}"
+output "rsvp_table_name" {
+    value = "${module.backend.rsvp_table_name}"
 }
