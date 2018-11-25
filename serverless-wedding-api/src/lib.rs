@@ -20,7 +20,10 @@ gateway! {
             panic!("there was an error! {:?}", error);
         });
 
-        let rsvp = rsvp::create_rsvp(payload);
+        let rsvp = rsvp::create_rsvp_record(payload).unwrap_or_else(|error| {
+            panic!("There was a problem creating the record: {:?}", error);
+        });
+
         match serde_json::to_string(&rsvp) {
             Ok(json) => {
                 return Ok(Response::new(json))

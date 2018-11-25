@@ -7,7 +7,7 @@ use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemOutput, Put
  * Models
  */
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RSVP {
     household_id: String,
     id: String,
@@ -40,21 +40,19 @@ pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
     }
 }
 
-pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<PutItemOutput, PutItemError>{
+pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError>{
     let rsvp : RSVP = create_rsvp(new_rsvp);
     let client = DynamoDbClient::new(Region::UsEast1);
-    let table_name = env::var("RSVP_TABLE_NAME")
-        .expect("Error with environment variable");
 
     let input = PutItemInput {
         item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),
-        table_name: table_name.into(),
+        table_name: env::var("RSVP_TABLE_NAME").unwrap(),
         ..PutItemInput::default()
     };
     
     match client.put_item(input).sync() {
-        Ok(output) => {
-            return Ok(output);
+        Ok(_) => {
+            return Ok(rsvp);
         },
         Err(err) => {
             return Err(err);
