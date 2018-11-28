@@ -6,16 +6,16 @@
 
 <style>
 :root {
-  --salmon: rgba(250, 128, 114, 1);
+  --salmon: #ef958d;
   --red: rgba(179, 0, 27, 1);
   --yellow: rgba(255, 231, 76, 1);
   --white: rgba(255, 255, 255, 1);
   --slate: rgba(98, 131, 149, 1);
   --darkslate: rgba(98, 131, 149, 1);
+  background-color: var(--salmon);
 }
 
 body {
-  background-color: var(--salmon);
   color: var(--white);
   text-align: center;
   font-family: 'Josefin Sans', sans-serif;
