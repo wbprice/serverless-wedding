@@ -12,7 +12,7 @@
       <span class="date">July 6<sup>th</sup>, 2019</span>
     </h1>
 
-    <section class="location">
+    <section class="location body-type">
       <p>Somewhere around Denver</p>
     </section> 
   </section>
