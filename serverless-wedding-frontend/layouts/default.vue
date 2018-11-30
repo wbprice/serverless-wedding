@@ -22,6 +22,10 @@ body {
   font-display: auto;
 }
 
+.body-type {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
 .underline {
   text-decoration: underline;
 }
