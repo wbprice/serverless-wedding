@@ -5,6 +5,9 @@ provider:
   runtime: python3.6
   stage: dev
   memorySize: 128
+  role: ${file(../serverless-wedding-infrastructure/output.json):serverless_wedding_api_role_arn.value}
+  environment:
+    RSVP_TABLE_NAME: ${file(../serverless-wedding-infrastructure/output.json):rsvp_table_name.value}
 
 plugins:
   - serverless-rust
