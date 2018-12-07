@@ -62,30 +62,31 @@ pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError> {
     }
 }
 
-pub fn list_household_rsvps(household_id: String) -> Result<QueryOutput, QueryError> {
+pub fn list_household_rsvps(household_id: String) -> Result<Vec<RSVP>, QueryError> {
     let client = DynamoDbClient::new(Region::UsEast1);
 
-    let mut expression_attribute_values = HashMap::new();
-    expression_attribute_values.insert(String::from(":household_id"), AttributeValue {
+    let mut query = HashMap::new();
+    query.insert(String::from(":household_id"), AttributeValue {
         s: Some(String::from(household_id)),
         ..Default::default()
     });
 
     let input = QueryInput {
         key_condition_expression: Some("household_id = :household_id".to_string()),
-        expression_attribute_values: Some(expression_attribute_values),
+        expression_attribute_values: Some(query),
         table_name: env::var("RSVP_TABLE_NAME").unwrap(),
         ..Default::default()
     };
 
-    match client.query(input).sync() {
-        Ok(response) => {
-            return Ok(response);
-        },
-        Err(err) => {
-            return Err(err);
-        }
-    }
+    return client
+        .query(input)
+        .sync()
+        .unwrap()
+        .items
+        .unwrap_or_else(|| vec![])
+        .into_iter()
+        .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
+        .collect();
 }
 
 
