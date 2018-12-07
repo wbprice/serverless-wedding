@@ -1,7 +1,8 @@
 use std::env;
+use std::collections::HashMap;
 use uuid::Uuid;
 use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemError};
+use rusoto_dynamodb::{DynamoDb, DynamoDbClient, AttributeValue, PutItemInput, PutItemError, QueryInput, QueryOutput, QueryError};
 use serde_dynamodb;
 
 /*
@@ -41,7 +42,7 @@ pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
     }
 }
 
-pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError>{
+pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError> {
     let rsvp : RSVP = create_rsvp(new_rsvp);
     let client = DynamoDbClient::new(Region::UsEast1);
 
@@ -61,11 +62,37 @@ pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError>{
     }
 }
 
+pub fn list_household_rsvps(household_id: String) -> Result<QueryOutput, QueryError> {
+    let client = DynamoDbClient::new(Region::UsEast1);
+
+    let mut expression_attribute_values = HashMap::new();
+    expression_attribute_values.insert(String::from(":household_id"), AttributeValue {
+        s: Some(String::from(household_id)),
+        ..Default::default()
+    });
+
+    let input = QueryInput {
+        key_condition_expression: Some("household_id = :household_id".to_string()),
+        expression_attribute_values: Some(expression_attribute_values),
+        table_name: env::var("RSVP_TABLE_NAME").unwrap(),
+        ..Default::default()
+    };
+
+    match client.query(input).sync() {
+        Ok(response) => {
+            return Ok(response);
+        },
+        Err(err) => {
+            return Err(err);
+        }
+    }
+}
+
 
 #[cfg(test)]
 mod rsvp_tests {
 
-    use rsvp::{NewRSVP, create_rsvp, create_rsvp_record};
+    use rsvp::{NewRSVP, create_rsvp, create_rsvp_record, list_household_rsvps};
 
     #[test]
     fn test_create_rsvp() {
@@ -88,6 +115,12 @@ mod rsvp_tests {
             name: "Blaine Price".to_string(),
             email_address: "email@example.com".to_string()
         });
+        println!("{:?}", result);
+    }
+
+    #[test]
+    fn test_list_household_rsvps() {
+        let result = list_household_rsvps("2e12f811-67c5-4b48-ac9c-1c6777421235".to_string());
         println!("{:?}", result);
     }
 }
