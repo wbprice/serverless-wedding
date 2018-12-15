@@ -23,6 +23,10 @@ export default {}
 </script>
 
 <style>
+.container {
+  max-width: 960px;
+}
+
 .title {
   padding-top: 1em;
   font-size: 5em;
