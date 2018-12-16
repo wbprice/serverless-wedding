@@ -23,6 +23,10 @@ export default {
     content: {
       type: String,
       default: 'Sample Text'
+    },
+    reply: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -36,8 +40,8 @@ export default {
 }
 
 .chat-user-photo {
-  width: 3.5em;
-  height: 3.5em;
+  width: 5em;
+  height: 5em;
   border-radius: 100% 100% 0 100%;
   background: var(--slate);
   box-shadow: inset 0 0 0 0.25em var(--white);
