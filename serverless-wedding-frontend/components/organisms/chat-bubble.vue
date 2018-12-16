@@ -1,10 +1,13 @@
 <template>
-  <div class="chat-bubble">
-    <div class="chat-bubble-metadata">
-      {{ heading }}
-    </div>
-    <div class="chat-bubble-content">
-      {{ content }}
+  <div class="chat">
+    <div class="chat-user-photo" />
+    <div class="chat-bubble">
+      <div class="chat-bubble-metadata">
+        {{ heading }}
+      </div>
+      <div class="chat-bubble-content">
+        {{ content }}
+      </div>
     </div>
   </div>
 </template>
@@ -26,12 +29,34 @@ export default {
 </script>
 
 <style>
-.chat-bubble {
-  background: var(--white);
+.chat {
+  display: flex;
+  align-items: flex-end;
   margin: 0.5em 0;
+}
+
+.chat-user-photo {
+  width: 3.5em;
+  height: 3.5em;
+  border-radius: 100% 100% 0 100%;
+  background: var(--slate);
+  box-shadow: inset 0 0 0 0.25em var(--white);
+  margin-right: 0.5em;
+}
+
+.chat-bubble {
+  text-align: left;
+  flex: 1;
+  background: var(--white);
   max-width: 75%;
-  border-radius: 1em;
+  border-radius: 1em 1em 1em 0;
   padding: 0.75em;
+}
+
+.chat-bubble .chat-bubble-metadata {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75em;
 }
 
 .chat-bubble-blaine {
