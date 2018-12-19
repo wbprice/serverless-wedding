@@ -29,13 +29,26 @@ gateway! {
                 return Ok(Response::new(json))
             },
             Err(_) => {
-                return Ok(Response::new("oh".to_string()));
+                return Ok(Response::new("oh".to_string()))
             }
         }
     },
 
     "read" => |_, _| {
-        Ok(Response::new("read"))
+        let household_id = "4dac979d-8fe3-40e7-a00f-36b192c3a0ec";
+
+        let rsvp_list = rsvp::list_household_rsvps(household_id.to_string()).unwrap_or_else(|error| {
+            panic!("Something went badly getting an RSVP list");
+        });
+
+        match serde_json::to_string(&rsvp_list) {
+            Ok(json) => {
+                return Ok(Response::new(json))
+            }, 
+            Err(_) => {
+                return Ok(Response::new("oh".to_string()))
+            }
+        }
     },
 
     "update" => |_, _| {

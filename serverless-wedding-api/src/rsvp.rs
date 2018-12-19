@@ -9,6 +9,11 @@ use serde_dynamodb;
  * Models
  */
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RSVPList {
+    items: Vec<RSVP> 
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RSVP {
     household_id: String,
@@ -53,8 +58,7 @@ pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError> {
     };
     
     match client.put_item(input).sync() {
-        Ok(result) => {
-            println!("{:?}", result);
+        Ok(_) => {
             return Ok(rsvp);
         },
         Err(err) => {
@@ -63,7 +67,7 @@ pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError> {
     }
 }
 
-pub fn list_household_rsvps(household_id: String) -> Result<Vec<RSVP>, QueryError> {
+pub fn list_household_rsvps(household_id: String) -> Result<RSVPList, QueryError> {
     let client = DynamoDbClient::new(Region::UsEast1);
 
     let mut query = HashMap::new();
@@ -89,7 +93,9 @@ pub fn list_household_rsvps(household_id: String) -> Result<Vec<RSVP>, QueryErro
         .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
         .collect();
 
-    return Ok(query_output)
+    return Ok(RSVPList {
+        items: query_output
+    });
 }
 
 
@@ -124,7 +130,7 @@ mod rsvp_tests {
 
     #[test]
     fn test_list_household_rsvps() {
-        let result = list_household_rsvps("1ed90bbf-656a-410a-ae19-e45baf696b19".to_string());
+        let result = list_household_rsvps("4dac979d-8fe3-40e7-a00f-36b192c3a0ec".to_string());
         println!("{:?}", result);
     }
 }
