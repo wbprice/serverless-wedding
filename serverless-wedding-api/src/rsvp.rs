@@ -53,7 +53,8 @@ pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError> {
     };
     
     match client.put_item(input).sync() {
-        Ok(_) => {
+        Ok(result) => {
+            println!("{:?}", result);
             return Ok(rsvp);
         },
         Err(err) => {
@@ -78,7 +79,7 @@ pub fn list_household_rsvps(household_id: String) -> Result<Vec<RSVP>, QueryErro
         ..Default::default()
     };
 
-    return client
+    let query_output: Vec<RSVP> = client
         .query(input)
         .sync()
         .unwrap()
@@ -87,6 +88,8 @@ pub fn list_household_rsvps(household_id: String) -> Result<Vec<RSVP>, QueryErro
         .into_iter()
         .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
         .collect();
+
+    return Ok(query_output)
 }
 
 
@@ -119,9 +122,9 @@ mod rsvp_tests {
         println!("{:?}", result);
     }
 
-    #[test]
-    fn test_list_household_rsvps() {
-        let result = list_household_rsvps("2e12f811-67c5-4b48-ac9c-1c6777421235".to_string());
-        println!("{:?}", result);
-    }
+    // #[test]
+    // fn test_list_household_rsvps() {
+    //     let result = list_household_rsvps("2e12f811-67c5-4b48-ac9c-1c6777421235".to_string());
+    //     println!("{:?}", result);
+    // }
 }
