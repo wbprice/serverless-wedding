@@ -1,5 +1,7 @@
 <template>
-  <div class="chat">
+  <div 
+    :class="{reply: isReply}"
+    class="chat">
     <div class="chat-user-photo" />
     <div class="chat-bubble">
       <div class="chat-bubble-metadata">
@@ -24,7 +26,7 @@ export default {
       type: String,
       default: 'Sample Text'
     },
-    reply: {
+    isReply: {
       type: Boolean,
       default: false
     }
@@ -39,13 +41,20 @@ export default {
   margin: 0.5em 0;
 }
 
+.chat.reply {
+  flex-direction: row-reverse;
+}
+
 .chat-user-photo {
   width: 5em;
   height: 5em;
   border-radius: 100% 100% 0 100%;
   background: var(--slate);
   box-shadow: inset 0 0 0 0.25em var(--white);
-  margin-right: 0.5em;
+}
+
+.chat.reply .chat-user-photo {
+  border-radius: 100% 100% 100% 0%;
 }
 
 .chat-bubble {
@@ -55,6 +64,11 @@ export default {
   max-width: 75%;
   border-radius: 1em 1em 1em 0;
   padding: 0.75em;
+  margin: 0 0.5em;
+}
+
+.chat.reply .chat-bubble {
+  border-radius: 1em 1em 0em 1em;
 }
 
 .chat-bubble .chat-bubble-metadata {
