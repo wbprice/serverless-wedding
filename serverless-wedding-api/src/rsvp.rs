@@ -122,9 +122,9 @@ mod rsvp_tests {
         println!("{:?}", result);
     }
 
-    // #[test]
-    // fn test_list_household_rsvps() {
-    //     let result = list_household_rsvps("2e12f811-67c5-4b48-ac9c-1c6777421235".to_string());
-    //     println!("{:?}", result);
-    // }
+    #[test]
+    fn test_list_household_rsvps() {
+        let result = list_household_rsvps("1ed90bbf-656a-410a-ae19-e45baf696b19".to_string());
+        println!("{:?}", result);
+    }
 }
