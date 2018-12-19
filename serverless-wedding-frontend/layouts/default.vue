@@ -39,8 +39,12 @@ h5 {
   font-display: auto;
 }
 
+.container h1 {
+  font-size: 3em;
+}
+
 .container {
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 720px;
 }
 </style>
