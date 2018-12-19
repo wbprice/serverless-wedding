@@ -37,4 +37,8 @@ export default {
 dt {
   margin-bottom: 1em;
 }
+
+.container {
+  max-width: 720px;
+}
 </style>
