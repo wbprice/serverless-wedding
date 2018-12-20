@@ -2,62 +2,20 @@ service: serverless-wedding
 
 provider:
   name: aws
-  runtime: python3.6
+  runtime: rust
   stage: dev
   memorySize: 128
-  role: ${file(../serverless-wedding-infrastructure/output.json):serverless_wedding_api_role_arn.value}
-  environment:
-    RSVP_TABLE_NAME: ${file(../serverless-wedding-infrastructure/output.json):rsvp_table_name.value}
+
+package:
+  individually: true
 
 plugins:
   - serverless-rust
 
-custom:
-  rust:
-    cargoFlags: '--features lando/python3-sys'
-
-package:
-  individually: true
-  exclude:
-    - ./**
-
 functions:
   create:
-    handler: liblambda.create
-    package:
-      include:
-        - liblambda.so
+    handler: hello
     events:
       - http:
-          path: '/rsvp/'
-          method: POST
-
-  read:
-    handler: liblambda.read
-    package:
-      include:
-        - liblambda.so
-    events:
-      - http:
-          path: '/rsvp/'
+          path: /
           method: GET
-
-  update:
-    handler: liblambda.update
-    package:
-      include:
-        - liblambda.so
-    events:
-      - http:
-          path: '/rsvp/'
-          method: PUT
-
-  delete:
-    handler: liblambda.delete
-    package:
-      include:
-        - liblambda.so
-    events:
-      - http:
-          path: '/rsvp/'
-          method: delete
