@@ -23,7 +23,7 @@ mod tests {
             "answer": 42
         });
         assert_eq!(
-            handler(event.clone(), Context::default()).expect("Expected Ok(_) value"),
+            handler(event.clone(), Context::default()).expect("expected Ok(_) value"),
             event
         )
     }

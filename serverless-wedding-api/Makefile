@@ -1,11 +1,5 @@
 # https://serverless.com/framework/docs/providers/aws/guide/credentials/
-STAGE ?= "dev"
-
-help:
-	@echo Public targets:
-	@grep -E '^[^_][^_][a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
-	@echo "Private targets: (use at own risk)"
-	@grep -E '^__[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[35m%-20s\033[0m %s\n", $$1, $$2}'
+STAGE ?= "prod"
 
 dependencies: ## Install build dependencies
 	@echo "installing dependencies..."
