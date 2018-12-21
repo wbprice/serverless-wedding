@@ -15,7 +15,7 @@ plugins:
 
 functions:
   read:
-    handler: read
+    handler: serverless-wedding-api.read
     events:
       - http:
           path: /
@@ -23,7 +23,7 @@ functions:
           cors: true
 
   create:
-    handler: create
+    handler: serverless-wedding-api.create
     events:
       - http:
           path: /
