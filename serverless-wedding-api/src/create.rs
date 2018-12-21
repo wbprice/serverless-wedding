@@ -1,11 +1,11 @@
 #[macro_use]
 extern crate serde_derive;
 
-use lambda_http::{lambda, IntoResponse, Request};
+use lambda_http::{lambda, IntoResponse, Request, Body};
 use lambda_runtime::{error::HandlerError, Context};
 
 use serde;
-// use serde_json::json;
+use serde_json::{json, Value, Error};
 use serde_dynamodb;
 use uuid;
 use rusoto_core;
@@ -14,22 +14,35 @@ use rusoto_dynamodb;
 mod rsvp;
 
 fn main() {
-    lambda!(read_handler)
+    lambda!(create_handler)
 }
 
-fn read_handler(
+fn create_handler(
     request: Request,
-    context: Context,
+    _context: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
 
-    // let payload : rsvp::NewRSVP = serde_json::from_slice(request.body()).unwrap_or_else(|error| {
-    //     panic!("there was an error deserializing the request! {:?}", error);
-    // });
+    println!("{:?}", request);
 
-    // let rsvp = rsvp::create_rsvp_record(payload).unwrap_or_else(|_| {
-    //     panic!("Error at the disco");
-    // });
-
-    // return Ok(json!(rsvp));
     return Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_create_handler() {
+
+        let request = Request {
+            body: Body::from("hello".to_string()),
+            ..Request::default()
+        };
+
+        let response = create_handler(request, Context::default())
+            .expect("expected Ok(_) value")
+            .into_response();
+
+        println!("{:?}", response);
+    }
 }
