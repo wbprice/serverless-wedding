@@ -40,7 +40,8 @@ h5 {
 }
 
 .container h1 {
-  font-size: 3em;
+  font-size: 2em;
+  color: var(--white);
 }
 
 .container {
