@@ -1,10 +1,14 @@
 <template>
   <section>
-    <h2>{{ title }}</h2>
-    <p>{{ content }}</p>
-    <a 
-      :href="link" 
-      class="button">{{ buttonText }}</a>
+    <div class="description">
+      <h2>{{ title }}</h2>
+      <h3>{{ cost }}</h3>
+      <p>{{ content }}</p>
+      <a 
+        :href="link" 
+        class="button is-primary">{{ buttonText }}</a>
+    </div>
+    <div class="image" />
   </section>
 </template>
 
@@ -29,9 +33,17 @@ export default {
     buttonText: {
       type: String,
       default: 'Buy It!'
+    },
+    cost: {
+      type: String,
+      default: '$88.88'
     }
   }
 }
 </script>
 
-<style/>
+<style>
+.description {
+  text-align: left;
+}
+</style>
