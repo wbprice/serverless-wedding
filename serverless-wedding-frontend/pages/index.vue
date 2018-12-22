@@ -68,4 +68,9 @@ export default {}
 sup {
   font-size: 0.5em;
 }
+
+.title h1 {
+  font-size: 1.5em;
+  line-height: 1em;
+}
 </style>
