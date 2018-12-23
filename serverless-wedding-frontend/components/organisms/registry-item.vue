@@ -1,5 +1,7 @@
 <template>
-  <section>
+  <section
+    :class="thumbnailStyle"
+    class="registry-item">
     <div class="description">
       <h2>{{ title }}</h2>
       <h3>{{ cost }}</h3>
@@ -8,7 +10,6 @@
         :href="link" 
         class="button is-primary">{{ buttonText }}</a>
     </div>
-    <div :class="thumbnailStyle" />
   </section>
 </template>
 
@@ -56,8 +57,18 @@ export default {
 </script>
 
 <style>
+.registry-item {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 1em 0;
+}
+
 .description {
   text-align: left;
+  background: var(--white);
+  padding: 1em;
+  display: inline;
+  max-width: 33%;
 }
 
 .thumbnail {
