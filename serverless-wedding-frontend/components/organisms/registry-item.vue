@@ -49,7 +49,7 @@ export default {
     },
     thumbnailStyle() {
       return {
-        background: `url(/assets/${this.image})`,
+        background: `url(../../assets/${this.image})`,
         width: '600px',
         height: '400px'
       }
