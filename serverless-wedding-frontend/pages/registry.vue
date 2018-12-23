@@ -26,7 +26,8 @@
           :cost="value.cost"
           :title="value.title"
           :content="value.content"
-          :button-text="value.buttonText" />
+          :button-text="value.buttonText"
+          :image="value.image" />
       </Card>
     </div>
   </section>

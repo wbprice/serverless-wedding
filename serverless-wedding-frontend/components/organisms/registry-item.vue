@@ -8,7 +8,9 @@
         :href="link" 
         class="button is-primary">{{ buttonText }}</a>
     </div>
-    <div class="image" />
+    <div
+      :style="thumbnailStyle"
+      class="image" />
   </section>
 </template>
 
@@ -35,11 +37,22 @@ export default {
     cost: {
       type: String,
       default: '$88.88'
+    },
+    image: {
+      type: String,
+      default: 'airfare.jpg'
     }
   },
   computed: {
     link() {
       return `${paymentRootUrl}/${this.cost}`
+    },
+    thumbnailStyle() {
+      return {
+        background: `url(/assets/${this.image})`,
+        width: '600px',
+        height: '400px'
+      }
     }
   }
 }
