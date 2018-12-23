@@ -13,6 +13,8 @@
 </template>
 
 <script>
+const paymentRootUrl = 'https://paypal.me/blinginglove'
+
 export default {
   name: 'RegistryItem',
   props: {
@@ -26,10 +28,6 @@ export default {
     autem vitae praesentium magnam, eligendi cumque quas molestiae quaerat dignissimos ea. Officiis esse id 
     maiores debitis soluta.`
     },
-    link: {
-      type: String,
-      default: 'http://paypal.me/blinginglove/88.88'
-    },
     buttonText: {
       type: String,
       default: 'Buy It!'
@@ -37,6 +35,11 @@ export default {
     cost: {
       type: String,
       default: '$88.88'
+    }
+  },
+  computed: {
+    link() {
+      return `${paymentRootUrl}/${this.cost}`
     }
   }
 }
