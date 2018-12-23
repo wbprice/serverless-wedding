@@ -48,49 +48,57 @@ export default {
           title: 'Accomodations',
           content: 'The content',
           cost: '$129.99',
-          buttonText: 'Buy It'
+          buttonText: 'Buy It',
+          image: 'lodging.jpg'
         },
         {
           title: 'Roundtrip Air Fare',
           cost: '$218.88',
           content: 'The content',
-          buttonText: 'Buy It'
+          buttonText: 'Buy It',
+          image: 'airfare.jpg'
         },
         {
           title: 'Sightseeing Tours',
           cost: '$78.88',
           content: 'The content',
-          buttonText: 'Buy It'
+          buttonText: 'Buy It',
+          image: 'sightseeing.jpg'
         },
         {
           title: 'Romantic Dinner',
           cost: '$99.99',
           content: 'The content',
-          buttonText: 'Buy It'
+          buttonText: 'Buy It',
+          image: 'dining.jpg'
         },
         {
           title: 'Hang Gliding',
           cost: '$168.88',
           content: 'The content',
-          buttonText: 'Buy It'
+          buttonText: 'Buy It',
+          image: 'parasailing.jpg'
         },
         {
           title: 'Spa for Two',
           cost: '$68.88',
           content: 'The content',
-          buttonText: 'Buy It'
+          buttonText: 'Buy It',
+          image: 'spa.jpg'
         },
         {
           title: 'Horseback Riding',
           cost: '$88.88',
           content: 'The content',
-          buttonText: 'Buy It'
+          buttonText: 'Buy It',
+          image: 'horseback-riding.jpg'
         },
         {
           title: 'Dancing',
           cost: '$29.99',
           content: 'The content',
-          buttonText: 'Buy It'
+          buttonText: 'Buy It',
+          image: 'dance.jpg'
         },
         {
           title: 'Lucky Envelope',
