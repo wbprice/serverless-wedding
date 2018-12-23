@@ -8,9 +8,7 @@
         :href="link" 
         class="button is-primary">{{ buttonText }}</a>
     </div>
-    <div
-      :style="thumbnailStyle"
-      class="image" />
+    <div :class="thumbnailStyle" />
   </section>
 </template>
 
@@ -49,9 +47,8 @@ export default {
     },
     thumbnailStyle() {
       return {
-        background: `url(../../assets/${this.image})`,
-        width: '600px',
-        height: '400px'
+        [this.image]: true,
+        thumbnail: true
       }
     }
   }
@@ -61,5 +58,42 @@ export default {
 <style>
 .description {
   text-align: left;
+}
+
+.thumbnail {
+  width: 600px;
+  height: 400px;
+}
+
+.airfare {
+  background: url('~assets/airfare.jpg');
+}
+
+.dance {
+  background: url('~assets/dance.jpg');
+}
+
+.dining {
+  background: url('~assets/dining.jpg');
+}
+
+.horseback-riding {
+  background: url('~assets/horseback-riding.jpg');
+}
+
+.lodging {
+  background: url('~assets/lodging.jpg');
+}
+
+.parasailing {
+  background: url('~assets/parasailing.jpg');
+}
+
+.sightseeing {
+  background: url('~assets/sightseeing.jpg');
+}
+
+.spa {
+  background: url('~assets/spa.jpg');
 }
 </style>
