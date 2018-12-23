@@ -26,7 +26,6 @@
           :cost="value.cost"
           :title="value.title"
           :content="value.content"
-          :link="value.link"
           :button-text="value.buttonText" />
       </Card>
     </div>
@@ -36,8 +35,6 @@
 <script>
 import RegistryItem from './../components/organisms/registry-item'
 import Card from './../components/molecules/card'
-
-const paymentRootUrl = 'https://paypal.me/blinginglove'
 
 export default {
   components: {
@@ -51,63 +48,54 @@ export default {
           title: 'Accomodations',
           content: 'The content',
           cost: '$129.99',
-          link: `${paymentRootUrl}/129.99`,
           buttonText: 'Buy It'
         },
         {
           title: 'Roundtrip Air Fare',
           cost: '$218.88',
           content: 'The content',
-          link: `${paymentRootUrl}/218.88`,
           buttonText: 'Buy It'
         },
         {
           title: 'Sightseeing Tours',
           cost: '$78.88',
           content: 'The content',
-          link: `${paymentRootUrl}/78.88`,
           buttonText: 'Buy It'
         },
         {
           title: 'Romantic Dinner',
           cost: '$99.99',
           content: 'The content',
-          link: `${paymentRootUrl}/99.99`,
           buttonText: 'Buy It'
         },
         {
           title: 'Hang Gliding',
           cost: '$168.88',
           content: 'The content',
-          link: `${paymentRootUrl}/168.88`,
           buttonText: 'Buy It'
         },
         {
           title: 'Spa for Two',
           cost: '$68.88',
           content: 'The content',
-          link: `${paymentRootUrl}/68.88`,
           buttonText: 'Buy It'
         },
         {
           title: 'Horseback Riding',
           cost: '$88.88',
           content: 'The content',
-          link: `${paymentRootUrl}/88.88`,
           buttonText: 'Buy It'
         },
         {
           title: 'Dancing',
           cost: '$29.99',
           content: 'The content',
-          link: `${paymentRootUrl}/29.99`,
           buttonText: 'Buy It'
         },
         {
           title: 'Lucky Envelope',
           cost: 'Tell Us What You Want To Do!',
           content: 'The content',
-          link: `${paymentRootUrl}`,
           buttonText: 'Buy It'
         }
       ]
