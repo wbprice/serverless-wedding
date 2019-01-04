@@ -1,4 +1,4 @@
-use serde_derive;
+use serde_derive::{{Serialize, Deserialize}};
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -12,13 +12,19 @@ pub struct RSVP {
     reminder_submitted: bool
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NewRSVP {
+    name: String,
+    email_address: String
+}
+
 impl RSVP {
-    pub fn new(name: String, email_address: String) -> RSVP {
+    pub fn new(new_rsvp : NewRSVP) -> RSVP {
         RSVP {
             household_id: Uuid::new_v4().to_string().into(),
             id: Uuid::new_v4().to_string(),
-            name,
-            email_address,
+            name: new_rsvp.name,
+            email_address: new_rsvp.email_address,
             attending: false.into(),
             invitation_submitted: false.into(),
             reminder_submitted: false.into()
@@ -33,7 +39,10 @@ mod rsvp_tests {
 
     #[test]
     fn test_rsvp_new() {
-        let result = RSVP::new("Blaine Price".to_string(), "email@example.com".to_string());
+        let result = RSVP::new(NewRSVP {
+            name: "Blaine Price".to_string(), 
+            email_address: "email@example.com".to_string()
+        });
 
         assert_eq!(result.name, "Blaine Price".to_string());
         assert_eq!(result.email_address, "email@example.com".to_string());

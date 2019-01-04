@@ -1,30 +1,27 @@
-#[macro_use]
-extern crate serde_derive;
-
 use lambda_http::{lambda, IntoResponse, Request, Body};
 use lambda_runtime::{error::HandlerError, Context};
-
-use serde;
-use serde_json::{json, Value, Error};
-use serde_dynamodb;
-use uuid;
-use rusoto_core;
-use rusoto_dynamodb;
+use serde_json::{{json}};
+use std::ops::Deref;
 
 mod rsvp;
 
 fn main() {
-    lambda!(create_handler)
+    lambda!(handler)
 }
 
-fn create_handler(
+fn handler(
     request: Request,
-    _context: Context,
+    _: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
+    let body = request.body().deref();
+    let new_rsvp: rsvp::NewRSVP = serde_json::from_slice(body).unwrap_or_else(|err| {
+        println!("error: {:?}", err);
+        panic!("oh no");
+    });
 
-    println!("{:?}", request);
+    let rsvp = rsvp::RSVP::new(new_rsvp);
 
-    return Ok(())
+    Ok(json!(rsvp))
 }
 
 #[cfg(test)]
@@ -32,17 +29,15 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_create_handler() {
-
-        let request = Request {
-            body: Body::from("hello".to_string()),
-            ..Request::default()
-        };
-
-        let response = create_handler(request, Context::default())
+    fn handler_handles() {
+        let request = Request::new(Body::from("{\"name\": \"blaine\", \"email_address\": \"example@email.com\"}"));
+        let expected = json!({
+            "message": "Go Serverless v1.0! Your function executed successfully!"
+        })
+        .into_response();
+        let response = handler(request, Context::default())
             .expect("expected Ok(_) value")
             .into_response();
-
-        println!("{:?}", response);
+        assert_eq!(response.body(), expected.body())
     }
 }

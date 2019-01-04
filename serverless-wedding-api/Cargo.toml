@@ -17,7 +17,3 @@ uuid = { version = "0.7", features = ["v4", "serde"] }
 [[bin]]
 name = "create"
 path = "src/create.rs"
-
-[[bin]]
-name = "read"
-path = "src/read.rs"
