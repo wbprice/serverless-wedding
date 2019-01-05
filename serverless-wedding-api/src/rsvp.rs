@@ -13,18 +13,18 @@ pub struct RSVP {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct NewRSVP {
-    name: String,
-    email_address: String
+pub struct Person {
+    email_address: String,
+    name: String
 }
 
 impl RSVP {
-    pub fn new(new_rsvp : NewRSVP) -> RSVP {
+    pub fn new(person : Person) -> RSVP {
         RSVP {
             household_id: Uuid::new_v4().to_string().into(),
             id: Uuid::new_v4().to_string(),
-            name: new_rsvp.name,
-            email_address: new_rsvp.email_address,
+            name: person.name,
+            email_address: person.email_address,
             attending: false.into(),
             invitation_submitted: false.into(),
             reminder_submitted: false.into()
@@ -39,7 +39,7 @@ mod rsvp_tests {
 
     #[test]
     fn test_rsvp_new() {
-        let result = RSVP::new(NewRSVP {
+        let result = RSVP::new(Person {
             name: "Blaine Price".to_string(), 
             email_address: "email@example.com".to_string()
         });
