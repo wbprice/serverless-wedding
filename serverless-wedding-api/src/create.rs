@@ -1,3 +1,4 @@
+/*
 use lambda_http::{lambda, IntoResponse, Request, Body};
 use lambda_runtime::{error::HandlerError, Context};
 use rusoto_core::{{Region}};
@@ -55,3 +56,4 @@ pub fn create_rsvp_record(person: rsvp::Person) -> Result<rsvp::RSVP, PutItemErr
         }
     }
 }
+*/

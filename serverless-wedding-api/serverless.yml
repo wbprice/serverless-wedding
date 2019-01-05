@@ -29,3 +29,11 @@ functions:
           path: /
           method: post
           cors: true
+
+  batch-create:
+    handler: serverless-wedding-api.batch-create
+    events:
+      - http:
+          path: /batch
+          method: post
+          cors: true
