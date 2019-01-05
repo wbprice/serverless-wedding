@@ -25,9 +25,9 @@ pub struct RSVP {
 }
 
 impl RSVP {
-    pub fn new(person : Person) -> RSVP {
+    pub fn new(person : Person, uuid: Uuid) -> RSVP {
         RSVP {
-            household_id: Uuid::new_v4().to_string(),
+            household_id: uuid::to_string(),
             id: Uuid::new_v4().to_string(),
             name: person.name,
             email_address: person.email_address,
@@ -78,7 +78,7 @@ mod rsvp_tests {
 
     #[test]
     fn test_household_new() {
-        let people = vec!([
+        let people : Vec<Person> = vec!(
             Person {
                 email_address: "1example@email.com".to_string(),
                 name: "person 1".to_string()
@@ -87,9 +87,7 @@ mod rsvp_tests {
                 email_address: "2example@email.com".to_string(),
                 name: "person 2".to_string()
             }
-        ]);
-
-        println!("The people are {:?}", people);
+        );
 
         let household = Household::new(people);
         println!("{:?}", household);
