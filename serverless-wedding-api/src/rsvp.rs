@@ -9,11 +9,6 @@ pub struct Person {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct People {
-    people: Vec<Person>
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RSVP {
     household_id: String,
     id: String,
@@ -25,9 +20,9 @@ pub struct RSVP {
 }
 
 impl RSVP {
-    pub fn new(person : Person, uuid: Uuid) -> RSVP {
+    pub fn new(person : Person, household_id: String) -> RSVP {
         RSVP {
-            household_id: uuid::to_string(),
+            household_id,
             id: Uuid::new_v4().to_string(),
             name: person.name,
             email_address: person.email_address,
@@ -45,10 +40,11 @@ pub struct Household {
 
 impl Household {
     pub fn new(people: Vec<Person>) -> Household {
-        let mut rsvps : Vec<RSVP> = Vec::new();
+        let uuid = Uuid::new_v4().to_string();
+        let mut rsvps : Vec<RSVP> = vec!();
         
         for person in people {
-            rsvps.push(RSVP::new(person).clone());
+            rsvps.push(RSVP::new(person, uuid.clone()).clone());
         }
 
         Household {
@@ -62,19 +58,24 @@ mod rsvp_tests {
 
     use super::*;
 
-    // #[test]
-    // // fn test_rsvp_new() {
-    // //     let result = RSVP::new(Person {
-    // //         name: "Blaine Price".to_string(), 
-    // //         email_address: "email@example.com".to_string()
-    // //     });
+    #[test]
+    fn test_rsvp_new() {
+        let household_id = Uuid::new_v4().to_string();
+        let result = RSVP::new(
+            Person {
+                name: "Blaine Price".to_string(),
+                email_address: "email@example.com".to_string()
+            },
+            household_id.clone()
+        );
 
-    // //     assert_eq!(result.name, "Blaine Price".to_string());
-    // //     assert_eq!(result.email_address, "email@example.com".to_string());
-    // //     assert_eq!(result.attending, false);
-    // //     assert_eq!(result.invitation_submitted, false);
-    // //     assert_eq!(result.reminder_submitted, false);
-    // // }
+        assert_eq!(result.name, "Blaine Price".to_string());
+        assert_eq!(result.email_address, "email@example.com".to_string());
+        assert_eq!(result.household_id, household_id);
+        assert_eq!(result.attending, false);
+        assert_eq!(result.invitation_submitted, false);
+        assert_eq!(result.reminder_submitted, false);
+    }
 
     #[test]
     fn test_household_new() {
@@ -89,7 +90,7 @@ mod rsvp_tests {
             }
         );
 
-        let household = Household::new(people);
-        println!("{:?}", household);
+        let rsvps = Household::new(people).rsvps;
+        assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
     }
 }
