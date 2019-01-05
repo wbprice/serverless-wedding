@@ -55,19 +55,3 @@ pub fn create_rsvp_record(person: rsvp::Person) -> Result<rsvp::RSVP, PutItemErr
         }
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn handler_handles() {
-        let request = Request::new(Body::from("{\"name\": \"blaine\", \"email_address\": \"example@email.com\"}"));
-
-        let response = handler(request, Context::default())
-            .expect("expected Ok(_) value")
-            .into_response();
-
-        println!("{:?}", response);
-    }
-}
