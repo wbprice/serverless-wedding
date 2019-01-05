@@ -18,12 +18,6 @@ fn handler(
     request: Request,
     _: Context
 ) -> Result<impl IntoResponse, HandlerError> {
-
-    let body_slice = request.body().deref();
-    let people : rsvp::People = serde_json::from_slice(body_slice).unwrap_or_else(|err| {
-        panic!(err);
-    });
-
     Ok(json!({"message": "OK!"}))
 }
 
@@ -34,20 +28,16 @@ mod tests {
     #[test]
     fn handler_handles() {
 
-        let payload = r#"
-        {
-            "people": [
-                {
-                    "email_address": "example@email.com",
-                    "name": "Blaine Price"
-                },
-                {
-                    "email_address": "example@gmail.com",
-                    "name": "Cynthia Young"
-                }
-            ]
-        }
-        "#;
+        let payload = r#"[
+            {
+                "email_address": "example@email.com",
+                "name": "Blaine Price"
+            },
+            {
+                "email_address": "example@gmail.com",
+                "name": "Cynthia Young"
+            }
+        ]"#;
 
         let request = Request::new(Body::from(payload));
 
