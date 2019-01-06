@@ -1,6 +1,13 @@
 use serde_derive::{{Serialize, Deserialize}};
 use std::vec::{{Vec}};
+use std::collections::{{HashMap}};
+use std::env;
 use uuid::Uuid;
+use std::option::Option;
+
+use rusoto_core::Region;
+use rusoto_dynamodb::{DynamoDb, PutRequest, DynamoDbClient, PutItemInput, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
+use serde_dynamodb;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Person {
@@ -51,6 +58,37 @@ impl Household {
             rsvps
         }
     }
+
+    pub fn create_records(people: Vec<Person>) -> Result<Household, BatchWriteItemError> {
+        let household = Household::new(people);
+        let client = DynamoDbClient::new(Region::UsEast1);
+
+        let put_requests : Vec<WriteRequest> = vec!(
+            WriteRequest {
+                put_request: Some(PutRequest {
+                    item: serde_dynamodb::to_hashmap(&household.rsvps[0]).unwrap()
+                }),
+                ..WriteRequest::default()
+            }
+        );
+
+        let mut request_items : HashMap<String, Vec<WriteRequest>> = HashMap::new();
+        request_items.insert(env::var("RSVP_TABLE_NAME").unwrap(), put_requests);
+
+        let batch_write_request_input = BatchWriteItemInput {
+            request_items: request_items,
+            ..BatchWriteItemInput::default()
+        };
+
+        match client.batch_write_item(batch_write_request_input).sync() {
+            Ok(result) => {
+                Ok(household)
+            },
+            Err(error) => {
+                Err(error)
+            }
+        }
+    }
 }
 
 #[cfg(test)]
@@ -91,6 +129,23 @@ mod rsvp_tests {
         );
 
         let rsvps = Household::new(people).rsvps;
+        assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
+    }
+
+    #[test]
+    fn test_household_create_records() {
+        let people : Vec<Person> = vec!(
+            Person {
+                email_address: "1example@email.com".to_string(),
+                name: "person 1".to_string()
+            },
+            Person {
+                email_address: "2example@email.com".to_string(),
+                name: "person 2".to_string()
+            }
+        );
+
+        let rsvps = Household::create_records(people).unwrap().rsvps;
         assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
     }
 }
