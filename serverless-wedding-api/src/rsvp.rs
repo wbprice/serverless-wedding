@@ -63,14 +63,17 @@ impl Household {
         let household = Household::new(people);
         let client = DynamoDbClient::new(Region::UsEast1);
 
-        let put_requests : Vec<WriteRequest> = vec!(
-            WriteRequest {
-                put_request: Some(PutRequest {
-                    item: serde_dynamodb::to_hashmap(&household.rsvps[0]).unwrap()
-                }),
-                ..WriteRequest::default()
-            }
-        );
+        let mut put_requests : Vec<WriteRequest> = vec!();
+        for rsvp in &household.rsvps {
+            put_requests.push(
+                WriteRequest {
+                    put_request: Some(PutRequest {
+                        item: serde_dynamodb::to_hashmap(&rsvp).unwrap()
+                    }),
+                    ..WriteRequest::default()
+                }
+            )
+        }
 
         let mut request_items : HashMap<String, Vec<WriteRequest>> = HashMap::new();
         request_items.insert(env::var("RSVP_TABLE_NAME").unwrap(), put_requests);
