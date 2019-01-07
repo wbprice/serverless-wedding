@@ -1,12 +1,12 @@
-use serde_derive::{{Serialize, Deserialize}};
-use std::vec::{{Vec}};
-use std::collections::{{HashMap}};
+use serde_derive::{Serialize, Deserialize};
+use std::vec::{Vec};
+use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
 use std::option::Option;
 
 use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, PutRequest, DynamoDbClient, PutItemInput, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
+use rusoto_dynamodb::{DynamoDb, PutRequest, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
 use serde_dynamodb;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -84,7 +84,7 @@ impl Household {
         };
 
         match client.batch_write_item(batch_write_request_input).sync() {
-            Ok(result) => {
+            Ok(_result) => {
                 Ok(household)
             },
             Err(error) => {
