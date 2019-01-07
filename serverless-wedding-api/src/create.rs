@@ -1,17 +1,16 @@
-/*
+extern crate log;
+extern crate simple_logger;
+
 use lambda_http::{lambda, IntoResponse, Request, Body};
 use lambda_runtime::{error::HandlerError, Context};
-use rusoto_core::{{Region}};
-use serde_json::{{json}};
+use serde_json::{json};
 use std::ops::Deref;
-use std::env;
-
-use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemError};
-use serde_dynamodb;
+use log::{info, error};
 
 mod rsvp;
 
 fn main() {
+    simple_logger::init_with_level(log::Level::Info).unwrap();
     lambda!(handler)
 }
 
@@ -19,14 +18,10 @@ fn handler(
     request: Request,
     _: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
+    let body = request.body().deref();
+    let person: rsvp::Person = serde_json::from_slice(body_slice).unwrap();
 
-    let body_slice = request.body().deref();
-    let person: rsvp::Person = serde_json::from_slice(body_slice).unwrap_or_else(|err| {
-        println!("{:?}", err);
-        panic!("Couldn't work with that");
-    });
-
-    match create_rsvp_record(person) {
+    match rsvp::RSVP::create_record(person) {
         Ok(rsvp) => {
             Ok(json!(rsvp))
         },
@@ -36,24 +31,20 @@ fn handler(
     }
 }
 
-pub fn create_rsvp_record(person: rsvp::Person) -> Result<rsvp::RSVP, PutItemError>{
-    let rsvp = rsvp::RSVP::new(person);
-    let client = DynamoDbClient::new(Region::UsEast1);
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    let input = PutItemInput {
-        item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),
-        table_name: env::var("RSVP_TABLE_NAME").unwrap(),
-        ..PutItemInput::default()
-    };
-    
-    match client.put_item(input).sync() {
-        Ok(_) => {
-            return Ok(rsvp);
-        },
-        Err(err) => {
-            println!("{:?}", err);
-            return Err(err);
-        }
+    #[test]
+    fn create_handler_handles() {
+
+        let payload = r#"{
+            "email_address": "example@email.com",
+            "name": "Blaine Price"
+        }"#;
+
+        let request = Request::new(Body::from(payload));
+
+        handler(request, Context::default()).expect("expected Ok(_) value");
     }
 }
-*/

@@ -5,7 +5,7 @@ use std::env;
 use uuid::Uuid;
 
 use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, PutRequest, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
+use rusoto_dynamodb::{DynamoDb, PutRequest, PutItemInput, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
 use serde_dynamodb;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -47,6 +47,27 @@ impl RSVP {
         }
 
         rsvps
+    }
+
+    pub fn create_record(person: Person) -> Result<RSVP, PutItemError> {
+        let rsvp = RSVP::new(person, Uuid::new_v4().to_string());
+        let client = DynamoDbClient::new(Region::UsEast1);
+
+        let input = PutItemInput {
+            item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),
+            table_name: env::var("RSVP_TABLE_NAME").unwrap(),
+            ..PutItemInput::default()
+        };
+        
+        match client.put_item(input).sync() {
+            Ok(_) => {
+                Ok(rsvp)
+            },
+            Err(err) => {
+                println!("{:?}", err);
+                Err(err)
+            }
+        }
     }
 
     pub fn batch_create_records(people: Vec<Person>) -> Result<Vec<RSVP>, BatchWriteItemError> {
@@ -104,6 +125,21 @@ mod rsvp_tests {
         assert_eq!(result.name, "Blaine Price".to_string());
         assert_eq!(result.email_address, "email@example.com".to_string());
         assert_eq!(result.household_id, household_id);
+        assert_eq!(result.attending, false);
+        assert_eq!(result.invitation_submitted, false);
+        assert_eq!(result.reminder_submitted, false);
+    }
+    
+    fn test_rsvp_create_record() {
+        let result = RSVP::create_record(
+            Person {
+                name: "Blaine Price".to_string(),
+                email_address: "email@example.com".to_string()
+            }
+        );
+
+        assert_eq!(result.name, "Blaine Price".to_string());
+        assert_eq!(result.email_address, "email@example.com".to_string());
         assert_eq!(result.attending, false);
         assert_eq!(result.invitation_submitted, false);
         assert_eq!(result.reminder_submitted, false);
