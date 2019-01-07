@@ -1,11 +1,11 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, Body};
+use lambda_http::{lambda, IntoResponse, Request};
 use lambda_runtime::{error::HandlerError, Context};
-use serde_json::{{json}};
+use serde_json::{json};
 use std::ops::Deref;
-use log::{{info, error}};
+use log::{info, error};
 
 mod rsvp;
 
@@ -20,14 +20,10 @@ fn handler(
     _: Context
 ) -> Result<impl IntoResponse, HandlerError> {
     let body = request.body().deref();
-    info!("the body {:?}", body);
-
     let people : Vec<rsvp::Person> = serde_json::from_slice(body).unwrap();
-    info!("the people {:?}", people);
 
     match rsvp::RSVP::batch_create_records(people) {
         Ok(response) => {
-            info!("the response {:?}", response);
             Ok(json!(response))
         },
         Err(error) => {
