@@ -3,7 +3,6 @@ use std::vec::{Vec};
 use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
-use std::option::Option;
 
 use rusoto_core::Region;
 use rusoto_dynamodb::{DynamoDb, PutRequest, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
@@ -38,15 +37,8 @@ impl RSVP {
             reminder_submitted: false.into()
         }
     }
-}
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Household {
-    rsvps: Vec<RSVP>
-}
-
-impl Household {
-    pub fn new(people: Vec<Person>) -> Household {
+    pub fn batch_new(people: Vec<Person>) -> Vec<RSVP> {
         let uuid = Uuid::new_v4().to_string();
         let mut rsvps : Vec<RSVP> = vec!();
         
@@ -54,17 +46,15 @@ impl Household {
             rsvps.push(RSVP::new(person, uuid.clone()).clone());
         }
 
-        Household {
-            rsvps
-        }
+        rsvps
     }
 
-    pub fn create_records(people: Vec<Person>) -> Result<Household, BatchWriteItemError> {
-        let household = Household::new(people);
+    pub fn batch_create_records(people: Vec<Person>) -> Result<Vec<RSVP>, BatchWriteItemError> {
+        let rsvps = RSVP::batch_new(people); 
         let client = DynamoDbClient::new(Region::UsEast1);
 
         let mut put_requests : Vec<WriteRequest> = vec!();
-        for rsvp in &household.rsvps {
+        for rsvp in &rsvps {
             put_requests.push(
                 WriteRequest {
                     put_request: Some(PutRequest {
@@ -85,7 +75,7 @@ impl Household {
 
         match client.batch_write_item(batch_write_request_input).sync() {
             Ok(_result) => {
-                Ok(household)
+                Ok(rsvps)
             },
             Err(error) => {
                 Err(error)
@@ -93,6 +83,7 @@ impl Household {
         }
     }
 }
+
 
 #[cfg(test)]
 mod rsvp_tests {
@@ -119,7 +110,7 @@ mod rsvp_tests {
     }
 
     #[test]
-    fn test_household_new() {
+    fn test_rsvp_batch_new() {
         let people : Vec<Person> = vec!(
             Person {
                 email_address: "1example@email.com".to_string(),
@@ -131,12 +122,12 @@ mod rsvp_tests {
             }
         );
 
-        let rsvps = Household::new(people).rsvps;
+        let rsvps = RSVP::batch_new(people);
         assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
     }
 
     #[test]
-    fn test_household_create_records() {
+    fn test_rsvp_batch_create_records() {
         let people : Vec<Person> = vec!(
             Person {
                 email_address: "1example@email.com".to_string(),
@@ -148,7 +139,7 @@ mod rsvp_tests {
             }
         );
 
-        let rsvps = Household::create_records(people).unwrap().rsvps;
+        let rsvps = RSVP::batch_create_records(people).unwrap();
         assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
     }
 }

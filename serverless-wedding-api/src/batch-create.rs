@@ -3,14 +3,9 @@ extern crate simple_logger;
 
 use lambda_http::{lambda, IntoResponse, Request, Body};
 use lambda_runtime::{error::HandlerError, Context};
-use rusoto_core::{{Region}};
 use serde_json::{{json}};
 use std::ops::Deref;
-use std::env;
 use log::{{info, error}};
-
-use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemError};
-use serde_dynamodb;
 
 mod rsvp;
 
@@ -30,7 +25,7 @@ fn handler(
     let people : Vec<rsvp::Person> = serde_json::from_slice(body).unwrap();
     info!("the people {:?}", people);
 
-    match rsvp::Household::create_records(people) {
+    match rsvp::RSVP::batch_create_records(people) {
         Ok(response) => {
             info!("the response {:?}", response);
             Ok(json!(response))
@@ -62,7 +57,6 @@ mod tests {
 
         let request = Request::new(Body::from(payload));
 
-        let response = handler(request, Context::default())
-            .expect("expected Ok(_) value");
+        handler(request, Context::default()).expect("expected Ok(_) value");
     }
 }
