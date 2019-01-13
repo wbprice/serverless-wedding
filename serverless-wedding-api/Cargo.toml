@@ -1,16 +1,13 @@
 [package]
-name = "serverless-crowbar"
+name = "serverless-wedding-api"
 version = "0.1.0"
-publish = false
-
-[lib]
-crate-type = ["cdylib"]
-name = "lambda"
+edition = "2018"
 
 [dependencies]
-lando = "0.1"
-cpython = "0.1"
-crowbar = "0.2"
+lambda_runtime = { git = "https://github.com/awslabs/aws-lambda-rust-runtime.git" }
+lambda_http = { git = "https://github.com/awslabs/aws-lambda-rust-runtime.git" }
+log = "0.4.6"
+simple_logger = "1.0.1"
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"
@@ -18,4 +15,8 @@ serde_dynamodb = "0.2.0"
 rusoto_core = "0.35.0"
 rusoto_dynamodb = "0.35.0"
 uuid = { version = "0.7", features = ["v4", "serde"] }
-python3-sys = { version = "0.1.3", features = ["python-3-4"], optional = true }
+
+
+[[bin]]
+name = "batch-create"
+path = "src/batch-create.rs"

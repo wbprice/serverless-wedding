@@ -1,12 +1,18 @@
+use serde_derive::{Serialize, Deserialize};
+use std::vec::{Vec};
+use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
+
 use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, DynamoDbClient, PutItemInput, PutItemError};
+use rusoto_dynamodb::{DynamoDb, PutRequest, PutItemInput, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
 use serde_dynamodb;
 
-/*
- * Models
- */
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Person {
+    email_address: String,
+    name: String
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RSVP {
@@ -19,44 +25,82 @@ pub struct RSVP {
     reminder_submitted: bool
 }
 
-#[derive(Deserialize, Serialize, Debug)]
-pub struct NewRSVP {
-    name: String,
-    email_address: String
-}
-
-/**
- * Methods
- */
-
-pub fn create_rsvp(new_rsvp: NewRSVP) -> RSVP {
-    RSVP {
-        household_id: Uuid::new_v4().to_string().into(),
-        id: Uuid::new_v4().to_string(),
-        name: new_rsvp.name.into(),
-        email_address: new_rsvp.email_address.into(),
-        attending: false.into(),
-        invitation_submitted: false.into(),
-        reminder_submitted: false.into()
+impl RSVP {
+    pub fn new(person : Person, household_id: String) -> RSVP {
+        RSVP {
+            household_id,
+            id: Uuid::new_v4().to_string(),
+            name: person.name,
+            email_address: person.email_address,
+            attending: false.into(),
+            invitation_submitted: false.into(),
+            reminder_submitted: false.into()
+        }
     }
-}
 
-pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError>{
-    let rsvp : RSVP = create_rsvp(new_rsvp);
-    let client = DynamoDbClient::new(Region::UsEast1);
+    pub fn batch_new(people: Vec<Person>) -> Vec<RSVP> {
+        let uuid = Uuid::new_v4().to_string();
+        let mut rsvps : Vec<RSVP> = vec!();
+        
+        for person in people {
+            rsvps.push(RSVP::new(person, uuid.clone()).clone());
+        }
 
-    let input = PutItemInput {
-        item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),
-        table_name: env::var("RSVP_TABLE_NAME").unwrap(),
-        ..PutItemInput::default()
-    };
-    
-    match client.put_item(input).sync() {
-        Ok(_) => {
-            return Ok(rsvp);
-        },
-        Err(err) => {
-            return Err(err);
+        rsvps
+    }
+
+    pub fn create_record(person: Person) -> Result<RSVP, PutItemError> {
+        let rsvp = RSVP::new(person, Uuid::new_v4().to_string());
+        let client = DynamoDbClient::new(Region::UsEast1);
+
+        let input = PutItemInput {
+            item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),
+            table_name: env::var("RSVP_TABLE_NAME").unwrap(),
+            ..PutItemInput::default()
+        };
+        
+        match client.put_item(input).sync() {
+            Ok(_) => {
+                Ok(rsvp)
+            },
+            Err(err) => {
+                println!("{:?}", err);
+                Err(err)
+            }
+        }
+    }
+
+    pub fn batch_create_records(people: Vec<Person>) -> Result<Vec<RSVP>, BatchWriteItemError> {
+        let rsvps = RSVP::batch_new(people); 
+        let client = DynamoDbClient::new(Region::UsEast1);
+
+        let mut put_requests : Vec<WriteRequest> = vec!();
+        for rsvp in &rsvps {
+            put_requests.push(
+                WriteRequest {
+                    put_request: Some(PutRequest {
+                        item: serde_dynamodb::to_hashmap(&rsvp).unwrap()
+                    }),
+                    ..WriteRequest::default()
+                }
+            )
+        }
+
+        let mut request_items : HashMap<String, Vec<WriteRequest>> = HashMap::new();
+        request_items.insert(env::var("RSVP_TABLE_NAME").unwrap(), put_requests);
+
+        let batch_write_request_input = BatchWriteItemInput {
+            request_items: request_items,
+            ..BatchWriteItemInput::default()
+        };
+
+        match client.batch_write_item(batch_write_request_input).sync() {
+            Ok(_result) => {
+                Ok(rsvps)
+            },
+            Err(error) => {
+                Err(error)
+            }
         }
     }
 }
@@ -65,15 +109,34 @@ pub fn create_rsvp_record(new_rsvp: NewRSVP) -> Result<RSVP, PutItemError>{
 #[cfg(test)]
 mod rsvp_tests {
 
-    use rsvp::{NewRSVP, create_rsvp, create_rsvp_record};
+    use super::*;
 
     #[test]
-    fn test_create_rsvp() {
+    fn test_rsvp_new() {
+        let household_id = Uuid::new_v4().to_string();
+        let result = RSVP::new(
+            Person {
+                name: "Blaine Price".to_string(),
+                email_address: "email@example.com".to_string()
+            },
+            household_id.clone()
+        );
 
-        let result = create_rsvp(NewRSVP {
-            name: "Blaine Price".to_string(),
-            email_address: "email@example.com".to_string()
-        });
+        assert_eq!(result.name, "Blaine Price".to_string());
+        assert_eq!(result.email_address, "email@example.com".to_string());
+        assert_eq!(result.household_id, household_id);
+        assert_eq!(result.attending, false);
+        assert_eq!(result.invitation_submitted, false);
+        assert_eq!(result.reminder_submitted, false);
+    }
+    
+    fn test_rsvp_create_record() {
+        let result = RSVP::create_record(
+            Person {
+                name: "Blaine Price".to_string(),
+                email_address: "email@example.com".to_string()
+            }
+        ).unwrap();
 
         assert_eq!(result.name, "Blaine Price".to_string());
         assert_eq!(result.email_address, "email@example.com".to_string());
@@ -83,11 +146,36 @@ mod rsvp_tests {
     }
 
     #[test]
-    fn test_create_rsvp_record() {
-        let result = create_rsvp_record(NewRSVP {
-            name: "Blaine Price".to_string(),
-            email_address: "email@example.com".to_string()
-        });
-        println!("{:?}", result);
+    fn test_rsvp_batch_new() {
+        let people : Vec<Person> = vec!(
+            Person {
+                email_address: "1example@email.com".to_string(),
+                name: "person 1".to_string()
+            },
+            Person {
+                email_address: "2example@email.com".to_string(),
+                name: "person 2".to_string()
+            }
+        );
+
+        let rsvps = RSVP::batch_new(people);
+        assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
+    }
+
+    #[test]
+    fn test_rsvp_batch_create_records() {
+        let people : Vec<Person> = vec!(
+            Person {
+                email_address: "1example@email.com".to_string(),
+                name: "person 1".to_string()
+            },
+            Person {
+                email_address: "2example@email.com".to_string(),
+                name: "person 2".to_string()
+            }
+        );
+
+        let rsvps = RSVP::batch_create_records(people).unwrap();
+        assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
     }
 }

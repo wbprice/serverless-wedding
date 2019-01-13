@@ -1,15 +1,30 @@
 {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Action": [
-          "dynamodb:DeleteItem",
-          "dynamodb:GetItem",
-          "dynamodb:PutItem",
-          "dynamodb:UpdateItem"
-        ],
-        "Effect": "Allow",
-        "Resource": ["${rsvp_table_arn}"]
-      }
-    ]
-  }
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "dynamodb:DeleteItem",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:BatchWriteItem"
+      ],
+      "Effect": "Allow",
+      "Resource": ["${rsvp_table_arn}"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+          "logs:*"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Action": [
+        "cloudwatch:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}

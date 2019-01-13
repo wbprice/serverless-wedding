@@ -1,63 +1,39 @@
-service: serverless-wedding
-
+service: serverless-wedding-api
 provider:
   name: aws
-  runtime: python3.6
-  stage: dev
+  runtime: rust
   memorySize: 128
-  role: ${file(../serverless-wedding-infrastructure/output.json):serverless_wedding_api_role_arn.value}
+  role: ${file(../serverless-wedding-infrastructure/output.json):api_role_arn.value}
   environment:
     RSVP_TABLE_NAME: ${file(../serverless-wedding-infrastructure/output.json):rsvp_table_name.value}
+
+package:
+  individually: true
 
 plugins:
   - serverless-rust
 
-custom:
-  rust:
-    cargoFlags: '--features lando/python3-sys'
-
-package:
-  individually: true
-  exclude:
-    - ./**
-
 functions:
-  create:
-    handler: liblambda.create
-    package:
-      include:
-        - liblambda.so
-    events:
-      - http:
-          path: '/rsvp/'
-          method: POST
-
   read:
-    handler: liblambda.read
-    package:
-      include:
-        - liblambda.so
+    handler: serverless-wedding-api.read
     events:
       - http:
-          path: '/rsvp/'
-          method: GET
+          path: /
+          method: get
+          cors: true
 
-  update:
-    handler: liblambda.update
-    package:
-      include:
-        - liblambda.so
+  create:
+    handler: serverless-wedding-api.create
     events:
       - http:
-          path: '/rsvp/'
-          method: PUT
+          path: /
+          method: post
+          cors: true
 
-  delete:
-    handler: liblambda.delete
-    package:
-      include:
-        - liblambda.so
+  batch-create:
+    handler: serverless-wedding-api.batch-create
     events:
       - http:
-          path: '/rsvp/'
-          method: delete
+          path: /batch
+          method: post
+          cors: true
