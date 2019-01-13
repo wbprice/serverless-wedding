@@ -136,7 +136,7 @@ mod rsvp_tests {
                 name: "Blaine Price".to_string(),
                 email_address: "email@example.com".to_string()
             }
-        );
+        ).unwrap();
 
         assert_eq!(result.name, "Blaine Price".to_string());
         assert_eq!(result.email_address, "email@example.com".to_string());
