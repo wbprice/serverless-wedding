@@ -5,7 +5,7 @@ use std::env;
 use uuid::Uuid;
 
 use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, PutRequest, PutItemInput, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
+use rusoto_dynamodb::{DynamoDb, QueryInput, QueryError, PutRequest, PutItemInput, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
 use serde_dynamodb;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -49,23 +49,26 @@ impl RSVP {
         rsvps
     }
 
-    pub fn create_record(person: Person) -> Result<RSVP, PutItemError> {
-        let rsvp = RSVP::new(person, Uuid::new_v4().to_string());
+    pub fn list_by_household_id(uuid: Uuid) -> Result<Vec<RSVP>, QueryError> {
         let client = DynamoDbClient::new(Region::UsEast1);
 
-        let input = PutItemInput {
-            item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),
+        let mut query_hash = HashMap::new();
+        query_hash.insert("household_id", uuid.to_string());
+
+        let query_input = QueryInput {
             table_name: env::var("RSVP_TABLE_NAME").unwrap(),
-            ..PutItemInput::default()
+            key_condition_expression: Some("household_id = :household_id".to_string()),
+            expression_attribute_values: Some(serde_dynamodb::to_hashmap(&query_hash).unwrap()),
+            ..QueryInput::default()
         };
-        
-        match client.put_item(input).sync() {
-            Ok(_) => {
-                Ok(rsvp)
+
+        match client.query(query_input).sync() {
+            Ok(result) => {
+                println!("{:?}", result);
+                Ok(Vec::new())
             },
-            Err(err) => {
-                println!("{:?}", err);
-                Err(err)
+            Err(error) => {
+                Err(error)
             }
         }
     }
@@ -130,21 +133,6 @@ mod rsvp_tests {
         assert_eq!(result.reminder_submitted, false);
     }
     
-    fn test_rsvp_create_record() {
-        let result = RSVP::create_record(
-            Person {
-                name: "Blaine Price".to_string(),
-                email_address: "email@example.com".to_string()
-            }
-        ).unwrap();
-
-        assert_eq!(result.name, "Blaine Price".to_string());
-        assert_eq!(result.email_address, "email@example.com".to_string());
-        assert_eq!(result.attending, false);
-        assert_eq!(result.invitation_submitted, false);
-        assert_eq!(result.reminder_submitted, false);
-    }
-
     #[test]
     fn test_rsvp_batch_new() {
         let people : Vec<Person> = vec!(
@@ -177,5 +165,11 @@ mod rsvp_tests {
 
         let rsvps = RSVP::batch_create_records(people).unwrap();
         assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
+    }
+
+    #[test]
+    fn test_rsvp_list_by_househould_id() {
+        let uuid = Uuid::parse_str("f2de1c2b-b6e2-4caa-a5b2-fd7fe8ba7efe").unwrap();
+        let rsvps = RSVP::list_by_household_id(uuid).unwrap();
     }
 }
