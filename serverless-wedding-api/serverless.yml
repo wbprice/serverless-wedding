@@ -15,17 +15,22 @@ plugins:
 
 functions:
   household-get:
-    handler: serverless-wedding-api.read
+    handler: serverless-wedding-api.household-get
     events:
       - http:
-          path: /household
+          path: /household/{id}
           method: get
           cors: true
+          request:
+            parameters:
+              paths:
+                id: true
 
   household-create:
-    handler: serverless-wedding-api.batch-create
+    handler: serverless-wedding-api.household-create
     events:
       - http:
           path: /household
           method: post
           cors: true
+
