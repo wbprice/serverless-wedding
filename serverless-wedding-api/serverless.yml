@@ -14,7 +14,7 @@ plugins:
   - serverless-rust
 
 functions:
-  read:
+  household-get:
     handler: serverless-wedding-api.read
     events:
       - http:
@@ -22,18 +22,10 @@ functions:
           method: get
           cors: true
 
-  create:
-    handler: serverless-wedding-api.create
-    events:
-      - http:
-          path: /household
-          method: post
-          cors: true
-
-  batch-create:
+  household-create:
     handler: serverless-wedding-api.batch-create
     events:
       - http:
-          path: /household/batch
+          path: /household
           method: post
           cors: true
