@@ -18,5 +18,5 @@ uuid = { version = "0.7", features = ["v4", "serde"] }
 
 
 [[bin]]
-name = "batch-create"
-path = "src/batch-create.rs"
+name = "household-batch-create"
+path = "src/household-batch-create.rs"

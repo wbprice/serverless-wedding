@@ -18,7 +18,7 @@ functions:
     handler: serverless-wedding-api.read
     events:
       - http:
-          path: /
+          path: /household
           method: get
           cors: true
 
@@ -26,7 +26,7 @@ functions:
     handler: serverless-wedding-api.create
     events:
       - http:
-          path: /
+          path: /household
           method: post
           cors: true
 
@@ -34,6 +34,6 @@ functions:
     handler: serverless-wedding-api.batch-create
     events:
       - http:
-          path: /batch
+          path: /household/batch
           method: post
           cors: true
