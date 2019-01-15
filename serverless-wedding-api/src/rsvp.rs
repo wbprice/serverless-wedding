@@ -5,7 +5,7 @@ use std::env;
 use uuid::Uuid;
 
 use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, QueryInput, QueryError, PutRequest, PutItemInput, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
+use rusoto_dynamodb::{DynamoDb, AttributeValue, QueryInput, QueryError, PutRequest, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
 use serde_dynamodb;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -52,27 +52,31 @@ impl RSVP {
     pub fn list_by_household_id(uuid: Uuid) -> Result<Vec<RSVP>, QueryError> {
         let client = DynamoDbClient::new(Region::UsEast1);
 
-        let mut query_hash = HashMap::new();
-        query_hash.insert("household_id", uuid.to_string());
+        let mut query = HashMap::new();
+        query.insert(String::from(":household_id"), AttributeValue {
+            s: Some(uuid.to_string()),
+            ..Default::default()
+        });
 
         let query_input = QueryInput {
             table_name: env::var("RSVP_TABLE_NAME").unwrap(),
             key_condition_expression: Some("household_id = :household_id".to_string()),
-            expression_attribute_values: Some(serde_dynamodb::to_hashmap(&query_hash).unwrap()),
+            expression_attribute_values: Some(query),
             ..QueryInput::default()
         };
 
-        match client.query(query_input).sync() {
-            Ok(result) => {
-                println!("{:?}", result);
-                Ok(Vec::new())
-            },
-            Err(error) => {
-                Err(error)
-            }
-        }
-    }
+        let rsvps = client.query(query_input)
+            .sync()
+            .unwrap()
+            .items
+            .unwrap_or_else(|| vec![])
+            .into_iter()
+            .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
+            .collect();
 
+        Ok(rsvps)
+    }
+    
     pub fn batch_create_records(people: Vec<Person>) -> Result<Vec<RSVP>, BatchWriteItemError> {
         let rsvps = RSVP::batch_new(people); 
         let client = DynamoDbClient::new(Region::UsEast1);
@@ -171,5 +175,6 @@ mod rsvp_tests {
     fn test_rsvp_list_by_househould_id() {
         let uuid = Uuid::parse_str("f2de1c2b-b6e2-4caa-a5b2-fd7fe8ba7efe").unwrap();
         let rsvps = RSVP::list_by_household_id(uuid).unwrap();
+        assert_eq!(rsvps.len(), 0);
     }
 }

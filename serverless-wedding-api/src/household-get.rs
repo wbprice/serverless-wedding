@@ -4,7 +4,6 @@ extern crate simple_logger;
 use lambda_http::{lambda, IntoResponse, Request, Body};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json};
-use std::ops::Deref;
 use url::{Url, ParseError};
 use log::{info, error};
 use uuid::Uuid;
@@ -32,9 +31,9 @@ fn handler(
         panic!("UUID not provided");
     });
 
-    println!("{:?}", uuid);
+    let rsvps = rsvp::list_by_household_id(uuid);
 
-    Ok(json!({"message": "you go girl"}))
+    Ok(json!(rsvps))
 }
 
 #[cfg(test)]
@@ -46,7 +45,6 @@ mod tests {
 
         let mut request = Request::new(Body::default());
         *request.uri_mut() = "https://api.slswedding.com/household/f2de1c2b-b6e2-4caa-a5b2-fd7fe8ba7efe".parse().unwrap();
-        println!("{:?}", request);
 
         handler(request, Context::default()).expect("expected Ok(_) value");
     }
