@@ -31,9 +31,14 @@ fn handler(
         panic!("UUID not provided");
     });
 
-    let rsvps = rsvp::list_by_household_id(uuid);
-
-    Ok(json!(rsvps))
+    match rsvp::RSVP::list_by_household_id(uuid) {
+        Ok(rsvps) => {
+            Ok(json!(rsvps))
+        },
+        Err(error) => {
+            Ok(json!({"message": "no good"}))
+        }
+    }
 }
 
 #[cfg(test)]
