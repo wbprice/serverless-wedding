@@ -7,7 +7,8 @@
         "dynamodb:GetItem",
         "dynamodb:PutItem",
         "dynamodb:UpdateItem",
-        "dynamodb:BatchWriteItem"
+        "dynamodb:BatchWriteItem",
+        "dynamodb:Query"
       ],
       "Effect": "Allow",
       "Resource": ["${rsvp_table_arn}"]

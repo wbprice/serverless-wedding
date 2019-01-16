@@ -4,6 +4,7 @@ use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
 use log::{info, error};
+use std::error::Error;
 
 use rusoto_core::Region;
 use rusoto_dynamodb::{DynamoDb, AttributeValue, QueryInput, QueryError, PutRequest, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
@@ -50,7 +51,7 @@ impl RSVP {
         rsvps
     }
 
-    pub fn list_by_household_id(uuid: Uuid) -> Result<Vec<RSVP>, QueryError> {
+    pub fn list_by_household_id(uuid: Uuid) -> Result<Vec<RSVP>, Box<Error>> {
         let client = DynamoDbClient::new(Region::UsEast1);
 
         let mut query = HashMap::new();
@@ -59,8 +60,6 @@ impl RSVP {
             ..Default::default()
         });
 
-        info!("Created the query");
-
         let query_input = QueryInput {
             table_name: env::var("RSVP_TABLE_NAME").unwrap(),
             key_condition_expression: Some("household_id = :household_id".to_string()),
@@ -68,26 +67,26 @@ impl RSVP {
             ..QueryInput::default()
         };
 
-        info!("Created QueryInput");
-
-        let rsvps = client.query(query_input)
-            .sync()
-            .unwrap_or_else(|_| {
-                error!("Issue performing the query");
-                panic!("Issue performing the query");
-            })
-            .items
-            .unwrap_or_else(|| {
-                error!("Issue unwrapping the response");
-                vec![]
-            })
-            .into_iter()
-            .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
-            .collect();
-
-        info!("Retrieved the results!");
-
-        Ok(rsvps)
+        match client.query(query_input).sync() {
+            Ok(response) => {
+                match response.items {
+                    Some(items) => {
+                        let rsvps = items.into_iter()
+                            .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
+                            .collect();
+                        Ok(rsvps)
+                    },
+                    None => {
+                        error!("No results!");
+                        Ok(vec![])
+                    }
+                }
+            },
+            Err(error) => {
+                error!("There was an error performing the query {}", error);
+                Ok(vec![])
+            }
+        }
     }
     
     pub fn batch_create_records(people: Vec<Person>) -> Result<Vec<RSVP>, BatchWriteItemError> {
