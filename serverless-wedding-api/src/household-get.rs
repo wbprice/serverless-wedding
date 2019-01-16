@@ -19,25 +19,24 @@ fn handler(
     request: Request,
     _: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
-    let uri = Url::parse(&request.uri().to_string()).unwrap_or_else(|_| {
-        panic!("Couldn't parse uri");
-    });
-
-    let path_segments = uri.path_segments().map(|c| c.collect::<Vec<_>>()).unwrap_or_else(|| {
-        panic!("uri didn't contain segments");
-    });
-    
-    let uuid = Uuid::parse_str(&path_segments[1].to_string()).unwrap_or_else(|_| {
-        panic!("UUID not provided");
-    });
-
-    match rsvp::RSVP::list_by_household_id(uuid) {
-        Ok(rsvps) => {
-            Ok(json!(rsvps))
+    match Url::parse(&request.uri().to_string()) {
+        Ok(uri) => {
+            match uri.path_segments().map(|c| c.collect::<Vec<_>>()) {
+                Some(path_segments) => {
+                    match Uuid::parse_str(&path_segments[1].to_string()) {
+                        Ok(uuid) => {
+                            match rsvp::RSVP::list_by_household_id(uuid) {
+                                Ok(rsvps) => Ok(json!(rsvps)),
+                                Err(_) => Ok(json!({"message": "Failed to retrieve RSVPs"}))
+                            }
+                        },
+                        Err(_) => Ok(json!({"message": "UUID not provided"}))
+                    }
+                },
+                None => Ok(json!({"message": "No URI segments found."}))
+            }
         },
-        Err(error) => {
-            Ok(json!({"message": "no good"}))
-        }
+        Err(_) => Ok(json!({"message": "Couldn't parse the URI"}))
     }
 }
 
@@ -49,8 +48,8 @@ mod tests {
     fn create_handler_handles() {
 
         let mut request = Request::new(Body::default());
-        *request.uri_mut() = "https://api.slswedding.com/household/f2de1c2b-b6e2-4caa-a5b2-fd7fe8ba7efe".parse().unwrap();
+        *request.uri_mut() = "https://api.slswedding.com/household/3eb28445-7698-4a00-b071-49da8eaac944".parse().unwrap();
 
-        handler(request, Context::default()).expect("expected Ok(_) value");
+        handler(request, Context::default()).expect("Expected an OK response");
     }
 }

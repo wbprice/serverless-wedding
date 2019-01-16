@@ -3,6 +3,7 @@ use std::vec::{Vec};
 use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
+use log::{info, error};
 
 use rusoto_core::Region;
 use rusoto_dynamodb::{DynamoDb, AttributeValue, QueryInput, QueryError, PutRequest, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
@@ -58,6 +59,8 @@ impl RSVP {
             ..Default::default()
         });
 
+        info!("Created the query");
+
         let query_input = QueryInput {
             table_name: env::var("RSVP_TABLE_NAME").unwrap(),
             key_condition_expression: Some("household_id = :household_id".to_string()),
@@ -65,14 +68,24 @@ impl RSVP {
             ..QueryInput::default()
         };
 
+        info!("Created QueryInput");
+
         let rsvps = client.query(query_input)
             .sync()
-            .unwrap()
+            .unwrap_or_else(|_| {
+                error!("Issue performing the query");
+                panic!("Issue performing the query");
+            })
             .items
-            .unwrap_or_else(|| vec![])
+            .unwrap_or_else(|| {
+                error!("Issue unwrapping the response");
+                vec![]
+            })
             .into_iter()
             .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
             .collect();
+
+        info!("Retrieved the results!");
 
         Ok(rsvps)
     }
@@ -173,8 +186,8 @@ mod rsvp_tests {
 
     #[test]
     fn test_rsvp_list_by_househould_id() {
-        let uuid = Uuid::parse_str("f2de1c2b-b6e2-4caa-a5b2-fd7fe8ba7efe").unwrap();
+        let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
         let rsvps = RSVP::list_by_household_id(uuid).unwrap();
-        assert_eq!(rsvps.len(), 0);
+        assert_eq!(rsvps.len(), 2);
     }
 }
