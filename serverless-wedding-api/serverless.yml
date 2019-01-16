@@ -34,3 +34,14 @@ functions:
           method: post
           cors: true
 
+  rsvp-patch:
+    handler: serverless-wedding-api.rsvp-patch
+    events:
+      - http:
+          path: /rsvp
+          method: patch
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
