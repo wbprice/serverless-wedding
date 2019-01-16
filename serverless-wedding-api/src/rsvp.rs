@@ -3,9 +3,11 @@ use std::vec::{Vec};
 use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
+use log::{info, error};
+use std::error::Error;
 
 use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, PutRequest, PutItemInput, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
+use rusoto_dynamodb::{DynamoDb, AttributeValue, QueryInput, QueryError, PutRequest, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
 use serde_dynamodb;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -49,27 +51,44 @@ impl RSVP {
         rsvps
     }
 
-    pub fn create_record(person: Person) -> Result<RSVP, PutItemError> {
-        let rsvp = RSVP::new(person, Uuid::new_v4().to_string());
+    pub fn list_by_household_id(uuid: Uuid) -> Result<Vec<RSVP>, Box<Error>> {
         let client = DynamoDbClient::new(Region::UsEast1);
 
-        let input = PutItemInput {
-            item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),
+        let mut query = HashMap::new();
+        query.insert(String::from(":household_id"), AttributeValue {
+            s: Some(uuid.to_string()),
+            ..Default::default()
+        });
+
+        let query_input = QueryInput {
             table_name: env::var("RSVP_TABLE_NAME").unwrap(),
-            ..PutItemInput::default()
+            key_condition_expression: Some("household_id = :household_id".to_string()),
+            expression_attribute_values: Some(query),
+            ..QueryInput::default()
         };
-        
-        match client.put_item(input).sync() {
-            Ok(_) => {
-                Ok(rsvp)
+
+        match client.query(query_input).sync() {
+            Ok(response) => {
+                match response.items {
+                    Some(items) => {
+                        let rsvps = items.into_iter()
+                            .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
+                            .collect();
+                        Ok(rsvps)
+                    },
+                    None => {
+                        error!("No results!");
+                        Ok(vec![])
+                    }
+                }
             },
-            Err(err) => {
-                println!("{:?}", err);
-                Err(err)
+            Err(error) => {
+                error!("There was an error performing the query {}", error);
+                Ok(vec![])
             }
         }
     }
-
+    
     pub fn batch_create_records(people: Vec<Person>) -> Result<Vec<RSVP>, BatchWriteItemError> {
         let rsvps = RSVP::batch_new(people); 
         let client = DynamoDbClient::new(Region::UsEast1);
@@ -130,21 +149,6 @@ mod rsvp_tests {
         assert_eq!(result.reminder_submitted, false);
     }
     
-    fn test_rsvp_create_record() {
-        let result = RSVP::create_record(
-            Person {
-                name: "Blaine Price".to_string(),
-                email_address: "email@example.com".to_string()
-            }
-        ).unwrap();
-
-        assert_eq!(result.name, "Blaine Price".to_string());
-        assert_eq!(result.email_address, "email@example.com".to_string());
-        assert_eq!(result.attending, false);
-        assert_eq!(result.invitation_submitted, false);
-        assert_eq!(result.reminder_submitted, false);
-    }
-
     #[test]
     fn test_rsvp_batch_new() {
         let people : Vec<Person> = vec!(
@@ -177,5 +181,12 @@ mod rsvp_tests {
 
         let rsvps = RSVP::batch_create_records(people).unwrap();
         assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
+    }
+
+    #[test]
+    fn test_rsvp_list_by_househould_id() {
+        let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
+        let rsvps = RSVP::list_by_household_id(uuid).unwrap();
+        assert_eq!(rsvps.len(), 2);
     }
 }
