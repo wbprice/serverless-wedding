@@ -7,7 +7,20 @@ use log::{info, error};
 use std::error::Error;
 
 use rusoto_core::Region;
-use rusoto_dynamodb::{DynamoDb, AttributeValue, QueryInput, QueryError, PutRequest, PutItemError, DynamoDbClient, WriteRequest, BatchWriteItemInput, BatchWriteItemError};
+use rusoto_dynamodb::{
+    DynamoDb,
+    AttributeValue,
+    QueryInput,
+    QueryError,
+    PutRequest,
+    PutItemError,
+    DynamoDbClient,
+    WriteRequest,
+    BatchWriteItemInput,
+    BatchWriteItemError,
+    UpdateItemInput,
+    UpdateItemError
+};
 use serde_dynamodb;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -49,6 +62,45 @@ impl RSVP {
         }
 
         rsvps
+    }
+
+    pub fn patch_rsvp(rsvp: RSVP) -> Result<RSVP, UpdateItemError> {
+        let client = DynamoDbClient::new(Region::UsEast1);
+
+        // Get primary key for update operation
+        let key = HashMap::new()
+        key.insert(String::from("household_id"), AttributeValue {
+            s: Some(String::from(uuid)),
+            ..Default::default()
+        });
+        key.insert(String::from("name"), AttributeValue {
+            s: Some(String::from(uuid)),
+            ..Default::default()
+        });
+
+        // Create update expression and values
+        let update_expression = "SET attending = :attending"
+        let update_attribute_values = HashMap::new()
+        update_attribute_values.insert(":attending": AttributeValue {
+            BOOL: rsvp.attending,
+            ..Default::default()
+        });
+
+        // Gather the above into an instance of UpdateItemInput
+        let update_item_input = UpdateItemInput {
+            key,
+            update_expression,
+            update_attribute_values
+        }
+
+        // Perform the request!
+        match client.update_item(update_item_input).sync() {
+            Ok(response) => {
+                println!("{:?}", response);
+                rsvp
+            },
+            Err(error) => error
+        }
     }
 
     pub fn list_by_household_id(uuid: Uuid) -> Result<Vec<RSVP>, Box<Error>> {
@@ -188,5 +240,10 @@ mod rsvp_tests {
         let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
         let rsvps = RSVP::list_by_household_id(uuid).unwrap();
         assert_eq!(rsvps.len(), 2);
+    }
+
+    #[test]
+    fn test_patch_rsvp() {
+        let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
     }
 }
