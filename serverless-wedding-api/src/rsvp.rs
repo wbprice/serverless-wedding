@@ -10,6 +10,8 @@ use rusoto_core::Region;
 use rusoto_dynamodb::{
     DynamoDb,
     AttributeValue,
+    GetItemInput,
+    GetItemError,
     QueryInput,
     QueryError,
     PutRequest,
@@ -64,42 +66,72 @@ impl RSVP {
         rsvps
     }
 
-    pub fn patch_rsvp(rsvp: RSVP) -> Result<RSVP, UpdateItemError> {
+    // pub fn patch_rsvp(uuid: Uuid) -> Result<RSVP, UpdateItemError> {
+    //     let client = DynamoDbClient::new(Region::UsEast1);
+
+    //     // Get primary key for update operation
+    //     let key = HashMap::new();
+    //     key.insert(String::from("household_id"), AttributeValue {
+    //         s: Some(uuid.to_string()),
+    //         ..Default::default()
+    //     });
+    //     key.insert(String::from("name"), AttributeValue {
+    //         s: Some(uuid.to_string()),
+    //         ..Default::default()
+    //     });
+
+    //     // Create update expression and values
+    //     let update_expression = "SET attending = :attending";
+    //     let update_attribute_values = HashMap::new();
+    //     update_attribute_values.insert(String::from(":attending"), AttributeValue {
+    //         BOOL: rsvp.attending,
+    //         ..Default::default()
+    //     });
+
+    //     // Gather the above into an instance of UpdateItemInput
+    //     let update_item_input = UpdateItemInput {
+    //         key,
+    //         update_expression,
+    //         update_attribute_values
+    //     }
+
+    //     // Perform the request!
+    //     match client.update_item(update_item_input).sync() {
+    //         Ok(response) => {
+    //             println!("{:?}", response);
+    //             rsvp
+    //         },
+    //         Err(error) => error
+    //     }
+    // }
+
+    pub fn get(uuid: Uuid) -> Result<RSVP, GetItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
-
-        // Get primary key for update operation
-        let key = HashMap::new()
-        key.insert(String::from("household_id"), AttributeValue {
-            s: Some(String::from(uuid)),
-            ..Default::default()
-        });
-        key.insert(String::from("name"), AttributeValue {
-            s: Some(String::from(uuid)),
+        
+        let mut key = HashMap::new();
+        key.insert(String::from("id"), AttributeValue {
+            s: Some(uuid.to_string()),
             ..Default::default()
         });
 
-        // Create update expression and values
-        let update_expression = "SET attending = :attending"
-        let update_attribute_values = HashMap::new()
-        update_attribute_values.insert(":attending": AttributeValue {
-            BOOL: rsvp.attending,
-            ..Default::default()
-        });
-
-        // Gather the above into an instance of UpdateItemInput
-        let update_item_input = UpdateItemInput {
+        let get_item_input = GetItemInput {
             key,
-            update_expression,
-            update_attribute_values
-        }
+            ..Default::default()
+        };
 
-        // Perform the request!
-        match client.update_item(update_item_input).sync() {
-            Ok(response) => {
-                println!("{:?}", response);
-                rsvp
+        match client.get_item(get_item_input).sync() {
+            Ok(get_item_output) => {
+                match get_item_output.item {
+                    Some(item) => { 
+                        let rsvp : RSVP = serde_dynamodb::from_hashmap(item).unwrap();
+                        Ok(rsvp)
+                    }
+                    None => {
+                        panic!("no results");
+                    }
+                }
             },
-            Err(error) => error
+            Err(err) => Err(err)
         }
     }
 
@@ -243,7 +275,21 @@ mod rsvp_tests {
     }
 
     #[test]
-    fn test_patch_rsvp() {
-        let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
+    // fn test_patch_rsvp() {
+    //     let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
+    // }
+
+    #[test]
+    fn test_get() {
+        let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
+        
+        match RSVP::get(uuid) {
+            Ok(rsvp) => {
+                println!("{:?}", rsvp);
+            },
+            Err(err) => {
+                println!("The error is {:?}", err);
+            }
+        }
     }
 }
