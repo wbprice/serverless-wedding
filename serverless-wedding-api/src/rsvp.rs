@@ -66,44 +66,46 @@ impl RSVP {
         rsvps
     }
 
-    pub fn patch_rsvp(uuid: Uuid) -> Result<RSVP, UpdateItemError> {
+    pub fn patch(uuid: Uuid, attending: bool) -> Result<RSVP, UpdateItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
 
-        let rsvp = RSVP::get(uuid)
+        let mut rsvp = RSVP::get(uuid).unwrap();
 
         // Get primary key for update operation
-        let key = HashMap::new();
+        let mut key = HashMap::new();
         key.insert(String::from("household_id"), AttributeValue {
-            s: Some(uuid.to_string()),
+            s: Some(String::from(rsvp.clone().household_id)),
             ..Default::default()
         });
         key.insert(String::from("name"), AttributeValue {
-            s: Some(uuid.to_string()),
+            s: Some(String::from(rsvp.clone().name)),
             ..Default::default()
         });
 
         // Create update expression and values
         let update_expression = "SET attending = :attending";
-        let update_attribute_values = HashMap::new();
-        update_attribute_values.insert(String::from(":attending"), AttributeValue {
-            BOOL: rsvp.attending,
+        let mut expression_attribute_values = HashMap::new();
+        expression_attribute_values.insert(String::from(":attending"), AttributeValue {
+            bool: Some(attending),
             ..Default::default()
         });
 
         // Gather the above into an instance of UpdateItemInput
         let update_item_input = UpdateItemInput {
             key,
-            update_expression,
-            update_attribute_values
-        }
+            update_expression: Some(String::from(update_expression)),
+            expression_attribute_values: Some(expression_attribute_values),
+            table_name: env::var("RSVP_TABLE_NAME").unwrap(),
+            ..Default::default()
+        };
 
         // Perform the request!
         match client.update_item(update_item_input).sync() {
             Ok(response) => {
-                println!("{:?}", response);
-                rsvp
+                // If the PUT was successful, fetch the updated record and return it
+                Ok(RSVP::get(uuid).unwrap())
             },
-            Err(error) => error
+            Err(error) => Err(error)
         }
     }
 
@@ -289,6 +291,20 @@ mod rsvp_tests {
         let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
         let rsvps = RSVP::list_by_household_id(uuid).unwrap();
         assert_eq!(rsvps.len(), 2);
+    }
+
+    #[test]
+    fn test_patch() {
+        let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
+
+        match RSVP::patch(uuid, true) {
+            Ok(rsvp) => {
+                println!("The update result is {:?}", rsvp);
+            },
+            Err(err) => {
+                println!("The update error is {:?}", err);
+            }
+        }
     }
 
     #[test]
