@@ -105,7 +105,7 @@ impl RSVP {
     //     }
     // }
 
-    pub fn get(uuid: Uuid) -> Result<RSVP, QueryError> {
+    pub fn get(uuid: Uuid) -> Result<Vec<RSVP>, QueryError> {
         let client = DynamoDbClient::new(Region::UsEast1);
         
         let mut query = HashMap::new();
@@ -115,6 +115,7 @@ impl RSVP {
         });
 
         let query_input = QueryInput {
+            index_name: env::var("RSVP_TABLE_ID_INDEX_NAME").unwrap(),
             table_name: env::var("RSVP_TABLE_NAME").unwrap(),
             key_condition_expression: Some("household_id = :household_id".to_string()),
             expression_attribute_values: Some(query),
@@ -124,16 +125,22 @@ impl RSVP {
         match client.query(query_input).sync() {
             Ok(response) => {
                 match response.items {
-                    Ok(items) => {
-                        let rsvps : Vec<RSVP> = items.into_iter()
+                    Some(items) => {
+                        let rsvps = items.into_iter()
                             .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
                             .collect();
                         Ok(rsvps)
                     },
-                    Err(err) => Err(err)
+                    None => {
+                        error!("No results!");
+                        Ok(vec![])
+                    }
                 }
             },
-            Err(err) => Err(err)
+            Err(err) => {
+                error!("There was an error performing the query! {}", err);
+                Ok(vec![])
+            }
         }
     }
 

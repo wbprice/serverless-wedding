@@ -1,4 +1,8 @@
 
+locals {
+    rsvp_table_id_index_name = "rsvp-id-index"
+}
+
 resource "aws_dynamodb_table" "rsvp_table" {
     name = "rsvp_table"
     read_capacity = 10
@@ -7,7 +11,7 @@ resource "aws_dynamodb_table" "rsvp_table" {
     range_key = "name"
 
     global_secondary_index {
-        name               = "rsvp-id-index"
+        name               = "${local.rsvp_table_id_index_name}"
         hash_key           = "id"
         write_capacity     = 5
         read_capacity      = 5
