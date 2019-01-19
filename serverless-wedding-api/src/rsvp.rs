@@ -143,7 +143,11 @@ impl RSVP {
             }
         };
 
-        Ok(rsvps[0].clone())
+        if rsvps.len() == 0 {
+            Err(QueryError::ResourceNotFound(String::from("No matches")))
+        } else {
+            Ok(rsvps[0].clone())
+        }
     }
 
     pub fn list_by_household_id(uuid: Uuid) -> Result<Vec<RSVP>, Box<Error>> {
