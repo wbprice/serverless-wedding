@@ -108,26 +108,31 @@ impl RSVP {
     pub fn get(uuid: Uuid) -> Result<RSVP, GetItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
         
-        let mut key = HashMap::new();
-        key.insert(String::from("id"), AttributeValue {
+        let mut query = HashMap::new();
+        query.insert(String::from("id"), AttributeValue {
             s: Some(uuid.to_string()),
             ..Default::default()
         });
 
-        let get_item_input = GetItemInput {
-            key,
+        let query_input = QueryInput {
+            table_name: env::var("RSVP_TABLE_NAME").unwrap(),
+            key_condition_expression: Some("household_id = :household_id".to_string()),
+            expression_attribute_values: Some(query),
             ..Default::default()
         };
 
-        match client.get_item(get_item_input).sync() {
-            Ok(get_item_output) => {
-                match get_item_output.item {
-                    Some(item) => { 
-                        let rsvp : RSVP = serde_dynamodb::from_hashmap(item).unwrap();
-                        Ok(rsvp)
+        match client.query(query_input).sync() {
+            Ok(response) => {
+                match response.items {
+                    Some(items) => {
+                        let rsvps = items.into_iter()
+                            .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
+                            .collect();
+                        Ok(rsvps)
                     }
                     None => {
-                        panic!("no results");
+                        error!("No results!");
+                        Ok(vec![])
                     }
                 }
             },
@@ -288,6 +293,7 @@ mod rsvp_tests {
                 println!("{:?}", rsvp);
             },
             Err(err) => {
+                println!("Get test");
                 println!("The error is {:?}", err);
             }
         }
