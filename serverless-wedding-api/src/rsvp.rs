@@ -66,7 +66,7 @@ impl RSVP {
         rsvps
     }
 
-    pub fn patch(uuid: Uuid, attending: bool) -> Result<RSVP, UpdateItemError> {
+    pub fn patch(uuid: Uuid, payload: HashMap<String, bool>) -> Result<RSVP, UpdateItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
 
         let mut rsvp = RSVP::get(uuid).unwrap();
@@ -82,13 +82,15 @@ impl RSVP {
             ..Default::default()
         });
 
-        // Create update expression and values
+        // Create update expression and values from payload
         let update_expression = "SET attending = :attending";
         let mut expression_attribute_values = HashMap::new();
-        expression_attribute_values.insert(String::from(":attending"), AttributeValue {
-            bool: Some(attending),
-            ..Default::default()
-        });
+        for (key, value) in payload {
+            expression_attribute_values.insert(String::from(concat!(":", key.to_string())), AttributeValue {
+                bool: Some(value),
+                ..Default::default()
+            });
+        }
 
         // Gather the above into an instance of UpdateItemInput
         let update_item_input = UpdateItemInput {
@@ -296,10 +298,17 @@ mod rsvp_tests {
     #[test]
     fn test_patch() {
         let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
+        let payload = HashMap::new();
+        payload.insert("attending", true);
+        payload.insert("invitation_submitted", true);
+        payload.insert("reminder_submitted", true);
 
-        match RSVP::patch(uuid, true) {
+        match RSVP::patch(uuid, payload) {
             Ok(rsvp) => {
                 println!("The update result is {:?}", rsvp);
+                assert_eq!(rsvp.attending, payload.attending);
+                assert_eq!(rsvp.invitation_submitted, payload.invitation_submitted);
+                assert_eq!(rsvp.reminder_submitted, payload.remind);
             },
             Err(err) => {
                 println!("The update error is {:?}", err);
