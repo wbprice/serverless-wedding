@@ -6,6 +6,14 @@ resource "aws_dynamodb_table" "rsvp_table" {
     hash_key = "household_id"
     range_key = "name"
 
+    global_secondary_index {
+        name               = "rsvp-id-index"
+        hash_key           = "id"
+        write_capacity     = 5
+        read_capacity      = 5
+        projection_type    = "ALL"
+    }
+
     attribute {
         name = "household_id"
         type = "S"
@@ -16,11 +24,8 @@ resource "aws_dynamodb_table" "rsvp_table" {
         type = "S"
     }
 
-    global_secondary_index {
-        name               = "rsvp-id-index"
-        hash_key           = "id"
-        write_capacity     = 5
-        read_capacity      = 5
-        projection_type    = "ALL"
+    attribute {
+        name = "id"
+        type = "S"
     }
 }
