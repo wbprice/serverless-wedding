@@ -105,43 +105,45 @@ impl RSVP {
     //     }
     // }
 
-    pub fn get(uuid: Uuid) -> Result<Vec<RSVP>, QueryError> {
+    pub fn get(uuid: Uuid) -> Result<RSVP, QueryError> {
         let client = DynamoDbClient::new(Region::UsEast1);
         
         let mut query = HashMap::new();
-        query.insert(String::from("id"), AttributeValue {
+        query.insert(String::from(":id"), AttributeValue {
             s: Some(uuid.to_string()),
             ..Default::default()
         });
 
         let query_input = QueryInput {
-            index_name: env::var("RSVP_TABLE_ID_INDEX_NAME").unwrap(),
+            index_name: Some(env::var("RSVP_TABLE_ID_INDEX_NAME").unwrap()),
             table_name: env::var("RSVP_TABLE_NAME").unwrap(),
-            key_condition_expression: Some("household_id = :household_id".to_string()),
+            key_condition_expression: Some("id = :id".to_string()),
             expression_attribute_values: Some(query),
             ..Default::default()
         };
 
-        match client.query(query_input).sync() {
+        let rsvps : Vec<RSVP> = match client.query(query_input).sync() {
             Ok(response) => {
                 match response.items {
                     Some(items) => {
                         let rsvps = items.into_iter()
                             .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
                             .collect();
-                        Ok(rsvps)
+                        rsvps
                     },
                     None => {
                         error!("No results!");
-                        Ok(vec![])
+                        vec![]
                     }
                 }
             },
             Err(err) => {
                 error!("There was an error performing the query! {}", err);
-                Ok(vec![])
+                vec![]
             }
-        }
+        };
+
+        Ok(rsvps[0].clone())
     }
 
     pub fn list_by_household_id(uuid: Uuid) -> Result<Vec<RSVP>, Box<Error>> {
@@ -284,17 +286,12 @@ mod rsvp_tests {
     }
 
     #[test]
-    // fn test_patch_rsvp() {
-    //     let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
-    // }
-
-    #[test]
     fn test_get() {
         let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
         
         match RSVP::get(uuid) {
             Ok(rsvp) => {
-                println!("{:?}", rsvp);
+                println!("the results are {:?}", rsvp);
             },
             Err(err) => {
                 println!("Get test");
