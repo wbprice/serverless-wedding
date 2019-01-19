@@ -105,7 +105,7 @@ impl RSVP {
     //     }
     // }
 
-    pub fn get(uuid: Uuid) -> Result<RSVP, GetItemError> {
+    pub fn get(uuid: Uuid) -> Result<RSVP, QueryError> {
         let client = DynamoDbClient::new(Region::UsEast1);
         
         let mut query = HashMap::new();
@@ -124,16 +124,13 @@ impl RSVP {
         match client.query(query_input).sync() {
             Ok(response) => {
                 match response.items {
-                    Some(items) => {
-                        let rsvps = items.into_iter()
+                    Ok(items) => {
+                        let rsvps : Vec<RSVP> = items.into_iter()
                             .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
                             .collect();
                         Ok(rsvps)
-                    }
-                    None => {
-                        error!("No results!");
-                        Ok(vec![])
-                    }
+                    },
+                    Err(err) => Err(err)
                 }
             },
             Err(err) => Err(err)
