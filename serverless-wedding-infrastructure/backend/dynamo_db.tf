@@ -15,4 +15,12 @@ resource "aws_dynamodb_table" "rsvp_table" {
         name = "name"
         type = "S"
     }
+
+    global_secondary_index {
+        name               = "rsvp-id-index"
+        hash_key           = "id"
+        write_capacity     = 5
+        read_capacity      = 5
+        projection_type    = "ALL"
+    }
 }
