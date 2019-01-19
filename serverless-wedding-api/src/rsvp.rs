@@ -66,44 +66,46 @@ impl RSVP {
         rsvps
     }
 
-    // pub fn patch_rsvp(uuid: Uuid) -> Result<RSVP, UpdateItemError> {
-    //     let client = DynamoDbClient::new(Region::UsEast1);
+    pub fn patch_rsvp(uuid: Uuid) -> Result<RSVP, UpdateItemError> {
+        let client = DynamoDbClient::new(Region::UsEast1);
 
-    //     // Get primary key for update operation
-    //     let key = HashMap::new();
-    //     key.insert(String::from("household_id"), AttributeValue {
-    //         s: Some(uuid.to_string()),
-    //         ..Default::default()
-    //     });
-    //     key.insert(String::from("name"), AttributeValue {
-    //         s: Some(uuid.to_string()),
-    //         ..Default::default()
-    //     });
+        let rsvp = RSVP::get(uuid)
 
-    //     // Create update expression and values
-    //     let update_expression = "SET attending = :attending";
-    //     let update_attribute_values = HashMap::new();
-    //     update_attribute_values.insert(String::from(":attending"), AttributeValue {
-    //         BOOL: rsvp.attending,
-    //         ..Default::default()
-    //     });
+        // Get primary key for update operation
+        let key = HashMap::new();
+        key.insert(String::from("household_id"), AttributeValue {
+            s: Some(uuid.to_string()),
+            ..Default::default()
+        });
+        key.insert(String::from("name"), AttributeValue {
+            s: Some(uuid.to_string()),
+            ..Default::default()
+        });
 
-    //     // Gather the above into an instance of UpdateItemInput
-    //     let update_item_input = UpdateItemInput {
-    //         key,
-    //         update_expression,
-    //         update_attribute_values
-    //     }
+        // Create update expression and values
+        let update_expression = "SET attending = :attending";
+        let update_attribute_values = HashMap::new();
+        update_attribute_values.insert(String::from(":attending"), AttributeValue {
+            BOOL: rsvp.attending,
+            ..Default::default()
+        });
 
-    //     // Perform the request!
-    //     match client.update_item(update_item_input).sync() {
-    //         Ok(response) => {
-    //             println!("{:?}", response);
-    //             rsvp
-    //         },
-    //         Err(error) => error
-    //     }
-    // }
+        // Gather the above into an instance of UpdateItemInput
+        let update_item_input = UpdateItemInput {
+            key,
+            update_expression,
+            update_attribute_values
+        }
+
+        // Perform the request!
+        match client.update_item(update_item_input).sync() {
+            Ok(response) => {
+                println!("{:?}", response);
+                rsvp
+            },
+            Err(error) => error
+        }
+    }
 
     pub fn get(uuid: Uuid) -> Result<RSVP, QueryError> {
         let client = DynamoDbClient::new(Region::UsEast1);
