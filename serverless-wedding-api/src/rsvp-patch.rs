@@ -3,11 +3,12 @@ extern crate simple_logger;
 
 use lambda_http::{lambda, IntoResponse, Request, Body};
 use lambda_runtime::{error::HandlerError, Context};
-use serde_json::{json};
+use serde_json::{json, Value};
 use url::{Url, ParseError};
+use std::ops::Deref;
 use log::{info, error};
 use uuid::Uuid;
-
+use std::collections::HashMap;
 mod rsvp;
 
 fn main() {
@@ -19,13 +20,17 @@ fn handler(
     request: Request,
     _: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
+
+    let body = request.body().deref();
+    let payload : HashMap<String, bool> = sersde_json::from_slice(body).unwrap();
+
     match Url::parse(&request.uri().to_string()) {
         Ok(uri) => {
             match uri.path_segments().map(|c| c.collect::<Vec<_>>()) {
                 Some(path_segments) => {
                     match Uuid::parse_str(&path_segments[1].to_string()) {
                         Ok(uuid) => {
-                            match rsvp::RSVP::list_by_household_id(uuid) {
+                            match rsvp::RSVP::patch(uuid, payload) {
                                 Ok(rsvps) => Ok(json!(rsvps)),
                                 Err(_) => Ok(json!({"message": "Failed to retrieve RSVPs"}))
                             }
@@ -45,9 +50,15 @@ mod tests {
     use super::*;
 
     #[test]
-    fn create_handler_handles() {
+    fn patch_handler_handles() {
 
-        let mut request = Request::new(Body::default());
+        let payload = r#"[
+            "attending": true,
+            "invitation_submitted": true,
+            "reminder_submitted": true
+        ]"#;
+
+        let mut request = Request::new(Body::from(payload));
         *request.uri_mut() = "https://api.slswedding.com/household/3eb28445-7698-4a00-b071-49da8eaac944".parse().unwrap();
 
         handler(request, Context::default()).expect("Expected an OK response");
