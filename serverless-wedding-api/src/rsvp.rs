@@ -83,8 +83,8 @@ impl RSVP {
         });
 
         // Create update expression and values from payload
-        let update_expression = "SET attending = :attending \
-            invitation_submitted = :invitation_submitted \
+        let update_expression = "SET attending = :attending, \
+            invitation_submitted = :invitation_submitted, \
             reminder_submitted = :reminder_submitted";
         let mut expression_attribute_values = HashMap::new();
         for (key, value) in payload {
@@ -307,10 +307,9 @@ mod rsvp_tests {
 
         match RSVP::patch(uuid, payload.clone()) {
             Ok(rsvp) => {
-                println!("The update result is {:?}", rsvp);
                 assert_eq!(&rsvp.attending, payload.get("attending").unwrap());
                 assert_eq!(&rsvp.invitation_submitted, payload.get("invitation_submitted").unwrap());
-                assert_eq!(&rsvp.reminder_submitted, payload.get("remind").unwrap());
+                assert_eq!(&rsvp.reminder_submitted, payload.get("reminder_submitted").unwrap());
             },
             Err(err) => {
                 println!("The update error is {:?}", err);
