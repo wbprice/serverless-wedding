@@ -83,10 +83,12 @@ impl RSVP {
         });
 
         // Create update expression and values from payload
-        let update_expression = "SET attending = :attending";
+        let update_expression = "SET attending = :attending \
+            invitation_submitted = :invitation_submitted \
+            reminder_submitted = :reminder_submitted";
         let mut expression_attribute_values = HashMap::new();
         for (key, value) in payload {
-            expression_attribute_values.insert(String::from(concat!(":", key.to_string())), AttributeValue {
+            expression_attribute_values.insert(String::from(format!(":{}", key.to_string())), AttributeValue {
                 bool: Some(value),
                 ..Default::default()
             });
@@ -298,17 +300,17 @@ mod rsvp_tests {
     #[test]
     fn test_patch() {
         let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
-        let payload = HashMap::new();
-        payload.insert("attending", true);
-        payload.insert("invitation_submitted", true);
-        payload.insert("reminder_submitted", true);
+        let mut payload : HashMap<String, bool> = HashMap::new();
+        payload.insert(String::from("attending"), true);
+        payload.insert(String::from("invitation_submitted"), true);
+        payload.insert(String::from("reminder_submitted"), true);
 
-        match RSVP::patch(uuid, payload) {
+        match RSVP::patch(uuid, payload.clone()) {
             Ok(rsvp) => {
                 println!("The update result is {:?}", rsvp);
-                assert_eq!(rsvp.attending, payload.attending);
-                assert_eq!(rsvp.invitation_submitted, payload.invitation_submitted);
-                assert_eq!(rsvp.reminder_submitted, payload.remind);
+                assert_eq!(&rsvp.attending, payload.get("attending").unwrap());
+                assert_eq!(&rsvp.invitation_submitted, payload.get("invitation_submitted").unwrap());
+                assert_eq!(&rsvp.reminder_submitted, payload.get("remind").unwrap());
             },
             Err(err) => {
                 println!("The update error is {:?}", err);
