@@ -22,7 +22,9 @@ fn handler(
 ) -> Result<impl IntoResponse, HandlerError> {
 
     let body = request.body().deref();
-    let payload : HashMap<String, bool> = sersde_json::from_slice(body).unwrap();
+    let payload: HashMap<String, bool> = serde_json::from_slice(body).unwrap_or_else(|e| {
+        panic!("Do better! {:?}", e);
+    });
 
     match Url::parse(&request.uri().to_string()) {
         Ok(uri) => {
