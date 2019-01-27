@@ -1,7 +1,7 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, RequestExt, Body, http};
+use lambda_http::{lambda, IntoResponse, Request, RequestExt, Body, http, PathParameters, StrMap};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json, Value};
 use url::{Url, ParseError};
@@ -18,25 +18,18 @@ fn main() {
 
 fn handler(
     request: Request,
-    _: Context,
+    context: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
 
     let path_parameters = request.path_parameters();
-    
-    match request.payload() {
-        Ok(payload) => {
-            let result : HashMap<String, bool> = payload.unwrap();
-            dbg!(result);
-        },
-        Err(err) => {
-            dbg!(err);
-        }
-    }
+    let payload : HashMap<String, bool> = request.payload()
+        .unwrap()
+        .unwrap();
 
-    dbg!(path_parameters);
+    info!("{:?}", path_parameters);
+    info!("{:?}", request);
 
     Ok(())
-
 }
 
 #[cfg(test)]
@@ -53,9 +46,12 @@ mod tests {
         }"#;
 
         let request = http::Request::builder()
-            .uri("https://serverless-wedding-api.com/ac242e6f-269c-498b-aa5c-4b0535bd9366")
+            .uri("https://api.com/")
             .method("PUT")
             .header("Content-Type", "application/json")
+            .extension(PathParameters(StrMap {
+                "id": "1234"
+            }))
             .body(Body::from(payload.clone()))
             .expect("failed to build request");
 
