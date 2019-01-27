@@ -1,7 +1,7 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, RequestExt, Body, http, PathParameters, StrMap};
+use lambda_http::{lambda, IntoResponse, Request, RequestExt, Body, http, StrMap};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json, Value};
 use url::{Url, ParseError};
@@ -26,6 +26,8 @@ fn handler(
         .unwrap()
         .unwrap();
 
+    dbg!(request.request_context());
+
     info!("{:?}", path_parameters);
     info!("{:?}", request);
 
@@ -49,9 +51,6 @@ mod tests {
             .uri("https://api.com/")
             .method("PUT")
             .header("Content-Type", "application/json")
-            .extension(PathParameters(StrMap {
-                "id": "1234"
-            }))
             .body(Body::from(payload.clone()))
             .expect("failed to build request");
 
