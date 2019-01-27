@@ -1,7 +1,7 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, Body};
+use lambda_http::{lambda, IntoResponse, Request, RequestExt, Body, http};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json, Value};
 use url::{Url, ParseError};
@@ -21,30 +21,22 @@ fn handler(
     _: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
 
-    let body = request.body().deref();
-    let payload: HashMap<String, bool> = serde_json::from_slice(body).unwrap_or_else(|e| {
-        panic!("Do better! {:?}", e);
-    });
-
-    match Url::parse(&request.uri().to_string()) {
-        Ok(uri) => {
-            match uri.path_segments().map(|c| c.collect::<Vec<_>>()) {
-                Some(path_segments) => {
-                    match Uuid::parse_str(&path_segments[1].to_string()) {
-                        Ok(uuid) => {
-                            match rsvp::RSVP::patch(uuid, payload) {
-                                Ok(rsvps) => Ok(json!(rsvps)),
-                                Err(_) => Ok(json!({"message": "Failed to retrieve RSVPs"}))
-                            }
-                        },
-                        Err(_) => Ok(json!({"message": "UUID not provided"}))
-                    }
-                },
-                None => Ok(json!({"message": "No URI segments found."}))
-            }
+    let path_parameters = request.path_parameters();
+    
+    match request.payload() {
+        Ok(payload) => {
+            let result : HashMap<String, bool> = payload.unwrap();
+            dbg!(result);
         },
-        Err(_) => Ok(json!({"message": "Couldn't parse the URI"}))
+        Err(err) => {
+            dbg!(err);
+        }
     }
+
+    dbg!(path_parameters);
+
+    Ok(())
+
 }
 
 #[cfg(test)]
@@ -54,14 +46,18 @@ mod tests {
     #[test]
     fn patch_handler_handles() {
 
-        let payload = r#"[
+        let payload = r#"{
             "attending": true,
             "invitation_submitted": true,
             "reminder_submitted": true
-        ]"#;
+        }"#;
 
-        let mut request = Request::new(Body::from(payload));
-        *request.uri_mut() = "https://api.slswedding.com/household/3eb28445-7698-4a00-b071-49da8eaac944".parse().unwrap();
+        let request = http::Request::builder()
+            .uri("https://serverless-wedding-api.com/ac242e6f-269c-498b-aa5c-4b0535bd9366")
+            .method("PUT")
+            .header("Content-Type", "application/json")
+            .body(Body::from(payload.clone()))
+            .expect("failed to build request");
 
         handler(request, Context::default()).expect("Expected an OK response");
     }
