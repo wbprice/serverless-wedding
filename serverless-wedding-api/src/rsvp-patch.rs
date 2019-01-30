@@ -1,7 +1,7 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, RequestExt};
+use lambda_http::{lambda, IntoResponse, Request, RequestExt, StrMap};
 use lambda_runtime::{error::HandlerError, Context};
 use std::collections::HashMap;
 mod rsvp;
@@ -39,7 +39,9 @@ fn extract_path_parameters<R>(request: &R) -> HashMap<String, String> where R: R
 #[cfg(test)]
 mod tests {
     use super::*;
-    use lambda_http::http;
+    use lambda_http::{http, request, Body};
+    use serde::de::Deserialize;
+    use std::error::Error;
 
     #[test]
     fn patch_handler_handles() {
@@ -52,7 +54,19 @@ mod tests {
             }
 
             fn query_string_parameters(&self) -> StrMap {
-                !unreachable();
+                unreachable!();
+            }
+
+            fn stage_variables(&self) -> StrMap {
+                unreachable!();
+            }
+
+            fn request_context(&self) -> request::RequestContext {
+                unreachable!();
+            }
+
+            fn payload(&self) -> Result<Option<Deserialize<'de>>, Error> {
+                unreachable!()
             }
         }
 

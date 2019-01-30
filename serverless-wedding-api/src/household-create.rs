@@ -36,6 +36,7 @@ fn handler(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use lambda_http::{Body};
 
     #[test]
     fn batch_create_handler_handles() {
