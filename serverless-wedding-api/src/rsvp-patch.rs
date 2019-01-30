@@ -1,13 +1,8 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, RequestExt, Body, http, StrMap};
+use lambda_http::{lambda, IntoResponse, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
-use serde_json::{json, Value};
-use url::{Url, ParseError};
-use std::ops::Deref;
-use log::{info, error};
-use uuid::Uuid;
 use std::collections::HashMap;
 mod rsvp;
 
@@ -18,28 +13,48 @@ fn main() {
 
 fn handler(
     request: Request,
-    context: Context,
+    _: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
 
-    let path_parameters = request.path_parameters();
+    let path_parameters = extract_path_parameters(&request);
     let payload : HashMap<String, bool> = request.payload()
         .unwrap()
         .unwrap();
 
-    dbg!(request.request_context());
-
-    info!("{:?}", path_parameters);
-    info!("{:?}", request);
+    dbg!(path_parameters);
+    dbg!(payload);
 
     Ok(())
+}
+
+fn extract_path_parameters<R>(request: &R) -> HashMap<String, String> where R: RequestExt {
+    let mut result = HashMap::new();
+        result.insert(String::from("hello"), String::from("world"));
+
+    let params = request.path_parameters();
+    dbg!(params);
+    result
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use lambda_http::http;
 
     #[test]
     fn patch_handler_handles() {
+
+        struct MockPathParams(HashMap<String, Vec<String>>);
+
+        impl RequestExt for MockPathParams {
+            fn path_parameters(&self) -> StrMap {
+                self.0.into()
+            }
+
+            fn query_string_parameters(&self) -> StrMap {
+                !unreachable();
+            }
+        }
 
         let payload = r#"{
             "attending": true,
@@ -48,11 +63,11 @@ mod tests {
         }"#;
 
         let request = http::Request::builder()
-            .uri("https://api.com/")
-            .method("PUT")
-            .header("Content-Type", "application/json")
-            .body(Body::from(payload.clone()))
-            .expect("failed to build request");
+             .uri("https://api.com/")
+             .method("PUT")
+             .header("Content-Type", "application/json")
+             .body(Body::from(payload.clone()))
+             .expect("failed to build request");
 
         handler(request, Context::default()).expect("Expected an OK response");
     }

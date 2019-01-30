@@ -3,19 +3,16 @@ use std::vec::{Vec};
 use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
-use log::{info, error};
+use log::{error};
 use std::error::Error;
 
 use rusoto_core::Region;
 use rusoto_dynamodb::{
     DynamoDb,
     AttributeValue,
-    GetItemInput,
-    GetItemError,
     QueryInput,
     QueryError,
     PutRequest,
-    PutItemError,
     DynamoDbClient,
     WriteRequest,
     BatchWriteItemInput,
@@ -69,7 +66,7 @@ impl RSVP {
     pub fn patch(uuid: Uuid, payload: HashMap<String, bool>) -> Result<RSVP, UpdateItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
 
-        let mut rsvp = RSVP::get(uuid).unwrap();
+        let rsvp = RSVP::get(uuid).unwrap();
 
         // Get primary key for update operation
         let mut key = HashMap::new();
@@ -105,7 +102,7 @@ impl RSVP {
 
         // Perform the request!
         match client.update_item(update_item_input).sync() {
-            Ok(response) => {
+            Ok(_response) => {
                 // If the PUT was successful, fetch the updated record and return it
                 Ok(RSVP::get(uuid).unwrap())
             },
