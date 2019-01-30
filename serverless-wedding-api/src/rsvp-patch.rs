@@ -1,9 +1,13 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, RequestExt, StrMap};
+use lambda_http::{lambda, IntoResponse, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use std::collections::HashMap;
+use serde_json::json;
+use log::{error};
+use uuid::Uuid;
+
 mod rsvp;
 
 fn main() {
@@ -16,24 +20,22 @@ fn handler(
     _: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
 
-    let path_parameters = extract_path_parameters(&request);
+    let path_parameters = request.path_parameters();
     let payload : HashMap<String, bool> = request.payload()
         .unwrap()
         .unwrap();
 
-    dbg!(path_parameters);
-    dbg!(payload);
+    let uuid : Uuid = Uuid::parse_str(
+        path_parameters.get("id").unwrap()
+    ).unwrap();
 
-    Ok(())
-}
-
-fn extract_path_parameters<R>(request: &R) -> HashMap<String, String> where R: RequestExt {
-    let mut result = HashMap::new();
-        result.insert(String::from("hello"), String::from("world"));
-
-    let params = request.path_parameters();
-    dbg!(params);
-    result
+    match rsvp::RSVP::patch(uuid, payload) {
+        Ok(response) => Ok(json!(response)),
+        Err(error) => {
+            error!("There was a problem! {:?}", error);
+            Ok(json!({"message": "There was a problem!"}))
+        }
+    }
 }
 
 #[cfg(test)]
@@ -45,30 +47,6 @@ mod tests {
 
     #[test]
     fn patch_handler_handles() {
-
-        struct MockPathParams(HashMap<String, Vec<String>>);
-
-        impl RequestExt for MockPathParams {
-            fn path_parameters(&self) -> StrMap {
-                self.0.into()
-            }
-
-            fn query_string_parameters(&self) -> StrMap {
-                unreachable!();
-            }
-
-            fn stage_variables(&self) -> StrMap {
-                unreachable!();
-            }
-
-            fn request_context(&self) -> request::RequestContext {
-                unreachable!();
-            }
-
-            fn payload(&self) -> Result<Option<Deserialize<'de>>, Error> {
-                unreachable!()
-            }
-        }
 
         let payload = r#"{
             "attending": true,
