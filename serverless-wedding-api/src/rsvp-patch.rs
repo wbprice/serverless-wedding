@@ -46,6 +46,7 @@ mod tests {
     use std::error::Error;
 
     #[test]
+    #[ignore]
     fn patch_handler_handles() {
 
         let payload = r#"{
