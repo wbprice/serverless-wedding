@@ -5,7 +5,7 @@ use lambda_http::{lambda, IntoResponse, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use std::collections::HashMap;
 use serde_json::json;
-use log::{error};
+use log::{info, error};
 use uuid::Uuid;
 
 mod rsvp;
@@ -25,9 +25,13 @@ fn handler(
         .unwrap()
         .unwrap();
 
+
     let uuid : Uuid = Uuid::parse_str(
         path_parameters.get("id").unwrap()
     ).unwrap();
+
+    info!("Uuid is: {:?}", uuid);
+    info!("Payload is: {:?}", payload);
 
     match rsvp::RSVP::patch(uuid, payload) {
         Ok(response) => Ok(json!(response)),

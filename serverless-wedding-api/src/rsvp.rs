@@ -3,7 +3,7 @@ use std::vec::{Vec};
 use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
-use log::{error};
+use log::{info, error};
 use std::error::Error;
 
 use rusoto_core::Region;
@@ -68,6 +68,8 @@ impl RSVP {
 
         let rsvp = RSVP::get(uuid).unwrap();
 
+        info!("Preparing to update RSVP: {:?}", rsvp);
+
         // Get primary key for update operation
         let mut key = HashMap::new();
         key.insert(String::from("household_id"), AttributeValue {
@@ -100,13 +102,19 @@ impl RSVP {
             ..Default::default()
         };
 
+        info!("Running client.update_item");
+
         // Perform the request!
         match client.update_item(update_item_input).sync() {
             Ok(_response) => {
                 // If the PUT was successful, fetch the updated record and return it
+                info!("Success!");
                 Ok(RSVP::get(uuid).unwrap())
             },
-            Err(error) => Err(error)
+            Err(error) => {
+                error!("Error! {:?}", error);
+                Err(error)
+            }
         }
     }
 
