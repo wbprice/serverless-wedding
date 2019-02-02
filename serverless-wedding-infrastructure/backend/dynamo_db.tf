@@ -1,6 +1,6 @@
 
 locals {
-    rsvp_table_id_index_name = "rsvp-id-index"
+    rsvp_table_id_index_name = "rsvp_id_index"
 }
 
 resource "aws_dynamodb_table" "rsvp_table" {
