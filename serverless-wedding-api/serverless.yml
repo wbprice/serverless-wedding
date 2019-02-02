@@ -46,3 +46,15 @@ functions:
             parameters:
               paths:
                 id: true
+
+  rsvp-get:
+    handler: serverless-wedding-api.rsvp-get
+    events:
+      - http:
+          path: /rsvp/{id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true

@@ -29,3 +29,8 @@ path = "src/household-get.rs"
 [[bin]]
 name = "rsvp-patch"
 path = "src/rsvp-patch.rs"
+
+[[bin]]
+name = "rsvp-get"
+path = "src/rsvp-get.rs"
+

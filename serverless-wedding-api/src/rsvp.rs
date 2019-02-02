@@ -127,6 +127,8 @@ impl RSVP {
             ..Default::default()
         });
 
+        info!("Preparing to get a record of UUID: {:?}", uuid);
+
         let query_input = QueryInput {
             index_name: Some(env::var("RSVP_TABLE_ID_INDEX_NAME").unwrap()),
             table_name: env::var("RSVP_TABLE_NAME").unwrap(),
@@ -135,10 +137,13 @@ impl RSVP {
             ..Default::default()
         };
 
+        info!("Query Input is {:?}", query_input);
+
         let rsvps : Vec<RSVP> = match client.query(query_input).sync() {
             Ok(response) => {
                 match response.items {
                     Some(items) => {
+                        info!("Some results were found! {:?}", items);
                         let rsvps = items.into_iter()
                             .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
                             .collect();
