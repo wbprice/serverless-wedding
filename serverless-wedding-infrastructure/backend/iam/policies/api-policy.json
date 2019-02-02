@@ -11,18 +11,10 @@
         "dynamodb:Query"
       ],
       "Effect": "Allow",
-      "Resource": ["${rsvp_table_arn}"]
-    },
-    {
-      "Action": [
-        "dynamodb:Attributes",
-        "dynamodb:LeadingKeys",
-        "dynamodb:ReturnConsumedCapacity",
-        "dynamodb:ReturnValues",
-        "dynamodb:Select"
-      ],
-      "Effect": "Allow",
-      "Resource": ["${rsvp_table_id_index_path}"]
+      "Resource": [
+        "${rsvp_table_arn}",
+        "${rsvp_table_id_index_path}"
+      ]
     },
     {
       "Effect": "Allow",
