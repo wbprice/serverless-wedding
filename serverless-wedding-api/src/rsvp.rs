@@ -133,7 +133,7 @@ impl RSVP {
             index_name: Some(env::var("RSVP_TABLE_ID_INDEX_NAME").unwrap()),
             table_name: env::var("RSVP_TABLE_NAME").unwrap(),
             key_condition_expression: Some("id = :id".to_string()),
-            expression_attribute_values: Some(query),
+            expression_attribute_values: Some(query),            
             ..Default::default()
         };
 
