@@ -3,7 +3,7 @@ use std::vec::{Vec};
 use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
-use log::{info, error};
+use log::{debug, info, error};
 use std::error::Error;
 
 use rusoto_core::Region;
@@ -68,7 +68,7 @@ impl RSVP {
 
         let rsvp = RSVP::get(uuid).unwrap();
 
-        info!("Preparing to update RSVP: {:?}", rsvp);
+        debug!("Preparing to update RSVP: {:?}", rsvp);
 
         // Get primary key for update operation
         let mut key = HashMap::new();
@@ -81,10 +81,20 @@ impl RSVP {
             ..Default::default()
         });
 
-        // Create update expression and values from payload
-        let update_expression = "SET attending = :attending, \
-            invitation_submitted = :invitation_submitted, \
-            reminder_submitted = :reminder_submitted";
+        // Create the update expression from the payload
+        let mut update_expression = String::from("SET ");
+        let payload_iter = payload.iter();
+        for (key, _) in payload_iter {
+            let mut append = format!("{k} = :{k}", k = key);
+            if &payload_iter.size_hint() != (0, Some(0)) {
+                append.push_str(",");
+            }
+            update_expression.push_str(&append);
+        }
+
+        dbg!("Update expression!");
+        dbg!(&update_expression);
+
         let mut expression_attribute_values = HashMap::new();
         for (key, value) in payload {
             expression_attribute_values.insert(String::from(format!(":{}", key.to_string())), AttributeValue {

@@ -5,13 +5,13 @@ use lambda_http::{lambda, IntoResponse, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use std::collections::HashMap;
 use serde_json::json;
-use log::{info, error};
+use log::{debug, info, error};
 use uuid::Uuid;
 
 mod rsvp;
 
 fn main() {
-    simple_logger::init_with_level(log::Level::Info).unwrap();
+    simple_logger::init_with_level(log::Level::Debug).unwrap();
     lambda!(handler)
 }
 
@@ -30,8 +30,8 @@ fn handler(
         path_parameters.get("id").unwrap()
     ).unwrap();
 
-    info!("Uuid is: {:?}", uuid);
-    info!("Payload is: {:?}", payload);
+    debug!("Uuid is: {:?}", uuid);
+    debug!("Payload is: {:?}", payload);
 
     match rsvp::RSVP::patch(uuid, payload) {
         Ok(response) => Ok(json!(response)),
