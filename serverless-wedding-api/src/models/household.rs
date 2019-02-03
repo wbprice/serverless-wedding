@@ -22,6 +22,15 @@ use rusoto_dynamodb::{
 };
 use serde_dynamodb;
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct Person {
+    email_address: String,
+    name: String
+}
+
+mod rsvp;
+mod person;
+
 pub struct Household;
 
 impl Household {
@@ -106,5 +115,53 @@ impl Household {
                 Ok(vec![])
             }
         }
+    }
+}
+
+
+#[cfg(test)]
+mod household_tests {
+
+    use super::*;
+    
+    #[test]
+    fn test_household_new() {
+        let people : Vec<Person> = vec!(
+            Person {
+                email_address: "1example@email.com".to_string(),
+                name: "person 1".to_string()
+            },
+            Person {
+                email_address: "2example@email.com".to_string(),
+                name: "person 2".to_string()
+            }
+        );
+
+        let rsvps = Household::new(people);
+        assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
+    }
+
+    #[test]
+    fn test_household_create_records() {
+        let people : Vec<Person> = vec!(
+            Person {
+                email_address: "1example@email.com".to_string(),
+                name: "person 1".to_string()
+            },
+            Person {
+                email_address: "2example@email.com".to_string(),
+                name: "person 2".to_string()
+            }
+        );
+
+        let rsvps = RSVP::batch_create_records(people).unwrap();
+        assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
+    }
+
+    #[test]
+    fn test_household_get() {
+        let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
+        let rsvps = RSVP::list_by_household_id(uuid).unwrap();
+        assert_eq!(rsvps.len(), 2);
     }
 }

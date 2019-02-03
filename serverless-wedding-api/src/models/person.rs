@@ -1,5 +1,5 @@
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Person {
+use pub struct Person {
     email_address: String,
     name: String
 }

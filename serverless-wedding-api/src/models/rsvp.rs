@@ -22,7 +22,11 @@ use rusoto_dynamodb::{
 };
 use serde_dynamodb;
 
-mod person;
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct Person {
+    email_address: String,
+    name: String
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RSVP {
