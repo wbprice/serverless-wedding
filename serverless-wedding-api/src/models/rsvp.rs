@@ -4,35 +4,29 @@ use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
 use log::{debug, info, error};
-use std::error::Error;
-
+use serde_dynamodb;
 use rusoto_core::Region;
 use rusoto_dynamodb::{
     DynamoDb,
     AttributeValue,
     QueryInput,
     QueryError,
-    PutRequest,
     DynamoDbClient,
-    WriteRequest,
-    BatchWriteItemInput,
-    BatchWriteItemError,
     UpdateItemInput,
     UpdateItemError
 };
-use serde_dynamodb;
 
 use crate::models::{Person};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RSVP {
-    household_id: String,
-    id: String,
-    name: String,
-    email_address: String,
-    attending: bool,
-    invitation_submitted: bool,
-    reminder_submitted: bool
+    pub household_id: String,
+    pub id: String,
+    pub name: String,
+    pub email_address: String,
+    pub attending: bool,
+    pub invitation_submitted: bool,
+    pub reminder_submitted: bool
 }
 
 impl RSVP {

@@ -23,7 +23,7 @@ fn handler(
     let body = request.body().deref();
     let people : Vec<Person> = serde_json::from_slice(body).unwrap();
 
-    match Household::new(people) {
+    match Household::create(people) {
         Ok(response) => {
             Ok(json!(response))
         },

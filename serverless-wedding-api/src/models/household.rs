@@ -147,14 +147,14 @@ mod household_tests {
             }
         );
 
-        let rsvps = RSVP::batch_create_records(people).unwrap();
+        let rsvps = Household::create(people).unwrap();
         assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
     }
 
     #[test]
     fn test_household_get() {
         let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
-        let rsvps = RSVP::list_by_household_id(uuid).unwrap();
+        let rsvps = Household::get(uuid).unwrap();
         assert_eq!(rsvps.len(), 2);
     }
 }
