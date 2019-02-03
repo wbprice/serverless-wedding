@@ -72,7 +72,7 @@ impl Household {
         }
     }
 
-    pub fn list(uuid: Uuid) -> Result<Vec<RSVP>, Box<Error>> {
+    pub fn get(uuid: Uuid) -> Result<Vec<RSVP>, Box<Error>> {
         let client = DynamoDbClient::new(Region::UsEast1);
 
         let mut query = HashMap::new();
