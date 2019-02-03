@@ -85,7 +85,7 @@ export default {
 }
 
 .dining {
-  background: url('~assets/dining.jpg');
+  /* background: url('~assets/dining.jpg'); */
 }
 
 .horseback-riding {
