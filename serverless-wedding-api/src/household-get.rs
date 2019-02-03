@@ -4,10 +4,10 @@ extern crate simple_logger;
 use lambda_http::{lambda, IntoResponse, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json};
-use log::{info, error};
 use uuid::Uuid;
 
-mod rsvp;
+mod models;
+use crate::models::Household;
 
 fn main() {
     simple_logger::init_with_level(log::Level::Info).unwrap();
@@ -23,7 +23,7 @@ fn handler(
         path_parameters.get("id").unwrap()
     ).unwrap();
 
-    match rsvp::RSVP::list_by_household_id(uuid) {
+    match Household::get(uuid) {
         Ok(rsvps) => Ok(json!(rsvps)),
         Err(_) => Ok(json!({"message": "Failed to retrieve RSVPs"}))
     }
