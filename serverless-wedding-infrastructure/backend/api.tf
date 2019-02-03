@@ -13,6 +13,7 @@ data "template_file" "serverless_wedding_api_iam_policy" {
 
     vars = {
         rsvp_table_arn = "${aws_dynamodb_table.rsvp_table.arn}"
+        rsvp_table_id_index_path = "${aws_dynamodb_table.rsvp_table.arn}/index/${local.rsvp_table_id_index_name}"
     }
 }
 

@@ -1,11 +1,11 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, Body};
+use lambda_http::{lambda, IntoResponse, Request};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json};
 use std::ops::Deref;
-use log::{info, error};
+use log::{error};
 
 mod rsvp;
 
@@ -36,6 +36,7 @@ fn handler(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use lambda_http::{Body};
 
     #[test]
     fn batch_create_handler_handles() {

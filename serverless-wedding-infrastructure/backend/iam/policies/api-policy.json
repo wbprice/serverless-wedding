@@ -11,7 +11,10 @@
         "dynamodb:Query"
       ],
       "Effect": "Allow",
-      "Resource": ["${rsvp_table_arn}"]
+      "Resource": [
+        "${rsvp_table_arn}",
+        "${rsvp_table_id_index_path}"
+      ]
     },
     {
       "Effect": "Allow",

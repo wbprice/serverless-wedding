@@ -6,6 +6,7 @@ provider:
   role: ${file(../serverless-wedding-infrastructure/output.json):api_role_arn.value}
   environment:
     RSVP_TABLE_NAME: ${file(../serverless-wedding-infrastructure/output.json):rsvp_table_name.value}
+    RSVP_TABLE_ID_INDEX_NAME: ${file(../serverless-wedding-infrastructure/output.json):rsvp_table_id_index_name.value}
 
 package:
   individually: true
@@ -34,3 +35,26 @@ functions:
           method: post
           cors: true
 
+  rsvp-patch:
+    handler: serverless-wedding-api.rsvp-patch
+    events:
+      - http:
+          path: /rsvp/{id}
+          method: patch
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
+
+  rsvp-get:
+    handler: serverless-wedding-api.rsvp-get
+    events:
+      - http:
+          path: /rsvp/{id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
