@@ -82,19 +82,21 @@ impl RSVP {
         });
 
         // Create the update expression from the payload
+        // TODO: Is there an idiomatic way to do this better with Rust?
         let mut update_expression = String::from("SET ");
         let payload_iter = payload.iter();
+        let iter_length = payload_iter.clone().count();
+        let mut payload_iter_count = 0;
         for (key, _) in payload_iter {
             let mut append = format!("{k} = :{k}", k = key);
-            if &payload_iter.size_hint() != (0, Some(0)) {
+            payload_iter_count = payload_iter_count + 1;
+            if payload_iter_count != iter_length {
                 append.push_str(",");
             }
             update_expression.push_str(&append);
         }
 
-        dbg!("Update expression!");
-        dbg!(&update_expression);
-
+        // Create the expression attributes value hashmap from the payload
         let mut expression_attribute_values = HashMap::new();
         for (key, value) in payload {
             expression_attribute_values.insert(String::from(format!(":{}", key.to_string())), AttributeValue {
