@@ -9,6 +9,7 @@ use log::{debug, info, error};
 use uuid::Uuid;
 
 mod rsvp;
+use crate::rsvp::RSVP;
 
 fn main() {
     simple_logger::init_with_level(log::Level::Debug).unwrap();
@@ -33,7 +34,7 @@ fn handler(
     debug!("Uuid is: {:?}", uuid);
     debug!("Payload is: {:?}", payload);
 
-    match rsvp::RSVP::patch(uuid, payload) {
+    match RSVP::patch(uuid, payload) {
         Ok(response) => Ok(json!(response)),
         Err(error) => {
             error!("There was a problem! {:?}", error);

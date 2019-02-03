@@ -16,7 +16,7 @@ fn main() {
 }
 
 fn handler(
-    request: Request,
+    request: equest,
     _: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
     let path_parameters = request.path_parameters();

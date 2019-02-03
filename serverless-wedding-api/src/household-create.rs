@@ -8,6 +8,7 @@ use std::ops::Deref;
 use log::{error};
 
 mod rsvp;
+use crate::rsvp::RSVP;
 
 fn main() {
     simple_logger::init_with_level(log::Level::Info).unwrap();
@@ -22,7 +23,7 @@ fn handler(
     let body = request.body().deref();
     let people : Vec<rsvp::Person> = serde_json::from_slice(body).unwrap();
 
-    match rsvp::RSVP::batch_create_records(people) {
+    match RSVP::batch_create_records(people) {
         Ok(response) => {
             Ok(json!(response))
         },
