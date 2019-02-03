@@ -22,14 +22,7 @@ use rusoto_dynamodb::{
 };
 use serde_dynamodb;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct Person {
-    email_address: String,
-    name: String
-}
-
-mod rsvp;
-mod person;
+use crate::models::{RSVP, Person};
 
 pub struct Household;
 

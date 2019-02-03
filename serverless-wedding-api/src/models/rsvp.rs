@@ -22,11 +22,7 @@ use rusoto_dynamodb::{
 };
 use serde_dynamodb;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct Person {
-    email_address: String,
-    name: String
-}
+use crate::models::{Person};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RSVP {
@@ -193,47 +189,6 @@ mod rsvp_tests {
         assert_eq!(result.attending, false);
         assert_eq!(result.invitation_submitted, false);
         assert_eq!(result.reminder_submitted, false);
-    }
-    
-    #[test]
-    fn test_household_new() {
-        let people : Vec<Person> = vec!(
-            Person {
-                email_address: "1example@email.com".to_string(),
-                name: "person 1".to_string()
-            },
-            Person {
-                email_address: "2example@email.com".to_string(),
-                name: "person 2".to_string()
-            }
-        );
-
-        let rsvps = Household::new(people);
-        assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
-    }
-
-    #[test]
-    fn test_household_create_records() {
-        let people : Vec<Person> = vec!(
-            Person {
-                email_address: "1example@email.com".to_string(),
-                name: "person 1".to_string()
-            },
-            Person {
-                email_address: "2example@email.com".to_string(),
-                name: "person 2".to_string()
-            }
-        );
-
-        let rsvps = RSVP::batch_create_records(people).unwrap();
-        assert_eq!(rsvps[0].household_id, rsvps[1].household_id);
-    }
-
-    #[test]
-    fn test_household_get() {
-        let uuid = Uuid::parse_str("3eb28445-7698-4a00-b071-49da8eaac944").unwrap();
-        let rsvps = RSVP::list_by_household_id(uuid).unwrap();
-        assert_eq!(rsvps.len(), 2);
     }
 
     #[test]
