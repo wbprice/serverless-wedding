@@ -4,7 +4,7 @@
     <p>{{ $route.params.household_id }}</p>
     <div class="field">
       <b-switch 
-        type="is-info" 
+        type="is-info"
         size="is-large">Will You Be There?</b-switch>
     </div>
     <div class="field">
@@ -15,10 +15,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      hello: 'hi'
-    }
+  asyncData({ store, params }) {
+    const householdId = params.household_id
+    store.dispatch('fetch_household_request', householdId)
   }
 }
 </script>
