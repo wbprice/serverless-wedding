@@ -1,5 +1,9 @@
 mod rsvp;
+mod household;
+mod person;
 
-use pub self::{
-    rsvp::RSVP
-}
+pub use self::{
+    rsvp::RSVP,
+    household::Household,
+    person::Person
+};

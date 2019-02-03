@@ -7,8 +7,8 @@ use serde_json::json;
 use log::{info, error};
 use uuid::Uuid;
 
-mod rsvp;
-use crate::rsvp::RSVP;
+mod models;
+use crate::models::RSVP;
 
 fn main() {
     simple_logger::init_with_level(log::Level::Info).unwrap();

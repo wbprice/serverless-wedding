@@ -7,8 +7,8 @@ use serde_json::{json};
 use std::ops::Deref;
 use log::{error};
 
-mod rsvp;
-use crate::rsvp::RSVP;
+mod models;
+use crate::models::{Household, RSVP, Person};
 
 fn main() {
     simple_logger::init_with_level(log::Level::Info).unwrap();
@@ -21,9 +21,9 @@ fn handler(
     _: Context
 ) -> Result<impl IntoResponse, HandlerError> {
     let body = request.body().deref();
-    let people : Vec<rsvp::Person> = serde_json::from_slice(body).unwrap();
+    let people : Vec<Person> = serde_json::from_slice(body).unwrap();
 
-    match RSVP::batch_create_records(people) {
+    match Household::new(people) {
         Ok(response) => {
             Ok(json!(response))
         },
