@@ -4,7 +4,6 @@ extern crate simple_logger;
 use lambda_http::{lambda, IntoResponse, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::json;
-use log::{info, error};
 use uuid::Uuid;
 
 mod models;

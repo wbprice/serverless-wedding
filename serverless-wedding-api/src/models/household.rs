@@ -1,24 +1,19 @@
-use serde_derive::{Serialize, Deserialize};
 use std::vec::{Vec};
 use std::collections::{HashMap};
 use std::env;
 use uuid::Uuid;
-use log::{debug, info, error};
+use log::{error};
 use std::error::Error;
-
 use rusoto_core::Region;
 use rusoto_dynamodb::{
     DynamoDb,
     AttributeValue,
     QueryInput,
-    QueryError,
     PutRequest,
     DynamoDbClient,
     WriteRequest,
     BatchWriteItemInput,
-    BatchWriteItemError,
-    UpdateItemInput,
-    UpdateItemError
+    BatchWriteItemError
 };
 use serde_dynamodb;
 

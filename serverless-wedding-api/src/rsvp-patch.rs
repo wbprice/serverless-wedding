@@ -5,7 +5,7 @@ use lambda_http::{lambda, IntoResponse, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use std::collections::HashMap;
 use serde_json::json;
-use log::{debug, info, error};
+use log::{debug, error};
 use uuid::Uuid;
 
 mod models;
@@ -46,9 +46,7 @@ fn handler(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use lambda_http::{http, request, Body};
-    use serde::de::Deserialize;
-    use std::error::Error;
+    use lambda_http::{http, Body};
 
     #[test]
     #[ignore]

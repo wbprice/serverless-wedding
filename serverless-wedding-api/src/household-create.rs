@@ -8,7 +8,7 @@ use std::ops::Deref;
 use log::{error};
 
 mod models;
-use crate::models::{Household, RSVP, Person};
+use crate::models::{Household, Person};
 
 fn main() {
     simple_logger::init_with_level(log::Level::Info).unwrap();
