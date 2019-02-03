@@ -15,7 +15,11 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Abril+Fatface|Josefin+Sans' }
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Abril+Fatface|Josefin+Sans'
+      }
     ]
   },
 
@@ -27,15 +31,12 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [
-  ],
+  css: [],
 
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-    '~plugins/buefy'
-  ],
+  plugins: ['~plugins/buefy'],
 
   /*
   ** Nuxt.js modules

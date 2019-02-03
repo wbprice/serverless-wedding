@@ -1,3 +1,5 @@
+const API_URL_ROOT = 
+
 export const state = () => ({
   request: {
     fetching: false,
@@ -7,18 +9,22 @@ export const state = () => ({
 })
 
 export const mutations = {
-  add(state, text) {
-    state.list.push({
-      text: text,
-      done: false
-    })
-  },
+    fetch_household_request(state, {}) {
 
-  remove(state, { todo }) {
-    state.list.splice(state.list.indexOf(todo), 1)
-  },
+    },
 
-  toggle(state, todo) {
-    todo.done = !todo.done
-  }
+    fetch_household_success(state, ) {
+
+    },
+
+    fetch_household_failure(state, ) {
+
+    }
+}
+
+export const actions = {
+    fetch_household({commit}) {
+        commit('fetch_household_request');
+        this.$axios.$get('')
+    }
 }
