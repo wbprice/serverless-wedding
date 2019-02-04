@@ -1,7 +1,7 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, Response, RequestExt};
+use lambda_http::{lambda, IntoResponse, Request, http, Response, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json};
 use uuid::Uuid;
@@ -25,16 +25,18 @@ fn handler(
 
     Ok(match Household::get(uuid) {
         Ok(rsvps) => {
-            Response::builder()
+            http::Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(200)
-                .body(json!(rsvps))
+                .body(rsvps)
+                .unwrap();
         },
-        Err(_) => {
-            Response::builder()
+        Err(err) => {
+            http::Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(500)
-                .body(json!({"message": "there was an error"}))
+                .body(err)
+                .unwrap();
         }
     })
 }
