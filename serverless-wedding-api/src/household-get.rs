@@ -25,20 +25,20 @@ fn handler(
         path_parameters.get("id").unwrap()
     ).unwrap();
 
-    match Household::get(uuid) {
+    Ok(match Household::get(uuid) {
         Ok(rsvps) => {
-            Ok(http::Response::builder()
+            http::Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(200)
-                .body("hello".into()))
+                .body(String::from("hello"))
         },
         Err(err) => {
-            Ok(http::Response::builder()
+            http::Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(500)
-                .body("failure".into()))
+                .body(String::from("failure"))
         }
-    }
+    })
 }
 
 #[cfg(test)]
