@@ -1,7 +1,7 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, RequestExt};
+use lambda_http::{lambda, IntoResponse, http, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::json;
 use uuid::Uuid;
@@ -23,10 +23,22 @@ fn handler(
         path_parameters.get("id").unwrap()
     ).unwrap();
 
-    match RSVP::get(uuid) {
-        Ok(response) => Ok(json!(response)),
-        Err(_err) => Ok(json!({"message": "something bad happened!"}))
-    }
+    Ok(match RSVP::get(uuid) {
+        Ok(response) => {
+            http::Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(200)
+                .body(json!(response).to_string())
+                .unwrap()
+        },
+        Err(_err) => {
+            http::Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(500)
+                .body(json!({"message": "Something went wrong!"}).to_string())
+                .unwrap()
+        }
+    })
 }
 
 #[cfg(test)]

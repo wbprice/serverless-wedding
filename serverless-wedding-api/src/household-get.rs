@@ -2,7 +2,7 @@ extern crate log;
 extern crate simple_logger;
 
 use std::error::Error;
-use lambda_http::{lambda, IntoResponse, Request, http, Response, RequestExt};
+use lambda_http::{lambda, IntoResponse, http, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json, Value};
 use uuid::Uuid;
@@ -10,10 +10,9 @@ use uuid::Uuid;
 mod models;
 use crate::models::Household;
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() {
     simple_logger::init_with_level(log::Level::Info).unwrap();
-    lambda!(handler);
-    Ok(())
+    lambda!(handler)
 }
 
 fn handler(
@@ -30,14 +29,14 @@ fn handler(
             http::Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(200)
-                .body(String::from("hello"))
+                .body(json!(rsvps).to_string())
                 .unwrap()
         },
         Err(err) => {
             http::Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(500)
-                .body(String::from("failure"))
+                .body(json!({"message": "Something went wrong!"}).to_string())
                 .unwrap()
         }
     })
