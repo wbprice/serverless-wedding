@@ -31,12 +31,14 @@ fn handler(
                 .header("Access-Control-Allow-Origin", "*")
                 .status(200)
                 .body(String::from("hello"))
+                .unwrap()
         },
         Err(err) => {
             http::Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(500)
                 .body(String::from("failure"))
+                .unwrap()
         }
     })
 }
