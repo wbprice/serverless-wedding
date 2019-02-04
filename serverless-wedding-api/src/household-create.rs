@@ -1,7 +1,7 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request};
+use lambda_http::{lambda, IntoResponse, http, Request};
 use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json};
 use std::ops::Deref;
@@ -12,7 +12,6 @@ use crate::models::{Household, Person};
 
 fn main() {
     simple_logger::init_with_level(log::Level::Info).unwrap();
-
     lambda!(handler)
 }
 
@@ -23,15 +22,22 @@ fn handler(
     let body = request.body().deref();
     let people : Vec<Person> = serde_json::from_slice(body).unwrap();
 
-    match Household::create(people) {
+    Ok(match Household::create(people) {
         Ok(response) => {
-            Ok(json!(response))
+            http::Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(200)
+                .body(json!(response).to_string())
+                .unwrap()
         },
         Err(error) => {
-            error!("{}", error);
-            Ok(json!({"message": "error creating records"}))
+            http::Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(500)
+                .body(json!({"message": "Something went wrong!"}).to_string())
+                .unwrap()
         }
-    }
+    })
 }
 
 #[cfg(test)]

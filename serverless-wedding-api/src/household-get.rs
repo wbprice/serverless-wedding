@@ -1,9 +1,10 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, RequestExt};
+use std::error::Error;
+use lambda_http::{lambda, IntoResponse, http, Request, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
-use serde_json::{json};
+use serde_json::{json, Value};
 use uuid::Uuid;
 
 mod models;
@@ -23,10 +24,22 @@ fn handler(
         path_parameters.get("id").unwrap()
     ).unwrap();
 
-    match Household::get(uuid) {
-        Ok(rsvps) => Ok(json!(rsvps)),
-        Err(_) => Ok(json!({"message": "Failed to retrieve RSVPs"}))
-    }
+    Ok(match Household::get(uuid) {
+        Ok(rsvps) => {
+            http::Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(200)
+                .body(json!(rsvps).to_string())
+                .unwrap()
+        },
+        Err(err) => {
+            http::Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(500)
+                .body(json!({"message": "Something went wrong!"}).to_string())
+                .unwrap()
+        }
+    })
 }
 
 #[cfg(test)]

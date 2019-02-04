@@ -1,7 +1,7 @@
 extern crate log;
 extern crate simple_logger;
 
-use lambda_http::{lambda, IntoResponse, Request, RequestExt};
+use lambda_http::{lambda, IntoResponse, Request, http, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
 use std::collections::HashMap;
 use serde_json::json;
@@ -26,7 +26,6 @@ fn handler(
         .unwrap()
         .unwrap();
 
-
     let uuid : Uuid = Uuid::parse_str(
         path_parameters.get("id").unwrap()
     ).unwrap();
@@ -34,13 +33,22 @@ fn handler(
     debug!("Uuid is: {:?}", uuid);
     debug!("Payload is: {:?}", payload);
 
-    match RSVP::patch(uuid, payload) {
-        Ok(response) => Ok(json!(response)),
+    Ok(match RSVP::patch(uuid, payload) {
+        Ok(response) => {
+            http::Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(200)
+                .body(json!(response).to_string())
+                .unwrap()
+        },
         Err(error) => {
-            error!("There was a problem! {:?}", error);
-            Ok(json!({"message": "There was a problem!"}))
+            http::Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(500)
+                .body(json!({"message": "Something went wrong!"}).to_string())
+                .unwrap()
         }
-    }
+    })
 }
 
 #[cfg(test)]
