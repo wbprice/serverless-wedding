@@ -23,22 +23,22 @@ fn handler(
         path_parameters.get("id").unwrap()
     ).unwrap();
 
-    Ok(match Household::get(uuid) {
+    match Household::get(uuid) {
         Ok(rsvps) => {
-            http::Response::builder()
+            Ok(http::Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(200)
                 .body(rsvps)
-                .unwrap();
+                .unwrap())
         },
         Err(err) => {
-            http::Response::builder()
+            Ok(http::Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(500)
                 .body(err)
-                .unwrap();
+                .unwrap())
         }
-    })
+    }
 }
 
 #[cfg(test)]
