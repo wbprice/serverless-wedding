@@ -15,9 +15,9 @@
 
 <script>
 export default {
-  asyncData({ store, params }) {
+  async asyncData({ store, params }) {
     const householdId = params.household_id
-    store.dispatch('fetch_household_request', householdId)
+    await store.dispatch('rsvp/fetch_household', householdId)
   }
 }
 </script>

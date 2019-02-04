@@ -34,15 +34,12 @@ export const mutations = {
 export const actions = {
   fetch_household({ commit }, householdId) {
     commit('fetch_household_request')
-    debugger
     this.$axios
       .$get(`${API_URL_ROOT}/household/${householdId}`)
       .then(response => {
-        debugger
         commit('fetch_household_success', response)
       })
       .catch(error => {
-        debugger
         commit('fetch_household_failure', error)
       })
   }
