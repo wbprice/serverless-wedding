@@ -26,7 +26,6 @@ fn handler(
         .unwrap()
         .unwrap();
 
-
     let uuid : Uuid = Uuid::parse_str(
         path_parameters.get("id").unwrap()
     ).unwrap();
