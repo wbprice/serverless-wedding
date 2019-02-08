@@ -30,8 +30,11 @@ export const mutations = {
     }
   },
 
-  toggle_attending(uuid, attending) {
-    debugger
+  toggle_attending(state, { id, attending }) {
+    const index = state.household.findIndex(function(person) {
+      return person.id == id
+    })
+    state.household[index].attending = attending
   }
 }
 
