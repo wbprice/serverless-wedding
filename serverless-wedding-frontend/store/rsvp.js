@@ -10,7 +10,7 @@ export const state = () => ({
   household: []
 })
 
-function set_attending(state, {id, attending}) {
+function set_attending(state, { id, attending }) {
   const index = state.household.findIndex(function(person) {
     return person.id == id
   })
