@@ -28,6 +28,10 @@ export const mutations = {
       fetching: false,
       status_code: 500
     }
+  },
+
+  toggle_attending(uuid, attending) {
+    debugger
   }
 }
 
