@@ -61,7 +61,7 @@ export const mutations = {
   },
 
   toggle_attending(state, { id, attending }) {
-    set_attending(state, id, attending)
+    set_attending(state, { id, attending })
   }
 }
 

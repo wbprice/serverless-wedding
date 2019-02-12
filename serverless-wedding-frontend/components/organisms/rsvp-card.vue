@@ -40,7 +40,7 @@ export default {
   methods: {
     updateAttending(event) {
       const attending = event == 'true' ? true : false
-      this.$store.dispatch('rsvp/patch_rsvp', {
+      this.$store.commit('rsvp/toggle_attending', {
         id: this.id,
         attending
       })
