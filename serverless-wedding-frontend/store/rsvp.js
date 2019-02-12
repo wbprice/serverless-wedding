@@ -17,6 +17,20 @@ function set_attending(state, { id, attending }) {
   state.household[index].attending = attending
 }
 
+function get_patch_rsvp_request(id, attending) {
+  return this.$axios.$patch(
+    `${API_URL_ROOT}/rsvp/${id}`,
+    {
+      attending: attending
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+}
+
 export const mutations = {
   fetch_household_request(state) {
     state.request.fetching = true
@@ -60,6 +74,28 @@ export const mutations = {
     }
   },
 
+  patch_household_request(state) {
+    state.request = {
+      fetching: true
+    }
+  },
+
+  patch_household_success(state, response) {
+    state.request = {
+      fetching: false,
+      status_code: 200
+    }
+    state.household = response
+  },
+
+  patch_household_failure(state, error) {
+    state.request = {
+      fetching: false,
+      status_code: 500,
+      message: 'Something went wrong'
+    }
+  },
+
   toggle_attending(state, { id, attending }) {
     set_attending(state, { id, attending })
   }
@@ -97,6 +133,20 @@ export const actions = {
       })
       .catch(error => {
         commit('patch_rsvp_failure', error)
+      })
+  },
+
+  patch_household({ commit }, { household }) {
+    commit('patch_household_request')
+    const requests = household.map(rsvp =>
+      get_patch_rsvp_request(rsvp.id, rsvp.attending)
+    )
+    Promise.all(requests)
+      .then(responses => {
+        commit('patch_household_success', responses)
+      })
+      .catch(error => {
+        commit('patch_household_failure', error)
       })
   }
 }
