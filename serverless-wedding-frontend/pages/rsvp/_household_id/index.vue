@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import RSVPCard from './../../components/organisms/rsvp-card.vue'
+import RSVPCard from './../../../components/organisms/rsvp-card.vue'
 
 export default {
   async asyncData({ store, params }) {
