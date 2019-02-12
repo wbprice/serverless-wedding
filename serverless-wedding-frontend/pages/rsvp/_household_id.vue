@@ -1,22 +1,20 @@
 <template>
-  <section class="rsvp">
+  <section class="rsvp container">
     <h1>RSVP</h1>
-    <p>{{ $route.params.household_id }}</p>
 
-    <div
+    <RSVPCard
       v-for="person in household"
-      :key="person.id">
-      <RSVPCard
-        :name="person.name"
-        :id="person.id"
-        :attending="person.attending" />
-    </div>
+      :key="person.id"
+      :name="person.name"
+      :id="person.id"
+      :attending="person.attending" />
 
     <div class="field">
       <button
         class="button is-primary is-large">
         Send</button>
     </div>
+
   </section>
 </template>
 

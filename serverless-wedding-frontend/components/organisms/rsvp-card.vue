@@ -1,5 +1,5 @@
 <template>
-  <section class="card">
+  <section class="card rsvp-card">
     <h2>{{ name }}</h2>
     <div class="field">
       <b-radio 
@@ -50,4 +50,15 @@ export default {
 </script>
 
 <style>
+.rsvp-card {
+  padding: 2em 2em 2.5em 2em;
+  max-width: 36em;
+  box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--red);
+  margin: 0 auto 1em auto;
+}
+
+.rsvp-card h2 {
+  font-size: 2em;
+  margin-bottom: 0.25em;
+}
 </style>
