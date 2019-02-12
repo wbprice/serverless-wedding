@@ -11,7 +11,8 @@
 
     <div class="field">
       <button
-        class="button is-primary is-large">
+        class="button is-primary is-large"
+        @click="update_household">
         Send</button>
     </div>
 
@@ -32,6 +33,14 @@ export default {
   computed: {
     household() {
       return this.$store.state.rsvp.household
+    }
+  },
+  methods: {
+    update_household() {
+      this.household.forEach(rsvp => {
+        const { id, attending } = rsvp
+        this.$store.dispatch('rsvp/patch_rsvp', { id, attending })
+      })
     }
   }
 }
