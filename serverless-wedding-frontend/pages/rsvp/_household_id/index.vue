@@ -37,9 +37,14 @@ export default {
   },
   methods: {
     update_household() {
+      // Update the database
       this.household.forEach(rsvp => {
         const { id, attending } = rsvp
         this.$store.dispatch('rsvp/patch_rsvp', { id, attending })
+      })
+      // Switch to the complete route
+      this.$router.push({
+        path: `/rsvp/${this.$route.params.household_id}/complete`
       })
     }
   }
