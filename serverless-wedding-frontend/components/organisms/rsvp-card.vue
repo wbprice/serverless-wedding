@@ -53,7 +53,7 @@ export default {
 .rsvp-card {
   padding: 2em 2em 2.5em 2em;
   max-width: 36em;
-  box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--red);
+  box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--slate);
   margin: 0 auto 1em auto;
 }
 
