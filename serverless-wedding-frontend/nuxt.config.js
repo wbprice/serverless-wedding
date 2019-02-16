@@ -36,16 +36,14 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['~plugins/buefy'],
+  plugins: [],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios',
-    // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
-    '@nuxtjs/bulma'
+    '@nuxtjs/axios'
   ],
   /*
   ** Axios module configuration
