@@ -41,7 +41,7 @@ export default {
 .menu li {
   list-style: none;
   margin: 0em 0.5em;
-  font-size: 1.5em;
+  font-size: 1.25em;
 }
 .menu li a {
   color: var(--white);

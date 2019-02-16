@@ -23,6 +23,7 @@ export default {
   --yellow: rgba(255, 231, 76, 1);
   --white: rgba(255, 255, 255, 1);
   --offwhite: rgba(255, 255, 255, 0.5);
+  --lightslate: rgba(143, 189, 216, 1);
   --slate: rgba(98, 131, 149, 1);
   --darkslate: rgb(8, 8, 8);
   background-color: var(--salmon);
@@ -33,6 +34,7 @@ body {
   text-align: center;
   font-family: 'Josefin Sans', sans-serif;
   font-display: auto;
+  font-size: 16px;
 }
 
 h1,
@@ -51,27 +53,21 @@ h5 {
 
 .container h1 {
   font-size: 3em;
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 
 .container h2 {
   font-size: 2em;
 }
 
-.icon {
-  -webkit-filter: invert(1);
-  filter: invert(1);
-}
-
 .icon.big {
   width: 144px;
   height: 144px;
-  margin-bottom: 1em;
 }
 
 .card {
-  padding: 2em 1em 1em 1em;
-  box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--slate);
+  padding: 2em 1.5em 1em 1.5em;
+  box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--lightslate);
   margin: 0 auto 1em auto;
   background: var(--white);
   color: var(--darkslate);
