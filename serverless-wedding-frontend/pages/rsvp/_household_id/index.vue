@@ -12,10 +12,9 @@
       />
 
       <div
-        v-if="householdId && household.length"
-        class="field">
+        v-if="householdId && household.length">
         <button
-          class="button is-primary is-large"
+          class="button primary"
           @click="update_household">Send</button>
       </div>
     </section>
@@ -56,7 +55,7 @@ export default {
       this.$store.dispatch('rsvp/fetch_household', householdId).catch(() => {
         // Switch to the error route
         this.$router.push({
-          path: `/rsvp/error`
+          path: `/rsvp/${householdId}/error`
         })
       })
     }
