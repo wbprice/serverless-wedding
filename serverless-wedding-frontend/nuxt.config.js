@@ -64,6 +64,12 @@ module.exports = {
   workbox: {
     runtimeCaching: [
       {
+        urlPattern: 'https://cdnjs.cloudflare.com/ajax/libs/skeleton/.*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+      },
+      {
         urlPattern: 'https://fonts.googleapis.com/.*',
         handler: 'cacheFirst',
         method: 'GET',

@@ -75,11 +75,12 @@ sup {
 .title h1 {
   font-size: 0.85em;
   line-height: 1em;
+  margin-bottom: 1em;
 }
 
 .title .card {
-  font-size: 1.25rem;
-  line-height: 1.25rem;
+  font-size: 0.25em;
+  line-height: 1em;
   max-width: 12em;
 }
 </style>

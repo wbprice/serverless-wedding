@@ -1,8 +1,20 @@
 <template>
   <div>
+    <Menu />
     <nuxt/>
   </div>
 </template>
+
+<script>
+import Menu from './../components/organisms/menu.vue'
+
+export default {
+  components: {
+    Menu
+  }
+}
+</script>
+
 
 <style>
 :root {
@@ -10,6 +22,7 @@
   --red: rgba(179, 0, 27, 1);
   --yellow: rgba(255, 231, 76, 1);
   --white: rgba(255, 255, 255, 1);
+  --offwhite: rgba(255, 255, 255, 0.5);
   --slate: rgba(98, 131, 149, 1);
   --darkslate: rgb(8, 8, 8);
   background-color: var(--salmon);
@@ -38,7 +51,7 @@ h5 {
 
 .container h1 {
   font-size: 3em;
-  margin-bottom: 0.5em;
+  margin-top: 1em;
 }
 
 .container h2 {
@@ -57,7 +70,7 @@ h5 {
 }
 
 .card {
-  padding: 1em 1em 1.5em 1em;
+  padding: 2em 1em 1em 1em;
   box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--slate);
   margin: 0 auto 1em auto;
   background: var(--white);
