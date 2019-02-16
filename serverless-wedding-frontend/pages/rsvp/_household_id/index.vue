@@ -38,7 +38,10 @@ export default {
   methods: {
     update_household() {
       // Update the database
-      this.$store.dispatch('rsvp/patch_household', this.$store.state.rsvp.household)
+      this.$store.dispatch(
+        'rsvp/patch_household',
+        this.$store.state.rsvp.household
+      )
       // Switch to the complete route
       this.$router.push({
         path: `/rsvp/${this.$route.params.household_id}/complete`
