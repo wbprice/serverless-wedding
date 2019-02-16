@@ -56,7 +56,6 @@ export default {}
 
 .date {
   margin-top: 0.25em;
-  color: var(--darkslate);
   display: block;
   font-size: 0.85em;
 }

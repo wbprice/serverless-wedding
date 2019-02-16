@@ -6,12 +6,12 @@
 
 <style>
 :root {
-  --salmon: #ef958d;
+  --salmon: #db6156;
   --red: rgba(179, 0, 27, 1);
   --yellow: rgba(255, 231, 76, 1);
   --white: rgba(255, 255, 255, 1);
   --slate: rgba(98, 131, 149, 1);
-  --darkslate: rgba(98, 131, 149, 1);
+  --darkslate: rgb(16, 44, 59);
   background-color: var(--salmon);
 }
 
@@ -61,5 +61,14 @@ h5 {
 .icon.big {
   width: 144px;
   height: 144px;
+  margin-bottom: 1em;
+}
+
+.card {
+  padding: 2em 2em 2.5em 2em;
+  box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--slate);
+  margin: 0 auto 1em auto;
+  background: var(--white);
+  color: var(--darkslate);
 }
 </style>
