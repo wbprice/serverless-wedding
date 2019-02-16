@@ -2,7 +2,7 @@
   <section class="rsvp container">
     <h1>RSVP</h1>
 
-    <section>
+    <section v-if="householdId && household.length">
       <RSVPCard
         v-for="person in household"
         :key="person.id"
@@ -11,12 +11,9 @@
         :attending="person.attending"
       />
 
-      <div
-        v-if="householdId && household.length">
-        <button
-          class="button primary"
-          @click="update_household">Send</button>
-      </div>
+      <button
+        class="button primary"
+        @click="update_household">Send</button>
     </section>
 
     <section v-if="!householdId">
