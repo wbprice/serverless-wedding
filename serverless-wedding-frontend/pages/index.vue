@@ -9,12 +9,12 @@
       <span class="underline">Blaine</span>
       <span class="body-type"> is getting married to </span>
       <span class="underline">Ling Ling</span>
-      <span class="date">July 6<sup>th</sup>, 2019</span>
     </h1>
 
-    <section class="location body-type">
+    <section class="card">
+      <p class="date">July 6<sup>th</sup>, 2019</p>
       <p>Estes Park, CO</p>
-    </section> 
+    </section>
   </section>
 </template>
 
@@ -54,15 +54,18 @@ export default {}
   margin-top: -0.25em;
 }
 
-.date {
-  margin-top: 0.25em;
-  display: block;
-  font-size: 0.85em;
+.underline {
+  text-decoration: underline;
 }
 
-.location p {
-  margin-top: 0;
-  font-size: 2rem;
+.body-type {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.date {
+  display: block;
+  font-size: 1.25em;
+  font-family: 'Abril Fatface', Georgia, 'Times New Roman', Times, serif;
 }
 
 sup {
@@ -72,6 +75,11 @@ sup {
 .title h1 {
   font-size: 0.85em;
   line-height: 1em;
-  margin-bottom: 0em;
+}
+
+.title .card {
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+  max-width: 12em;
 }
 </style>

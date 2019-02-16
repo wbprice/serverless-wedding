@@ -11,7 +11,7 @@
   --yellow: rgba(255, 231, 76, 1);
   --white: rgba(255, 255, 255, 1);
   --slate: rgba(98, 131, 149, 1);
-  --darkslate: rgb(16, 44, 59);
+  --darkslate: rgb(8, 8, 8);
   background-color: var(--salmon);
 }
 
@@ -20,14 +20,6 @@ body {
   text-align: center;
   font-family: 'Josefin Sans', sans-serif;
   font-display: auto;
-}
-
-.body-type {
-  font-family: 'Josefin Sans', sans-serif;
-}
-
-.underline {
-  text-decoration: underline;
 }
 
 h1,
@@ -65,7 +57,7 @@ h5 {
 }
 
 .card {
-  padding: 2em 2em 2.5em 2em;
+  padding: 1em 1em 1.5em 1em;
   box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--slate);
   margin: 0 auto 1em auto;
   background: var(--white);
