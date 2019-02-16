@@ -19,6 +19,10 @@
     </div>
 
     <div v-else>
+      <img
+        alt="An email being sent"
+        class="big icon" 
+        src="~/assets/message.png">
       <h2>Your Invite's In The Mail!</h2>
       <p>We sent your invite by email.  Check your inbox!</p>
     </div>

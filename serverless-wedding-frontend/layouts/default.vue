@@ -39,14 +39,27 @@ h5 {
   font-display: auto;
 }
 
-.container h1 {
-  font-size: 3em;
-  color: var(--white);
-  margin-bottom: 0.5em;
-}
-
 .container {
   margin: 0 auto;
   max-width: 720px;
+}
+
+.container h1 {
+  font-size: 3em;
+  margin-bottom: 0.5em;
+}
+
+.container h2 {
+  font-size: 2em;
+}
+
+.icon {
+  -webkit-filter: invert(1);
+  filter: invert(1);
+}
+
+.icon.big {
+  width: 144px;
+  height: 144px;
 }
 </style>
