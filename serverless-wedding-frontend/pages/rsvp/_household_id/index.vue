@@ -29,12 +29,6 @@
 import RSVPCard from './../../../components/organisms/rsvp-card.vue'
 
 export default {
-  async asyncData({ store, params }) {
-    const householdId = params.household_id
-    if (householdId) {
-      await store.dispatch('rsvp/fetch_household', householdId)
-    }
-  },
   components: {
     RSVPCard
   },
@@ -44,6 +38,17 @@ export default {
     },
     household() {
       return this.$store.state.rsvp.household
+    }
+  },
+  mounted() {
+    const householdId = this.$route.params.household_id
+    if (householdId) {
+      this.$store.dispatch('rsvp/fetch_household', householdId).catch(() => {
+        // Switch to the error route
+        this.$router.push({
+          path: `/rsvp/error`
+        })
+      })
     }
   },
   methods: {
