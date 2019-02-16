@@ -35,6 +35,8 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
+    // https://pwa.nuxtjs.org/setup.html
+    '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
     // https://pwa.nuxtjs.org/
@@ -51,6 +53,17 @@ module.exports = {
     google: {
       families: ['Abril Fatface', 'Josefin Sans'] //Loads Lato font with weights 400 and 700
     }
+  },
+
+  workbox: {
+    runtimeCaching: [
+      {
+        urlPattern: 'https://fonts.googleapis.com/.*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+      }
+    ]
   },
 
   /*
