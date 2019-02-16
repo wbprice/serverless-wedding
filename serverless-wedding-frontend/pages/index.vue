@@ -13,7 +13,7 @@
     </h1>
 
     <section class="location body-type">
-      <p>Somewhere around Denver</p>
+      <p>Estes Park, CO</p>
     </section> 
   </section>
 </template>
@@ -58,10 +58,11 @@ export default {}
   margin-top: 0.25em;
   color: var(--darkslate);
   display: block;
+  font-size: 0.85em;
 }
 
-.location {
-  margin-top: 1em;
+.location p {
+  margin-top: 0;
   font-size: 2rem;
 }
 
@@ -70,7 +71,8 @@ sup {
 }
 
 .title h1 {
-  font-size: 1.5em;
+  font-size: 0.85em;
   line-height: 1em;
+  margin-bottom: 0em;
 }
 </style>
