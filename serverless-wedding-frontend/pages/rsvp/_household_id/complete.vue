@@ -11,6 +11,9 @@
         src="~/assets/paper-plane.png">
       <h2>We'll see you there!</h2>
       <p>Check the logistics page for more information!</p>
+      <nuxt-link
+        class="button primary"
+        to="/registry">Logistics</nuxt-link>
     </div>
 
     <div 
@@ -22,6 +25,9 @@
         src="~/assets/money.png">
       <h2>Sorry you can't make it!</h2>
       <p>There's always the registry!</p>
+      <nuxt-link
+        class="button primary"
+        to="/registry">Registry</nuxt-link>
     </div>
   </section>
 </template>

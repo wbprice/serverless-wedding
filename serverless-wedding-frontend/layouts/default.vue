@@ -72,4 +72,18 @@ h5 {
   background: var(--white);
   color: var(--darkslate);
 }
+
+.card .button {
+  border-width: 2px;
+}
+
+.button.primary {
+  background: var(--lightslate);
+  border-color: var(--slate);
+  color: var(--white);
+}
+
+.button.primary:hover {
+  background: var(--slate);
+}
 </style>
