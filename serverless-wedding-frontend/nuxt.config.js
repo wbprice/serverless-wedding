@@ -56,7 +56,14 @@ module.exports = {
   },
 
   workbox: {
-    importScripts: ['cache-google-fonts.js']
+    runtimeCaching: [
+      {
+        urlPattern: 'https://fonts.googleapis.com/.*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+      }
+    ]
   },
 
   /*

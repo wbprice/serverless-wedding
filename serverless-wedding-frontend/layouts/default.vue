@@ -35,7 +35,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: 'Abril Fatface', cursive;
+  font-family: 'Abril Fatface', Georgia, 'Times New Roman', Times, serif;
   font-display: auto;
 }
 
