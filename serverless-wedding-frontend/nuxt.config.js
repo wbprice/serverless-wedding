@@ -51,7 +51,7 @@ module.exports = {
 
   webfontloader: {
     google: {
-      families: ['Abril Fatface', 'Josefin Sans'] //Loads Lato font with weights 400 and 700
+      families: ['Abril Fatface', 'Josefin Sans']
     }
   },
 
