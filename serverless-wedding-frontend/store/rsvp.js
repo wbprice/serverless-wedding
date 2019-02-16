@@ -116,7 +116,7 @@ export const actions = {
 
   patch_rsvp({ commit }, { id, attending }) {
     commit('patch_rsvp_request', { id, attending })
-    this.$axios
+    return this.$axios
       .$patch(
         `${API_URL_ROOT}/rsvp/${id}`,
         {

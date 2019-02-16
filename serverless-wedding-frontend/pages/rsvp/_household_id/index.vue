@@ -7,15 +7,14 @@
       :key="person.id"
       :name="person.name"
       :id="person.id"
-      :attending="person.attending" />
+      :attending="person.attending"
+    />
 
     <div class="field">
       <button
         class="button is-primary is-large"
-        @click="update_household">
-        Send</button>
+        @click="update_household">Send</button>
     </div>
-
   </section>
 </template>
 
@@ -38,14 +37,14 @@ export default {
   methods: {
     update_household() {
       // Update the database
-      this.$store.dispatch(
-        'rsvp/patch_household',
-        this.$store.state.rsvp.household
-      )
-      // Switch to the complete route
-      this.$router.push({
-        path: `/rsvp/${this.$route.params.household_id}/complete`
-      })
+      this.$store
+        .dispatch('rsvp/patch_household', this.$store.state.rsvp.household)
+        .then(() => {
+          // Switch to the complete route
+          this.$router.push({
+            path: `/rsvp/${this.$route.params.household_id}/complete`
+          })
+        })
     }
   }
 }
