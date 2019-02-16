@@ -17,8 +17,8 @@ function set_attending(state, { id, attending }) {
   state.household[index].attending = attending
 }
 
-function get_patch_rsvp_request(id, attending) {
-  return this.$axios.$patch(
+function get_patch_rsvp_request(axios, id, attending) {
+  return axios.$patch(
     `${API_URL_ROOT}/rsvp/${id}`,
     {
       attending: attending
@@ -139,7 +139,7 @@ export const actions = {
   patch_household({ commit }, household) {
     commit('patch_household_request')
     const requests = household.map(rsvp =>
-      get_patch_rsvp_request.call(this, rsvp.id, rsvp.attending)
+      get_patch_rsvp_request(this.$axios, rsvp.id, rsvp.attending)
     )
     Promise.all(requests)
       .then(responses => {
