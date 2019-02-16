@@ -17,6 +17,20 @@ function set_attending(state, { id, attending }) {
   state.household[index].attending = attending
 }
 
+function get_patch_rsvp_request(axios, id, attending) {
+  return axios.$patch(
+    `${API_URL_ROOT}/rsvp/${id}`,
+    {
+      attending: attending
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+}
+
 export const mutations = {
   fetch_household_request(state) {
     state.request.fetching = true
@@ -37,26 +51,25 @@ export const mutations = {
     }
   },
 
-  patch_rsvp_request(state, { id, attending }) {
+  patch_household_request(state) {
     state.request = {
       fetching: true
     }
-    set_attending(state, { id, attending })
   },
 
-  patch_rsvp_success(state, response) {
+  patch_household_success(state, response) {
     state.request = {
       fetching: false,
       status_code: 200
     }
-    const { id, attending } = response
-    set_attending(state, { id, attending })
+    state.household = response
   },
 
-  patch_rsvp_failure(state, error) {
+  patch_household_failure(state, error) {
     state.request = {
-      fetching: true,
-      status_code: 500
+      fetching: false,
+      status_code: 500,
+      message: 'Something went wrong'
     }
   },
 
@@ -68,35 +81,28 @@ export const mutations = {
 export const actions = {
   fetch_household({ commit }, householdId) {
     commit('fetch_household_request')
-    this.$axios
+    return this.$axios
       .$get(`${API_URL_ROOT}/household/${householdId}`)
       .then(response => {
         commit('fetch_household_success', response)
       })
       .catch(error => {
         commit('fetch_household_failure', error)
+        throw error
       })
   },
 
-  patch_rsvp({ commit }, { id, attending }) {
-    commit('patch_rsvp_request', { id, attending })
-    this.$axios
-      .$patch(
-        `${API_URL_ROOT}/rsvp/${id}`,
-        {
-          attending: attending
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-      .then(response => {
-        commit('patch_rsvp_success', response)
+  patch_household({ commit }, household) {
+    commit('patch_household_request')
+    const requests = household.map(rsvp =>
+      get_patch_rsvp_request(this.$axios, rsvp.id, rsvp.attending)
+    )
+    Promise.all(requests)
+      .then(responses => {
+        commit('patch_household_success', responses)
       })
       .catch(error => {
-        commit('patch_rsvp_failure', error)
+        commit('patch_household_failure', error)
       })
   }
 }
