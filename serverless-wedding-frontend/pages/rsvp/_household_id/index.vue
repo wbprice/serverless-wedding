@@ -10,10 +10,17 @@
       :attending="person.attending"
     />
 
-    <div class="field">
+    <div
+      v-if="householdId && household.length"
+      class="field">
       <button
         class="button is-primary is-large"
         @click="update_household">Send</button>
+    </div>
+
+    <div v-else>
+      <h2>Your Invite's In The Mail!</h2>
+      <p>We sent your invite by email.  Check your inbox!</p>
     </div>
   </section>
 </template>
@@ -24,12 +31,17 @@ import RSVPCard from './../../../components/organisms/rsvp-card.vue'
 export default {
   async asyncData({ store, params }) {
     const householdId = params.household_id
-    await store.dispatch('rsvp/fetch_household', householdId)
+    if (householdId) {
+      await store.dispatch('rsvp/fetch_household', householdId)
+    }
   },
   components: {
     RSVPCard
   },
   computed: {
+    householdId() {
+      return this.$route.params.household_id
+    },
     household() {
       return this.$store.state.rsvp.household
     }
