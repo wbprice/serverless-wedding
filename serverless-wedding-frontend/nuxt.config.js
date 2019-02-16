@@ -13,14 +13,7 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Abril+Fatface|Josefin+Sans'
-      }
-    ]
+    link: []
   },
 
   /*
@@ -43,13 +36,21 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    // https://pwa.nuxtjs.org/
+    'nuxt-webfontloader'
   ],
   /*
   ** Axios module configuration
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+  },
+
+  webfontloader: {
+    google: {
+      families: ['Abril Fatface', 'Josefin Sans'] //Loads Lato font with weights 400 and 700
+    }
   },
 
   /*
