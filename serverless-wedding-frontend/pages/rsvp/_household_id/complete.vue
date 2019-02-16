@@ -4,7 +4,7 @@
 
     <div 
       v-if="going"
-      class="going">
+      class="card going">
       <img
         alt="A paper plane being thrown"
         class="big icon"
@@ -15,7 +15,7 @@
 
     <div 
       v-else
-      class="not-going">
+      class="card not-going">
       <img
         alt="A present"
         class="big icon"
