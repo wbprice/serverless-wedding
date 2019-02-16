@@ -20,7 +20,8 @@
     "cross-env": "^5.2.0",
     "express": "^4.16.3",
     "nuxt": "^2.0.0",
-    "nuxt-webfontloader": "^1.0.0"
+    "nuxt-webfontloader": "^1.0.0",
+    "pretty-checkbox-vue": "^1.1.9"
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
