@@ -11,15 +11,21 @@
       <span class="underline">Ling Ling</span>
     </h1>
 
-    <section class="card">
+    <Card>
       <p class="date">July 6<sup>th</sup>, 2019</p>
       <p>Estes Park, CO</p>
-    </section>
+    </Card>
   </section>
 </template>
 
 <script>
-export default {}
+import Card from './../components/molecules/card.vue'
+
+export default {
+  components: {
+    Card
+  }
+}
 </script>
 
 <style>

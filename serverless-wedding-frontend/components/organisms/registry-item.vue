@@ -3,12 +3,11 @@
     :class="thumbnailStyle"
     class="registry-item">
     <div class="description">
-      <h2>{{ title }}</h2>
-      <h3>{{ cost }}</h3>
+      <h2>{{ title }} <span class="cost">- {{ cost }}</span></h2>
       <p>{{ content }}</p>
       <a 
         :href="link" 
-        class="button is-primary">{{ buttonText }}</a>
+        class="button primary">{{ buttonText }}</a>
     </div>
   </section>
 </template>
@@ -60,20 +59,22 @@ export default {
 .registry-item {
   display: flex;
   flex-direction: column-reverse;
-  padding: 1em 0;
 }
 
 .description {
-  text-align: left;
-  background: var(--white);
-  padding: 1em;
-  display: inline;
-  max-width: 33%;
 }
 
-.thumbnail {
-  width: 600px;
-  height: 400px;
+.description h2 {
+  margin: 0;
+  font-size: 1.25em;
+}
+
+.description h3 {
+  margin: 0;
+}
+
+.description .cost {
+  color: var(--slate);
 }
 
 .airfare {
