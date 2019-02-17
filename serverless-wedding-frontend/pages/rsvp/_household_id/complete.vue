@@ -2,38 +2,39 @@
   <section class="rsvp-complete container">
     <h1>RSVP</h1>
 
-    <div 
-      v-if="going"
-      class="card going">
+    <Card v-if="going">
       <img
         alt="A paper plane being thrown"
         class="big icon"
-        src="paper-plane.png">
+        src="/paper-plane.png">
       <h2>We'll see you there!</h2>
       <p>Check the logistics page for more information!</p>
       <nuxt-link
         class="button primary"
         to="/registry">Logistics</nuxt-link>
-    </div>
+    </Card>
 
-    <div 
-      v-else
-      class="card not-going">
+    <Card v-else>
       <img
         alt="A present"
         class="big icon"
-        src="money.png">
+        src="/money.png">
       <h2>Sorry you can't make it!</h2>
       <p>There's always the registry!</p>
       <nuxt-link
         class="button primary"
         to="/registry">Registry</nuxt-link>
-    </div>
+    </Card>
   </section>
 </template>
 
 <script>
+import Card from './../../../components/molecules/card.vue'
+
 export default {
+  components: {
+    Card
+  },
   computed: {
     going() {
       return this.$store.state.rsvp.household.find(rsvp => rsvp.attending)

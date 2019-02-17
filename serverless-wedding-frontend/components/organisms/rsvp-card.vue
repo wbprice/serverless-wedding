@@ -1,5 +1,5 @@
 <template>
-  <section class="card rsvp">
+  <Card>
     <h2>{{ name }}</h2>
     <div class="field">
       <p-radio
@@ -23,16 +23,28 @@
         Sad To Say, We'll Miss Your Day
       </p-radio>
     </div>
-  </section>
+    <div class="field">
+      <label for="dietary-restrictions" />
+      <select id="dietary-restrictions">
+        <option>None</option>
+        <option>Vegetarian</option>
+        <option>Pescatarian</option>
+        <option>Gluten-free</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </Card>
 </template>
 
 <script>
 import PrettyRadio from 'pretty-checkbox-vue/radio'
+import Card from './../../components/molecules/card'
 
 export default {
   name: 'RSVPCard',
   components: {
-    'p-radio': PrettyRadio
+    'p-radio': PrettyRadio,
+    Card
   },
   props: {
     name: {
