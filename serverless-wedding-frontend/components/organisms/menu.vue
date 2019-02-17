@@ -18,8 +18,9 @@ export default {
       items: [
         { route: '/', label: 'Home' },
         { route: '/rsvp', label: 'RSVP' },
-        { route: '/registry', label: 'Registry' }
-        // { route: '/logistics', label: 'Logistics' }
+        { route: '/registry', label: 'Registry' },
+        { route: '/our-story', label: 'Our Story' },
+        { route: '/logistics', label: 'Logistics' }
       ]
     }
   }

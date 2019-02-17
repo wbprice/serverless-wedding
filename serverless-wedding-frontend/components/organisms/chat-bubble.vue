@@ -62,6 +62,7 @@ export default {
   text-align: left;
   flex: 1;
   background: var(--white);
+  color: var(--darkslate);
   max-width: 75%;
   border-radius: 1em 1em 1em 0;
   padding: 0.75em;
