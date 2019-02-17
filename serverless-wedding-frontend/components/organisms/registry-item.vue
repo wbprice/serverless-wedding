@@ -56,16 +56,13 @@ export default {
 }
 
 .registry-item h2 {
-  margin: 0;
   font-size: 1.25em;
+  margin-top: 0;
 }
 
 .registry-item img {
-  max-width: 100%;
-}
-
-.registry-item h3 {
-  margin: 0;
+  max-width: 75%;
+  margin: 0 auto;
 }
 
 .registry-item .cost {
