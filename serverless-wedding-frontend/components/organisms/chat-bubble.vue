@@ -49,7 +49,7 @@ export default {
   width: 5em;
   height: 5em;
   border-radius: 100% 100% 0 100%;
-  background: url('../../assets/isabelle-profile.png'), var(--red);
+  background: url('./../../static/isabelle-profile.png'), var(--red);
   background-size: cover;
   box-shadow: inset 0 0 0 0.25em var(--white);
 }
