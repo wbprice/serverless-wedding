@@ -6,7 +6,6 @@
       <b-radio 
         :name="id"
         :value="attending"
-        native-value="true"
         @input="updateAttending" >
         Yes! Can't Wait to Celebrate!
       </b-radio>
@@ -16,7 +15,6 @@
       <b-radio
         :name="id"
         :value="!attending"
-        native-value="false"
         @input="updateAttending" >
         Sorry to Say, We'll Miss Your Day
       </b-radio>
