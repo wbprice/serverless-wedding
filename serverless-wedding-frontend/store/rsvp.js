@@ -17,6 +17,12 @@ function set_attending(state, { id, attending }) {
   state.household[index].attending = attending
 }
 
+function set_person_state(state, id, callback) {
+  const index = state.household.findIndex(person => (person.id = id))
+  const person = state.household[index]
+  return callback(person)
+}
+
 function get_patch_rsvp_request(axios, id, attending) {
   return axios.$patch(
     `${API_URL_ROOT}/rsvp/${id}`,
@@ -75,6 +81,12 @@ export const mutations = {
 
   toggle_attending(state, { id, attending }) {
     set_attending(state, { id, attending })
+  },
+
+  set_dietary_restriction(state, { id, diet }) {
+    set_person_state(state, id, person => {
+      person.dietary_restriction = diet
+    })
   }
 }
 
