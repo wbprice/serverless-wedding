@@ -5,7 +5,7 @@ use std::env;
 use uuid::Uuid;
 use log::{debug, info, error};
 use serde_dynamodb;
-use serde_json::{Value};
+use serde_json::{Value, json};
 use rusoto_core::Region;
 use rusoto_dynamodb::{
     DynamoDb,
@@ -19,7 +19,7 @@ use rusoto_dynamodb::{
 
 use crate::models::{Person};
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct RSVP {
     pub household_id: String,
     pub id: String,
@@ -45,7 +45,6 @@ impl RSVP {
 
     pub fn patch(uuid: Uuid, payload: Value) -> Result<RSVP, UpdateItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
-
         let rsvp = RSVP::get(uuid).unwrap();
 
         debug!("Preparing to update RSVP: {:?}", rsvp);
@@ -61,6 +60,19 @@ impl RSVP {
             ..Default::default()
         });
 
+        let patchable_keys = [
+            "attending",
+            "invitation_submitted",
+            "reminder_submitted",
+            "dietary_restrictions"
+        ];
+
+        let keys_to_patch = patchable_keys.into_iter().collect().map(|key| { &payload[key] });
+        dbg!(keys_to_patch);
+
+        Ok(rsvp)
+
+        /*
         // Create the update expression from the payload
         // TODO: Is there an idiomatic way to do this better with Rust?
         let mut update_expression = String::from("SET ");
@@ -108,6 +120,7 @@ impl RSVP {
                 Err(error)
             }
         }
+        */
     }
 
     pub fn get(uuid: Uuid) -> Result<RSVP, QueryError> {
@@ -189,10 +202,16 @@ mod rsvp_tests {
     #[test]
     fn test_rsvp_patch() {
         let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
-        let mut payload : HashMap<String, bool> = HashMap::new();
-        payload.insert(String::from("attending"), true);
-        payload.insert(String::from("invitation_submitted"), true);
-        payload.insert(String::from("reminder_submitted"), true);
+        // let mut payload : HashMap<String, bool> = HashMap::new();
+        // payload.insert(String::from("attending"), true);
+        // payload.insert(String::from("invitation_submitted"), true);
+        // payload.insert(String::from("reminder_submitted"), true);
+
+        let payload = json!({
+            "attending": true,
+            "invitation_submitted": true,
+            "reminder_submitted": true
+        });
 
         match RSVP::patch(uuid, payload.clone()) {
             Ok(rsvp) => {
