@@ -1,6 +1,6 @@
 <template>
   <section class="registry-item">
-    <h2>{{ title }} <span class="cost">- {{ cost }}</span></h2>
+    <h2>{{ title }} <span class="cost">- ${{ cost }}</span></h2>
     <img :src="image">
     <p>{{ content }}</p>
     <a 
@@ -31,7 +31,7 @@ export default {
     },
     cost: {
       type: String,
-      default: '$88.88'
+      default: '88.88'
     },
     image: {
       type: String,
@@ -62,7 +62,7 @@ export default {
 
 .registry-item img {
   max-width: 75%;
-  margin: 0 auto;
+  margin: 0 auto 1em auto;
 }
 
 .registry-item .cost {
