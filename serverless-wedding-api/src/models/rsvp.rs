@@ -77,6 +77,7 @@ impl RSVP {
                 update_expression_vector.push((key, &payload[key]))
             }
         }
+
         dbg!(&update_expression_vector);
 
         // Get primary key for update operation
@@ -90,55 +91,46 @@ impl RSVP {
             ..Default::default()
         });
 
+        // Create update expression from update_expression_vector
         let mut update_expression = String::from("SET ");
         for (i, item) in update_expression_vector.iter().enumerate() {
-            let mut to_append = match item.1 {
-                Value::String(string) => {
-                    format!("{k} = :{k}", k = string)
-                },
-                Value::Bool(boolean) => {
-                    format!("{k} = :{k}", k = boolean)
-                },
-                _ => {
-                    dbg!("no match");
-                    format!("")
-                }
-            };
-
+            let mut to_append = format!("{k} = :{k}", k = item.0);
             if i != update_expression_vector.len() {
                 to_append.push_str(",");
             }
-
             update_expression.push_str(&to_append);
         }
 
-        dbg!(update_expression);
+        dbg!(&update_expression);
 
-        Ok(rsvp)
-
-        /*
-        // Create the update expression from the payload
-        // TODO: Is there an idiomatic way to do this better with Rust?
-        // let mut update_expression = String::from("SET ");
-        // let payload_iter = payload.iter();
-        // let iter_length = payload_iter.clone().count();
-        // let mut payload_iter_count = 0;
-        // for (key, _) in payload_iter {
-        //     let mut append = format!("{k} = :{k}", k = key);
-        //     payload_iter_count = payload_iter_count + 1;
-        //     if payload_iter_count != iter_length {
-        //         append.push_str(",");
-        //     }
-        //     update_expression.push_str(&append);
-        // }
-        
-        // Create the expression attributes value hashmap from the payload
         let mut expression_attribute_values = HashMap::new();
-        for (key, value) in payload {
-            expression_attribute_values.insert(String::from(format!(":{}", key.to_string())), AttributeValue {
-                bool: Some(value),
-                ..Default::default()
-            });
+        for (i, item) in update_expression_vector.iter().enumerate() {
+            let key = item.0;
+            let value = item.1;
+
+            dbg!(value);
+
+            let attribute_value = match value {
+                Value::String(string) => {
+                    AttributeValue {
+                        s: Some(string.to_string()),
+                        ..Default::default()
+                    }
+                },
+                Value::Bool(boolean) => {
+                    AttributeValue {
+                        bool: Some(*boolean),
+                        ..Default::default()
+                    }
+                },
+                _ => {
+                    AttributeValue {
+                        ..Default::default()
+                    }
+                }
+            };
+
+            expression_attribute_values.insert(String::from(format!(":{}", key.to_string())), attribute_value);
         }
 
         // Gather the above into an instance of UpdateItemInput
@@ -164,7 +156,6 @@ impl RSVP {
                 Err(error)
             }
         }
-        */
     }
 
     pub fn get(uuid: Uuid) -> Result<RSVP, QueryError> {
