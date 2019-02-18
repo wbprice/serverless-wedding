@@ -10,12 +10,7 @@ export const state = () => ({
   household: []
 })
 
-function set_attending(state, { id, attending }) {
-  const index = state.household.findIndex(function(person) {
-    return person.id == id
-  })
-  state.household[index].attending = attending
-}
+const editableKeys = ['attending', 'dietary_restrictions']
 
 function set_person_state(state, id, callback) {
   const index = state.household.findIndex(person => (person.id = id))
@@ -23,18 +18,18 @@ function set_person_state(state, id, callback) {
   return callback(person)
 }
 
-function get_patch_rsvp_request(axios, id, attending) {
-  return axios.$patch(
-    `${API_URL_ROOT}/rsvp/${id}`,
-    {
-      attending: attending
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+function get_patch_rsvp_request(axios, id, person) {
+  const payload = editableKeys.reduce((memo, item) => {
+    if (person[item]) {
+      memo[item] = person[item]
     }
-  )
+  }, {})
+
+  return axios.$patch(`${API_URL_ROOT}/rsvp/${id}`, payload, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
 }
 
 export const mutations = {
@@ -80,7 +75,9 @@ export const mutations = {
   },
 
   toggle_attending(state, { id, attending }) {
-    set_attending(state, { id, attending })
+    set_person_state(state, id, person => {
+      person.attending = attending
+    })
   },
 
   set_dietary_restriction(state, { id, diet }) {

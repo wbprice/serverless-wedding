@@ -4,13 +4,20 @@
 
     <div class="field">
       <b-radio 
-        native-value="true">
+        :name="id"
+        :value="attending"
+        native-value="true"
+        @input="updateAttending" >
         Yes! Can't Wait to Celebrate!
       </b-radio>
     </div>
+
     <div class="field">
-      <b-radio 
-        native-value="false">
+      <b-radio
+        :name="id"
+        :value="!attending"
+        native-value="false"
+        @input="updateAttending" >
         Sorry to Say, We'll Miss Your Day
       </b-radio>
     </div>
@@ -26,6 +33,7 @@
         </option>
       </b-select>
     </b-field>
+
   </Card>
 </template>
 
@@ -49,6 +57,10 @@ export default {
     id: {
       type: String,
       default: '1234'
+    },
+    dietary_restriction: {
+      type: String,
+      default: 'none'
     }
   },
   data() {
@@ -75,7 +87,7 @@ export default {
   },
   methods: {
     updateAttending(event) {
-      const attending = !this.attending
+      const attending = event == 'true' ? true : false
       this.$store.commit('rsvp/toggle_attending', {
         id: this.id,
         attending

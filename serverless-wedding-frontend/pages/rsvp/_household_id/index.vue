@@ -9,6 +9,7 @@
         :name="person.name"
         :id="person.id"
         :attending="person.attending"
+        :dietary_restriction="person.dietary_restriction"
       />
 
       <button
