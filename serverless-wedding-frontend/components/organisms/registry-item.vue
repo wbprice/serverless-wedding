@@ -1,15 +1,11 @@
 <template>
-  <section
-    :class="thumbnailStyle"
-    class="registry-item">
-    <div class="description">
-      <h2>{{ title }}</h2>
-      <h3>{{ cost }}</h3>
-      <p>{{ content }}</p>
-      <a 
-        :href="link" 
-        class="button is-primary">{{ buttonText }}</a>
-    </div>
+  <section class="registry-item">
+    <h2>{{ title }} <span class="cost">- ${{ cost }}</span></h2>
+    <img :src="image">
+    <p>{{ content }}</p>
+    <a 
+      :href="link" 
+      class="button primary">{{ buttonText }}</a>
   </section>
 </template>
 
@@ -35,22 +31,16 @@ export default {
     },
     cost: {
       type: String,
-      default: '$88.88'
+      default: '88.88'
     },
     image: {
       type: String,
-      default: 'airfare.jpg'
+      default: 'dance.jpg'
     }
   },
   computed: {
     link() {
       return `${paymentRootUrl}/${this.cost}`
-    },
-    thumbnailStyle() {
-      return {
-        [this.image]: true,
-        thumbnail: true
-      }
     }
   }
 }
@@ -59,52 +49,23 @@ export default {
 <style>
 .registry-item {
   display: flex;
-  flex-direction: column-reverse;
-  padding: 1em 0;
+  flex-direction: column;
 }
 
-.description {
-  text-align: left;
-  background: var(--white);
-  padding: 1em;
-  display: inline;
-  max-width: 33%;
+.registry-item {
 }
 
-.thumbnail {
-  width: 600px;
-  height: 400px;
+.registry-item h2 {
+  font-size: 1.25em;
+  margin-top: 0;
 }
 
-.airfare {
-  background: url('~assets/airfare.jpg');
+.registry-item img {
+  max-width: 75%;
+  margin: 0 auto 1em auto;
 }
 
-.dance {
-  background: url('~assets/dance.jpg');
-}
-
-.dining {
-  /* background: url('~assets/dining.jpg'); */
-}
-
-.horseback-riding {
-  background: url('~assets/horseback-riding.jpg');
-}
-
-.lodging {
-  background: url('~assets/lodging.jpg');
-}
-
-.parasailing {
-  background: url('~assets/parasailing.jpg');
-}
-
-.sightseeing {
-  background: url('~assets/sightseeing.jpg');
-}
-
-.spa {
-  background: url('~assets/spa.jpg');
+.registry-item .cost {
+  color: var(--slate);
 }
 </style>

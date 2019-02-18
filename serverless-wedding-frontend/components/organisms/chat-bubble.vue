@@ -49,7 +49,7 @@ export default {
   width: 5em;
   height: 5em;
   border-radius: 100% 100% 0 100%;
-  background: url('../../assets/isabelle-profile.png'), var(--red);
+  background: url('./../../static/isabelle-profile.png'), var(--red);
   background-size: cover;
   box-shadow: inset 0 0 0 0.25em var(--white);
 }
@@ -62,6 +62,7 @@ export default {
   text-align: left;
   flex: 1;
   background: var(--white);
+  color: var(--darkslate);
   max-width: 75%;
   border-radius: 1em 1em 1em 0;
   padding: 0.75em;

@@ -16,6 +16,7 @@ use rusoto_dynamodb::{
     UpdateItemInput,
     UpdateItemError
 };
+use lambda_http::{StrMap};
 
 use crate::models::{Person};
 
@@ -28,7 +29,8 @@ pub struct RSVP {
     pub attending: bool,
     pub invitation_submitted: bool,
     pub reminder_submitted: bool,
-    pub dietary_restrictions: String
+    pub dietary_restriction: String,
+    pub dietary_restriction_other: String
 }
 
 impl RSVP {
@@ -41,11 +43,12 @@ impl RSVP {
             attending: false.into(),
             invitation_submitted: false.into(),
             reminder_submitted: false.into(),
-            dietary_restrictions: String::from("None")
+            dietary_restriction: String::from("None"),
+            dietary_restriction_other: String::from("")
         }
     }
 
-    pub fn patch(uuid: Uuid, payload: Value) -> Result<RSVP, UpdateItemError> {
+    pub fn patch(uuid: Uuid, payload: StrMap) -> Result<RSVP, UpdateItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
         let rsvp = RSVP::get(uuid).unwrap();
 

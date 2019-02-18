@@ -1,5 +1,5 @@
 <template>
-  <div class="box"> 
+  <div class="card"> 
     <slot />
   </div>
 </template>
@@ -10,4 +10,16 @@ export default {
 }
 </script>
 
-<style />
+<style>
+.card {
+  padding: 1.5em;
+  box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--lightslate);
+  margin: 0 auto 1em auto;
+  background: var(--white);
+  color: var(--darkslate);
+}
+
+.card .button {
+  border-width: 2px;
+}
+</style>

@@ -1,28 +1,51 @@
 <template>
-  <section class="card rsvp-card">
+  <Card>
     <h2>{{ name }}</h2>
     <div class="field">
-      <b-radio 
-        :value="attending"
-        native-value="true"
-        @input="updateAttending">
+      <p-radio
+        id="true"
+        :checked="attending"
+        :name="name"
+        class="p-default p-round"
+        color="info"
+        @change="updateAttending">
         Yes! Can't Wait To Celebrate!
-      </b-radio>
+      </p-radio>
     </div>
     <div class="field">
-      <b-radio
-        :value="attending"
-        native-value="false"
-        @input="updateAttending">
+      <p-radio
+        id="false"
+        :checked="!attending"
+        :name="name"
+        class="p-default p-round"
+        color="danger"
+        @change="updateAttending">
         Sad To Say, We'll Miss Your Day
-      </b-radio>
+      </p-radio>
     </div>
-  </section>
+    <div class="field">
+      <label for="dietary-restrictions" />
+      <select id="dietary-restrictions">
+        <option>None</option>
+        <option>Vegetarian</option>
+        <option>Pescatarian</option>
+        <option>Gluten-free</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </Card>
 </template>
 
 <script>
+import PrettyRadio from 'pretty-checkbox-vue/radio'
+import Card from './../../components/molecules/card'
+
 export default {
   name: 'RSVPCard',
+  components: {
+    'p-radio': PrettyRadio,
+    Card
+  },
   props: {
     name: {
       type: String,
@@ -39,7 +62,7 @@ export default {
   },
   methods: {
     updateAttending(event) {
-      const attending = event == 'true' ? true : false
+      const attending = !this.attending
       this.$store.commit('rsvp/toggle_attending', {
         id: this.id,
         attending
@@ -50,15 +73,16 @@ export default {
 </script>
 
 <style>
-.rsvp-card {
-  padding: 2em 2em 2.5em 2em;
+.rsvp.card {
   max-width: 36em;
-  box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--slate);
-  margin: 0 auto 1em auto;
 }
 
 .rsvp-card h2 {
   font-size: 2em;
   margin-bottom: 0.25em;
+}
+
+.field {
+  margin-bottom: 1em;
 }
 </style>

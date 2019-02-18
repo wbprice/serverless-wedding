@@ -14,11 +14,15 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
         href:
-          'https://fonts.googleapis.com/css?family=Abril+Fatface|Josefin+Sans'
+          'https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css'
       }
     ]
   },
@@ -36,22 +40,47 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['~plugins/buefy'],
+  plugins: [],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
+    // https://pwa.nuxtjs.org/setup.html
+    '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
-    // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
-    '@nuxtjs/bulma'
+    // https://pwa.nuxtjs.org/
+    'nuxt-webfontloader'
   ],
   /*
   ** Axios module configuration
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+  },
+
+  webfontloader: {
+    google: {
+      families: ['Abril Fatface', 'Josefin Sans']
+    }
+  },
+
+  workbox: {
+    runtimeCaching: [
+      {
+        urlPattern: 'https://cdnjs.cloudflare.com/ajax/libs/skeleton/.*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+      },
+      {
+        urlPattern: 'https://fonts.googleapis.com/.*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+      }
+    ]
   },
 
   /*
