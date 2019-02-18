@@ -3,9 +3,8 @@ extern crate simple_logger;
 
 use lambda_http::{lambda, IntoResponse, Request, http, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
-use std::collections::HashMap;
-use serde_json::json;
-use log::{debug, error};
+use serde_json::{json, Value};
+use log::{debug};
 use uuid::Uuid;
 
 mod models;
@@ -21,17 +20,17 @@ fn handler(
     _: Context,
 ) -> Result<impl IntoResponse, HandlerError> {
 
-    let path_parameters = request.path_parameters();
-    let payload : HashMap<String, bool> = request.payload()
+    let payload : Value = request.payload()
         .unwrap()
         .unwrap();
 
+    let path_parameters = request.path_parameters();
     let uuid : Uuid = Uuid::parse_str(
         path_parameters.get("id").unwrap()
     ).unwrap();
 
     debug!("Uuid is: {:?}", uuid);
-    debug!("Payload is: {:?}", payload);
+    debug!("Payload is: {:?}", &payload);
 
     Ok(match RSVP::patch(uuid, payload) {
         Ok(response) => {
@@ -63,7 +62,8 @@ mod tests {
         let payload = r#"{
             "attending": true,
             "invitation_submitted": true,
-            "reminder_submitted": true
+            "reminder_submitted": true,
+            "dietary_restrictions": "vegetables"
         }"#;
 
         let request = http::Request::builder()

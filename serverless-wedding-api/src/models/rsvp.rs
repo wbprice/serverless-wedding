@@ -5,6 +5,7 @@ use std::env;
 use uuid::Uuid;
 use log::{debug, info, error};
 use serde_dynamodb;
+use serde_json::{Value};
 use rusoto_core::Region;
 use rusoto_dynamodb::{
     DynamoDb,
@@ -26,7 +27,8 @@ pub struct RSVP {
     pub email_address: String,
     pub attending: bool,
     pub invitation_submitted: bool,
-    pub reminder_submitted: bool
+    pub reminder_submitted: bool,
+    pub dietary_restrictions: String
 }
 
 impl RSVP {
@@ -38,16 +40,33 @@ impl RSVP {
             email_address: person.email_address,
             attending: false.into(),
             invitation_submitted: false.into(),
-            reminder_submitted: false.into()
+            reminder_submitted: false.into(),
+            dietary_restrictions: String::from("None")
         }
     }
 
-    pub fn patch(uuid: Uuid, payload: HashMap<String, bool>) -> Result<RSVP, UpdateItemError> {
+    pub fn patch(uuid: Uuid, payload: Value) -> Result<RSVP, UpdateItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
-
         let rsvp = RSVP::get(uuid).unwrap();
 
         debug!("Preparing to update RSVP: {:?}", rsvp);
+        
+        // Vector of allowable keys
+        let patchable_keys = vec![
+            String::from("attending"),
+            String::from("invitation_submitted"),
+            String::from("reminder_submitted"),
+            String::from("dietary_restrictions"),
+            String::from("dietary_restrictions_other")
+        ];
+
+        // Create a vector of (String, Value) tuples
+        let mut payload_tuple_vector = Vec::new();
+        for key in &patchable_keys {
+            if payload[key] != Value::Null {
+                payload_tuple_vector.push((key, &payload[key]))
+            }
+        }
 
         // Get primary key for update operation
         let mut key = HashMap::new();
@@ -60,28 +79,44 @@ impl RSVP {
             ..Default::default()
         });
 
-        // Create the update expression from the payload
-        // TODO: Is there an idiomatic way to do this better with Rust?
-        let mut update_expression = String::from("SET ");
-        let payload_iter = payload.iter();
-        let iter_length = payload_iter.clone().count();
-        let mut payload_iter_count = 0;
-        for (key, _) in payload_iter {
-            let mut append = format!("{k} = :{k}", k = key);
-            payload_iter_count = payload_iter_count + 1;
-            if payload_iter_count != iter_length {
-                append.push_str(",");
-            }
-            update_expression.push_str(&append);
-        }
-
-        // Create the expression attributes value hashmap from the payload
+        // Create update expression and expresion attribute values 
+        // by iterating over payload_tuple_vector
         let mut expression_attribute_values = HashMap::new();
-        for (key, value) in payload {
-            expression_attribute_values.insert(String::from(format!(":{}", key.to_string())), AttributeValue {
-                bool: Some(value),
-                ..Default::default()
-            });
+        let mut update_expression = String::from("SET ");
+        for (i, item) in payload_tuple_vector.iter().enumerate() {
+            let key = item.0;
+            let value = item.1;
+
+            // Append to Update Expression
+            let mut to_append = format!("{k} = :{k}", k = key);
+            if i + 1 != payload_tuple_vector.len() {
+                to_append.push_str(",");
+            }
+
+            update_expression.push_str(&to_append);
+            
+            // Append to Attribute Values
+            let attribute_value = match value {
+                Value::String(string) => {
+                    AttributeValue {
+                        s: Some(string.to_string()),
+                        ..Default::default()
+                    }
+                },
+                Value::Bool(boolean) => {
+                    AttributeValue {
+                        bool: Some(*boolean),
+                        ..Default::default()
+                    }
+                },
+                _ => {
+                    AttributeValue {
+                        ..Default::default()
+                    }
+                }
+            };
+
+            expression_attribute_values.insert(String::from(format!(":{}", key.to_string())), attribute_value);
         }
 
         // Gather the above into an instance of UpdateItemInput
@@ -164,6 +199,7 @@ impl RSVP {
 #[cfg(test)]
 mod rsvp_tests {
 
+    use serde_json::{json};
     use super::*;
 
     #[test]
@@ -188,10 +224,12 @@ mod rsvp_tests {
     #[test]
     fn test_rsvp_patch() {
         let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
-        let mut payload : HashMap<String, bool> = HashMap::new();
-        payload.insert(String::from("attending"), true);
-        payload.insert(String::from("invitation_submitted"), true);
-        payload.insert(String::from("reminder_submitted"), true);
+        let payload = json!({
+            "attending": true,
+            "invitation_submitted": true,
+            "reminder_submitted": true,
+            "dietary_restrictions": "Vegetarian"
+        });
 
         match RSVP::patch(uuid, payload.clone()) {
             Ok(rsvp) => {
