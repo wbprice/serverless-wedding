@@ -3,12 +3,9 @@ extern crate simple_logger;
 
 use lambda_http::{lambda, IntoResponse, Request, http, RequestExt};
 use lambda_runtime::{error::HandlerError, Context};
-use std::collections::HashMap;
 use serde_json::{json, Value};
-use log::{debug, error};
+use log::{debug};
 use uuid::Uuid;
-use std::ops::Deref;
-use std::str;
 
 mod models;
 use crate::models::RSVP;
