@@ -27,7 +27,8 @@ pub struct RSVP {
     pub email_address: String,
     pub attending: bool,
     pub invitation_submitted: bool,
-    pub reminder_submitted: bool
+    pub reminder_submitted: bool,
+    pub dietary_restrictions: String
 }
 
 impl RSVP {
@@ -39,7 +40,8 @@ impl RSVP {
             email_address: person.email_address,
             attending: false.into(),
             invitation_submitted: false.into(),
-            reminder_submitted: false.into()
+            reminder_submitted: false.into(),
+            dietary_restrictions: String::from("None")
         }
     }
 
