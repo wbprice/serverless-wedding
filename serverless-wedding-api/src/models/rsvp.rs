@@ -5,7 +5,7 @@ use std::env;
 use uuid::Uuid;
 use log::{debug, info, error};
 use serde_dynamodb;
-use serde_json::{Value, json};
+use serde_json::{Value};
 use rusoto_core::Region;
 use rusoto_dynamodb::{
     DynamoDb,
@@ -30,20 +30,6 @@ pub struct RSVP {
     pub reminder_submitted: bool
 }
 
-enum ValuePrimitives {
-    String(String),
-    bool(bool)
-}
-
-fn extract_from_value(v: Value) -> ValuePrimitives {
-    if v.is_string() {
-        // return ValuePrimitives::String(v.as_str().unwrap())
-        return ValuePrimitives::String(String::from(v.as_str().unwrap()))
-    }
-
-    ValuePrimitives::bool(v.as_bool().unwrap())
-}
-
 impl RSVP {
     pub fn new(person : Person, household_id: String) -> RSVP {
         RSVP {
@@ -63,7 +49,7 @@ impl RSVP {
 
         debug!("Preparing to update RSVP: {:?}", rsvp);
         
-        // Allowable keys
+        // Vector of allowable keys
         let patchable_keys = vec![
             String::from("attending"),
             String::from("invitation_submitted"),
@@ -73,10 +59,10 @@ impl RSVP {
         ];
 
         // Create a vector of (String, Value) tuples
-        let mut update_expression_vector = Vec::new();
+        let mut payload_tuple_vector = Vec::new();
         for key in &patchable_keys {
             if payload[key] != Value::Null {
-                update_expression_vector.push((key, &payload[key]))
+                payload_tuple_vector.push((key, &payload[key]))
             }
         }
 
@@ -91,25 +77,23 @@ impl RSVP {
             ..Default::default()
         });
 
-        // Create update expression from update_expression_vector
-        let mut update_expression = String::from("SET ");
-        for (i, item) in update_expression_vector.iter().enumerate() {
-            let mut to_append = format!("{k} = :{k}", k = item.0);
-            if i + 1 != update_expression_vector.len() {
-                to_append.push_str(",");
-            }
-            update_expression.push_str(&to_append);
-        }
-
-        dbg!(&update_expression);
-
+        // Create update expression and expresion attribute values 
+        // by iterating over payload_tuple_vector
         let mut expression_attribute_values = HashMap::new();
-        for (i, item) in update_expression_vector.iter().enumerate() {
+        let mut update_expression = String::from("SET ");
+        for (i, item) in payload_tuple_vector.iter().enumerate() {
             let key = item.0;
             let value = item.1;
 
-            dbg!(value);
+            // Append to Update Expression
+            let mut to_append = format!("{k} = :{k}", k = key);
+            if i + 1 != payload_tuple_vector.len() {
+                to_append.push_str(",");
+            }
 
+            update_expression.push_str(&to_append);
+            
+            // Append to Attribute Values
             let attribute_value = match value {
                 Value::String(string) => {
                     AttributeValue {
@@ -213,6 +197,7 @@ impl RSVP {
 #[cfg(test)]
 mod rsvp_tests {
 
+    use serde_json::{json};
     use super::*;
 
     #[test]
