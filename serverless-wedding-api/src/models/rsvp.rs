@@ -30,6 +30,20 @@ pub struct RSVP {
     pub reminder_submitted: bool
 }
 
+enum ValuePrimitives {
+    String(String),
+    bool(bool)
+}
+
+fn extract_from_value(v: Value) -> ValuePrimitives {
+    if v.is_string() {
+        // return ValuePrimitives::String(v.as_str().unwrap())
+        return ValuePrimitives::String(String::from(v.as_str().unwrap()))
+    }
+
+    ValuePrimitives::bool(v.as_bool().unwrap())
+}
+
 impl RSVP {
     pub fn new(person : Person, household_id: String) -> RSVP {
         RSVP {
@@ -48,6 +62,22 @@ impl RSVP {
         let rsvp = RSVP::get(uuid).unwrap();
 
         debug!("Preparing to update RSVP: {:?}", rsvp);
+        
+        // Get a vector of tuples containing keys to update and types
+        let patchable_keys = vec![
+            String::from("attending"),
+            String::from("invitation_submitted"),
+            String::from("reminder_submitted"),
+            String::from("dietary_restrictions")
+        ];
+
+        let mut update_expression_vector = Vec::new();
+        for key in &patchable_keys {
+            if payload[key] != Value::Null {
+                update_expression_vector.push((key, &payload[key]))
+            }
+        }
+        dbg!(&update_expression_vector);
 
         // Get primary key for update operation
         let mut key = HashMap::new();
@@ -60,34 +90,48 @@ impl RSVP {
             ..Default::default()
         });
 
-        let patchable_keys = [
-            "attending",
-            "invitation_submitted",
-            "reminder_submitted",
-            "dietary_restrictions"
-        ];
+        let mut update_expression = String::from("SET ");
+        for (i, item) in update_expression_vector.iter().enumerate() {
+            let mut to_append = match item.1 {
+                Value::String(string) => {
+                    format!("{k} = :{k}", k = string)
+                },
+                Value::Bool(boolean) => {
+                    format!("{k} = :{k}", k = boolean)
+                },
+                _ => {
+                    dbg!("no match");
+                    format!("")
+                }
+            };
 
-        let keys_to_patch = patchable_keys.into_iter().collect().map(|key| { &payload[key] });
-        dbg!(keys_to_patch);
+            if i != update_expression_vector.len() {
+                to_append.push_str(",");
+            }
+
+            update_expression.push_str(&to_append);
+        }
+
+        dbg!(update_expression);
 
         Ok(rsvp)
 
         /*
         // Create the update expression from the payload
         // TODO: Is there an idiomatic way to do this better with Rust?
-        let mut update_expression = String::from("SET ");
-        let payload_iter = payload.iter();
-        let iter_length = payload_iter.clone().count();
-        let mut payload_iter_count = 0;
-        for (key, _) in payload_iter {
-            let mut append = format!("{k} = :{k}", k = key);
-            payload_iter_count = payload_iter_count + 1;
-            if payload_iter_count != iter_length {
-                append.push_str(",");
-            }
-            update_expression.push_str(&append);
-        }
-
+        // let mut update_expression = String::from("SET ");
+        // let payload_iter = payload.iter();
+        // let iter_length = payload_iter.clone().count();
+        // let mut payload_iter_count = 0;
+        // for (key, _) in payload_iter {
+        //     let mut append = format!("{k} = :{k}", k = key);
+        //     payload_iter_count = payload_iter_count + 1;
+        //     if payload_iter_count != iter_length {
+        //         append.push_str(",");
+        //     }
+        //     update_expression.push_str(&append);
+        // }
+        
         // Create the expression attributes value hashmap from the payload
         let mut expression_attribute_values = HashMap::new();
         for (key, value) in payload {
@@ -202,15 +246,11 @@ mod rsvp_tests {
     #[test]
     fn test_rsvp_patch() {
         let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
-        // let mut payload : HashMap<String, bool> = HashMap::new();
-        // payload.insert(String::from("attending"), true);
-        // payload.insert(String::from("invitation_submitted"), true);
-        // payload.insert(String::from("reminder_submitted"), true);
-
         let payload = json!({
             "attending": true,
             "invitation_submitted": true,
-            "reminder_submitted": true
+            "reminder_submitted": true,
+            "dietary_restrictions": "Vegetarian"
         });
 
         match RSVP::patch(uuid, payload.clone()) {
