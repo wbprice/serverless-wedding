@@ -19,7 +19,7 @@ use rusoto_dynamodb::{
 
 use crate::models::{Person};
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RSVP {
     pub household_id: String,
     pub id: String,
