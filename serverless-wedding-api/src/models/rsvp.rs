@@ -63,22 +63,22 @@ impl RSVP {
 
         debug!("Preparing to update RSVP: {:?}", rsvp);
         
-        // Get a vector of tuples containing keys to update and types
+        // Allowable keys
         let patchable_keys = vec![
             String::from("attending"),
             String::from("invitation_submitted"),
             String::from("reminder_submitted"),
-            String::from("dietary_restrictions")
+            String::from("dietary_restrictions"),
+            String::from("dietary_restrictions_other")
         ];
 
+        // Create a vector of (String, Value) tuples
         let mut update_expression_vector = Vec::new();
         for key in &patchable_keys {
             if payload[key] != Value::Null {
                 update_expression_vector.push((key, &payload[key]))
             }
         }
-
-        dbg!(&update_expression_vector);
 
         // Get primary key for update operation
         let mut key = HashMap::new();
@@ -95,7 +95,7 @@ impl RSVP {
         let mut update_expression = String::from("SET ");
         for (i, item) in update_expression_vector.iter().enumerate() {
             let mut to_append = format!("{k} = :{k}", k = item.0);
-            if i != update_expression_vector.len() {
+            if i + 1 != update_expression_vector.len() {
                 to_append.push_str(",");
             }
             update_expression.push_str(&to_append);
@@ -270,19 +270,4 @@ mod rsvp_tests {
             }
         }
     }
-
-    // #[ignore]
-    // #[test]
-    // fn test_nu_patch() {
-    //     let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
-
-    //     match RSVP::nu_patch(uuid, payload: StrMap) {
-    //         Ok(rsvp) => {
-    //             dbg!(rsvp);
-    //         },
-    //         Err(err) => {
-    //             dbg!(err);
-    //         }
-    //     }
-    // }
 }
