@@ -5,6 +5,7 @@ use std::env;
 use uuid::Uuid;
 use log::{debug, info, error};
 use serde_dynamodb;
+use serde_json::{Value};
 use rusoto_core::Region;
 use rusoto_dynamodb::{
     DynamoDb,
@@ -42,7 +43,7 @@ impl RSVP {
         }
     }
 
-    pub fn patch(uuid: Uuid, payload: HashMap<String, bool>) -> Result<RSVP, UpdateItemError> {
+    pub fn patch(uuid: Uuid, payload: Value) -> Result<RSVP, UpdateItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
 
         let rsvp = RSVP::get(uuid).unwrap();
@@ -219,4 +220,19 @@ mod rsvp_tests {
             }
         }
     }
+
+    // #[ignore]
+    // #[test]
+    // fn test_nu_patch() {
+    //     let uuid = Uuid::parse_str("955e9465-d9cc-43cc-96ac-0fe00fc75d0e").unwrap();
+
+    //     match RSVP::nu_patch(uuid, payload: StrMap) {
+    //         Ok(rsvp) => {
+    //             dbg!(rsvp);
+    //         },
+    //         Err(err) => {
+    //             dbg!(err);
+    //         }
+    //     }
+    // }
 }
