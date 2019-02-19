@@ -120,4 +120,8 @@ export default {
 .field {
   margin-bottom: 1em;
 }
+
+.field .control {
+  text-align: center;
+}
 </style>
