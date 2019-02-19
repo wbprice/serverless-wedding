@@ -13,19 +13,20 @@ export const state = () => ({
 const editableKeys = ['attending', 'dietary_restrictions']
 
 function set_person_state(state, id, callback) {
-  const index = state.household.findIndex(person => (person.id = id))
+  const index = state.household.findIndex(person => person.id == id)
   const person = state.household[index]
   return callback(person)
 }
 
-function get_patch_rsvp_request(axios, id, person) {
+function get_patch_rsvp_request(axios, rsvp) {
   const payload = editableKeys.reduce((memo, item) => {
-    if (person[item]) {
-      memo[item] = person[item]
+    if (rsvp[item]) {
+      memo[item] = rsvp[item]
     }
+    return memo
   }, {})
 
-  return axios.$patch(`${API_URL_ROOT}/rsvp/${id}`, payload, {
+  return axios.$patch(`${API_URL_ROOT}/rsvp/${rsvp.id}`, payload, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -82,7 +83,7 @@ export const mutations = {
 
   set_dietary_restriction(state, { id, diet }) {
     set_person_state(state, id, person => {
-      person.dietary_restriction = diet
+      person.dietary_restrictions = diet.key
     })
   }
 }
@@ -104,7 +105,7 @@ export const actions = {
   patch_household({ commit }, household) {
     commit('patch_household_request')
     const requests = household.map(rsvp =>
-      get_patch_rsvp_request(this.$axios, rsvp.id, rsvp.attending)
+      get_patch_rsvp_request(this.$axios, rsvp)
     )
     Promise.all(requests)
       .then(responses => {

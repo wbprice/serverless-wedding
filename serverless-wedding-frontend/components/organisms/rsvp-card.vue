@@ -6,6 +6,7 @@
       <b-radio 
         :name="id"
         :value="attending"
+        native-value="true"
         @input="updateAttending" >
         Yes! Can't Wait to Celebrate!
       </b-radio>
@@ -15,6 +16,7 @@
       <b-radio
         :name="id"
         :value="!attending"
+        native-value="false"
         @input="updateAttending" >
         Sorry to Say, We'll Miss Your Day
       </b-radio>
@@ -92,7 +94,7 @@ export default {
       })
     },
     updateDietaryRestriction(event) {
-      const diet = this.dietaryRestrictions.find(diet => (diet.label = event))
+      const diet = this.dietaryRestrictions.find(diet => diet.label == event)
       this.$store.commit('rsvp/set_dietary_restriction', {
         id: this.id,
         diet
