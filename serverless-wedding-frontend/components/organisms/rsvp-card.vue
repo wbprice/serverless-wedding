@@ -7,7 +7,7 @@
         :name="id"
         :value="attending"
         native-value="true"
-        @input="updateAttending" >
+        @input="updateAttending">
         Yes! Can't Wait to Celebrate!
       </b-radio>
     </div>
@@ -15,20 +15,23 @@
     <div class="field">
       <b-radio
         :name="id"
-        :value="!attending"
+        :value="attending"
         native-value="false"
-        @input="updateAttending" >
+        @input="updateAttending">
         Sorry to Say, We'll Miss Your Day
       </b-radio>
     </div>
 
     <b-field label="Dietary Restrictions">
-      <b-select 
+      <b-select
+        :selected="dietary_restrictions.label"
+        :value="dietary_restrictions.label"
         placeholder="None"
         @input="updateDietaryRestriction" >
         <option
           v-for="diet in dietaryRestrictions"
-          :key="diet.key">
+          :key="diet.key"
+          :value="diet.label">
           {{ diet.label }}
         </option>
       </b-select>
@@ -58,7 +61,7 @@ export default {
       type: String,
       default: '1234'
     },
-    dietary_restriction: {
+    dietary_restrictions: {
       type: String,
       default: 'none'
     }
