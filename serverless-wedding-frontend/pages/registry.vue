@@ -51,7 +51,7 @@ export default {
           We will definitely appreciate your generosity when we crash in after a long day of hiking!`,
           cost: '129.99',
           buttonText: 'Buy It',
-          image: 'lodging.jpg'
+          image: '/lodging.jpg'
         },
         {
           title: 'Roundtrip Air Fare',
@@ -59,7 +59,7 @@ export default {
           content: `As much as we love traveling, airfare is an inevitable and large expense of our trip.
           Fly us to the wedding, honeymoon, and back home.  We will definitely appreciate your generosity when we land safely at our destination!`,
           buttonText: 'Buy It',
-          image: 'airfare.jpg'
+          image: '/airfare.jpg'
         },
         {
           title: 'Sightseeing Tours',
@@ -67,7 +67,7 @@ export default {
           content: `Spending the afternoon seeing the sights and being true tourists.
           We will definitely appreciate your generosity when we are exploring all the sights!`,
           buttonText: 'Buy It',
-          image: 'sightseeing.jpg'
+          image: '/sightseeing.jpg'
         },
         {
           title: 'Romantic Dinner',
@@ -75,7 +75,7 @@ export default {
           content: `Dinner and drinks to refuel after a day of hiking.
           We will definitley appreciate your generosity when we are enjoying the good foods like a true foodie should!`,
           buttonText: 'Buy It',
-          image: 'dining.jpg'
+          image: '/dining.jpg'
         },
         {
           title: 'Hang Gliding',
@@ -83,7 +83,7 @@ export default {
           content: `To fufill the adventurous spirits within.
           We will definitley appreciate your generosity when we are soaring amongst the birds!`,
           buttonText: 'Buy It',
-          image: 'parasailing.jpg'
+          image: '/parasailing.jpg'
         },
         {
           title: 'Spa for Two',
@@ -91,7 +91,7 @@ export default {
           content: `Massage and relaxation would be a wonderful way of recovery after some long hikes.
           We will definitley appreciate your generosity when I am one with Jello.`,
           buttonText: 'Buy It',
-          image: 'spa.jpg'
+          image: '/spa.jpg'
         },
         {
           title: 'Horseback Riding',
@@ -99,7 +99,7 @@ export default {
           content: `Horseback ride on some beautiful trails.  We will definitley appreciate your generosity when we are
           soaking in the beautiful weather and views.`,
           buttonText: 'Buy It',
-          image: 'horseback-riding.jpg'
+          image: '/horseback-riding.jpg'
         },
         {
           title: 'Dancing',
@@ -107,7 +107,7 @@ export default {
           content: `Who doesn't like to boogie woogie woogie?
           We will definitley appreciate your generosity when the music makes us groovy.`,
           buttonText: 'Buy It',
-          image: 'dance.jpg'
+          image: '/dance.jpg'
         },
         {
           title: 'Lucky Envelope',
