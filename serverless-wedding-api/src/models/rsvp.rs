@@ -231,7 +231,8 @@ mod rsvp_tests {
             "attending": true,
             "invitation_submitted": true,
             "reminder_submitted": true,
-            "dietary_restrictions": "Vegetarian"
+            "dietary_restrictions": "Vegetarian",
+            "dietary_restrictions_other": ""
         });
 
         match RSVP::patch(uuid, payload.clone()) {
