@@ -108,7 +108,7 @@ impl RSVP {
                         }
                     } else {
                         AttributeValue {
-                            null: Some(true),
+                            s: Some(" ".to_string()),
                             ..Default::default()
                         }
                     }
