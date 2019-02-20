@@ -20,7 +20,7 @@ function set_person_state(state, id, callback) {
 
 function get_patch_rsvp_request(axios, rsvp) {
   const payload = editableKeys.reduce((memo, item) => {
-    if (rsvp[item]) {
+    if (rsvp.hasOwnProperty(item)) {
       memo[item] = rsvp[item]
     }
     return memo
