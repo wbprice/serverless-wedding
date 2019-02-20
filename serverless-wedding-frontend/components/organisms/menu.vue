@@ -19,8 +19,7 @@ export default {
         { route: '/', label: 'Home' },
         { route: '/rsvp', label: 'RSVP' },
         { route: '/registry', label: 'Registry' },
-        { route: '/our-story', label: 'Our Story' },
-        { route: '/logistics', label: 'Logistics' }
+        { route: '/our-story', label: 'Our Story' }
       ]
     }
   }
