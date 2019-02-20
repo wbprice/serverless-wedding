@@ -72,6 +72,7 @@ export default {
   display: block;
   font-size: 1.25em;
   font-family: 'Abril Fatface', Georgia, 'Times New Roman', Times, serif;
+  margin-bottom: 0.85em;
 }
 
 sup {
