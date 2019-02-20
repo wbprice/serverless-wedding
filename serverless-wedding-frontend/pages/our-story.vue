@@ -49,7 +49,7 @@ export default {
                         but was too busy hosting.  Later he had an extra ticket to a Punk concert and I said I love music, he
                         3rd wheeled his friend who he originally gave his extra ticket to and bought me another.
                         He picked me up and it was a done deal, mosh pit and all.  I thought he was easy going, mild, gentle,
-                        active, and extremely intelligent`
+                        active, and extremely intelligent.`
             },
             {
               heading: 'Blaine',
@@ -120,7 +120,7 @@ export default {
                         your best dance moves!"  I'm sure this confused anyone nearby that it might even be a proposal.
                         He threw out a few dance moves and then hurriedly put the ring on my finger even without a response.
                         I was cracking up and laughing non-stop the whole time while he was dancing and putting the ring on my
-                        finger. Lol`
+                        finger. Lol.`
             }
           ]
         },
@@ -153,7 +153,7 @@ export default {
               heading: 'Ling Ling',
               content: `We are stuck to each other like glue.  We have never seen each other so happy before.
                         They say we have changed for the better.  Our spirits have been lifted.  I have never known this amount
-                        of happiness could exist`
+                        of happiness could exist!`
             },
             {
               heading: 'Blaine',
