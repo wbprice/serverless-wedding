@@ -11,7 +11,7 @@
       <p>Check the logistics page for more information!</p>
       <nuxt-link
         class="button primary"
-        to="/registry">Logistics</nuxt-link>
+        to="/logistics">Logistics</nuxt-link>
     </Card>
 
     <Card v-else>
