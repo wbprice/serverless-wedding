@@ -24,14 +24,14 @@
 
     <b-field label="Dietary Restrictions">
       <b-select
-        :selected="dietary_restrictions.label"
-        :value="dietary_restrictions.label"
+        :selected="dietary_restrictions"
+        :value="dietary_restrictions"
         placeholder="None"
         @input="updateDietaryRestriction" >
         <option
           v-for="diet in dietaryRestrictions"
-          :key="diet.key"
-          :value="diet.label">
+          :key="diet.value"
+          :value="diet.value">
           {{ diet.label }}
         </option>
       </b-select>
@@ -70,19 +70,19 @@ export default {
     return {
       dietaryRestrictions: [
         {
-          key: 'vegetarian',
+          value: 'vegetarian',
           label: 'Only vegetables, no animal products please.'
         },
         {
-          key: 'gluten-free',
+          value: 'gluten-free',
           label: "I don't do bread"
         },
         {
-          key: 'none',
+          value: 'none',
           label: 'I can eat anything'
         },
         {
-          key: 'pescatarian',
+          value: 'pescatarian',
           label: 'I like eating vegetables and fish'
         }
       ]
@@ -97,7 +97,7 @@ export default {
       })
     },
     updateDietaryRestriction(event) {
-      const diet = this.dietaryRestrictions.find(diet => diet.label == event)
+      const diet = this.dietaryRestrictions.find(diet => diet.value == event)
       this.$store.commit('rsvp/set_dietary_restriction', {
         id: this.id,
         diet

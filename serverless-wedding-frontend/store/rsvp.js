@@ -83,7 +83,7 @@ export const mutations = {
 
   set_dietary_restriction(state, { id, diet }) {
     set_person_state(state, id, person => {
-      person.dietary_restrictions = diet.key
+      person.dietary_restrictions = diet.value
     })
   }
 }
