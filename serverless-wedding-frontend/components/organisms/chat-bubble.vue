@@ -2,7 +2,7 @@
   <div 
     :class="{reply: isReply}"
     class="chat">
-    <div class="chat-user-photo" />
+    <div :class="profilePicClass" />
     <div class="chat-bubble">
       <div class="chat-bubble-metadata">
         {{ heading }}
@@ -30,6 +30,26 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  computed: {
+    profilePicClass: function() {
+      const obj = {
+        'chat-user-photo': true
+      }
+
+      switch (this.heading) {
+        case 'Ling Ling':
+          obj['ling'] = true
+          break
+        case 'Blaine':
+          obj['blaine'] = true
+          break
+        default:
+          obj['default'] = true
+      }
+
+      return obj
+    }
   }
 }
 </script>
@@ -49,9 +69,22 @@ export default {
   width: 5em;
   height: 5em;
   border-radius: 100% 100% 0 100%;
-  background: url('./../../static/isabelle-profile.png'), var(--red);
-  background-size: cover;
   box-shadow: inset 0 0 0 0.25em var(--white);
+}
+
+.blaine.chat-user-photo {
+  background: url('./../../static/blaine-profile.jpg');
+  background-size: contain;
+}
+
+.ling.chat-user-photo {
+  background: url('./../../static/cynthia-profile.jpg');
+  background-size: contain;
+}
+
+.default.chat-user-photo {
+  background: url('./../../static/isabelle-profile.png');
+  background-size: contain;
 }
 
 .chat.reply .chat-user-photo {
@@ -63,7 +96,6 @@ export default {
   flex: 1;
   background: var(--white);
   color: var(--darkslate);
-  max-width: 75%;
   border-radius: 1em 1em 1em 0;
   padding: 0.75em;
   margin: 0 0.5em;
@@ -76,7 +108,6 @@ export default {
 .chat-bubble .chat-bubble-metadata {
   font-weight: bold;
   text-transform: uppercase;
-  font-size: 0.75em;
 }
 
 .chat-bubble-blaine {
