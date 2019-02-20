@@ -1,7 +1,13 @@
 <template>
   <section class="registry-item">
-    <h2>{{ title }} <span class="cost">- ${{ cost }}</span></h2>
-    <img :src="image">
+    <h2>{{ title }} <span 
+      v-if="cost" 
+      class="cost">
+      - ${{ cost }}
+    </span></h2>
+    <img 
+      v-if="image" 
+      :src="image">
     <p>{{ content }}</p>
     <a 
       :href="link" 
@@ -31,11 +37,11 @@ export default {
     },
     cost: {
       type: String,
-      default: '88.88'
+      default: null
     },
     image: {
       type: String,
-      default: 'dance.jpg'
+      default: null
     }
   },
   computed: {
@@ -58,6 +64,7 @@ export default {
 .registry-item h2 {
   font-size: 1.25em;
   margin-top: 0;
+  margin-bottom: 0.5em;
 }
 
 .registry-item img {

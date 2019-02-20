@@ -21,5 +21,6 @@ export default {
 
 .card .button {
   border-width: 2px;
+  margin: 1em 0 0.5em 0;
 }
 </style>
