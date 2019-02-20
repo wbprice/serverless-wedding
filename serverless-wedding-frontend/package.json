@@ -1,7 +1,7 @@
 {
-  "name": "serverless-wedding-frontend",
+  "name": "Blinging.love",
   "version": "1.0.0",
-  "description": "Wedding site, powered by Nuxt",
+  "description": "Blaine and Ling Ling's wedding site!",
   "author": "Blaine Price",
   "private": true,
   "scripts": {
