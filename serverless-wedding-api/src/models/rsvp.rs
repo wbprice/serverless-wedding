@@ -29,8 +29,8 @@ pub struct RSVP {
     pub attending: bool,
     pub invitation_submitted: bool,
     pub reminder_submitted: bool,
-    pub dietary_restriction: String,
-    pub dietary_restriction_other: String
+    pub dietary_restrictions: String,
+    pub dietary_restrictions_other: String
 }
 
 impl RSVP {
@@ -43,12 +43,12 @@ impl RSVP {
             attending: false.into(),
             invitation_submitted: false.into(),
             reminder_submitted: false.into(),
-            dietary_restriction: String::from("None"),
-            dietary_restriction_other: String::from("")
+            dietary_restrictions: String::from("None"),
+            dietary_restrictions_other: String::from("")
         }
     }
 
-    pub fn patch(uuid: Uuid, payload: StrMap) -> Result<RSVP, UpdateItemError> {
+    pub fn patch(uuid: Uuid, payload: Value) -> Result<RSVP, UpdateItemError> {
         let client = DynamoDbClient::new(Region::UsEast1);
         let rsvp = RSVP::get(uuid).unwrap();
 
@@ -101,9 +101,16 @@ impl RSVP {
             // Append to Attribute Values
             let attribute_value = match value {
                 Value::String(string) => {
-                    AttributeValue {
-                        s: Some(string.to_string()),
-                        ..Default::default()
+                    if string != "" {
+                        AttributeValue {
+                            s: Some(string.to_string()),
+                            ..Default::default()
+                        }
+                    } else {
+                        AttributeValue {
+                            s: Some(" ".to_string()),
+                            ..Default::default()
+                        }
                     }
                 },
                 Value::Bool(boolean) => {
@@ -231,7 +238,8 @@ mod rsvp_tests {
             "attending": true,
             "invitation_submitted": true,
             "reminder_submitted": true,
-            "dietary_restrictions": "Vegetarian"
+            "dietary_restrictions": "Vegetarian",
+            "dietary_restrictions_other": ""
         });
 
         match RSVP::patch(uuid, payload.clone()) {
@@ -242,6 +250,7 @@ mod rsvp_tests {
             },
             Err(err) => {
                 println!("The update error is {:?}", err);
+                assert!(false)
             }
         }
     }
