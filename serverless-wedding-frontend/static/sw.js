@@ -2,43 +2,47 @@ importScripts('/_nuxt/workbox.4c4f5ca6.js')
 
 workbox.precaching.precacheAndRoute([
   {
-    "url": "/_nuxt/2c84db8b876a7811a34c.js",
-    "revision": "35fdb2a84995a906909296d1f026b3a3"
+    "url": "/_nuxt/12f84eac744a4b1189aa.js",
+    "revision": "9bba52f6a2a53a71e17bebc0a5b5cf97"
   },
   {
-    "url": "/_nuxt/344aa32cfd4c984e1466.js",
-    "revision": "69b545ad9ae276a24c3a70aa1297a686"
+    "url": "/_nuxt/2bdb32ddb578e3b4ce2e.js",
+    "revision": "f705606268cfd44a791ea768d1f86f92"
   },
   {
-    "url": "/_nuxt/5ecbe1a817c80251c39e.js",
-    "revision": "45e85c4743ca12fafff20f639c53130f"
+    "url": "/_nuxt/2faed5b1d352c0d53892.js",
+    "revision": "69b5d75ec54b4644d8f4f275e7b3f743"
   },
   {
-    "url": "/_nuxt/7827784526028750ed37.js",
-    "revision": "187b37b59e3b50bca76612d25afd8919"
+    "url": "/_nuxt/320ef343bfd83a2b70d0.js",
+    "revision": "18510cbed95d01c883747385a4a01314"
   },
   {
-    "url": "/_nuxt/a48eb91fef159602c296.js",
-    "revision": "90ab1d73ffcfcff09de05ea6c92ef5a0"
+    "url": "/_nuxt/427c473bbdce82d55ffe.js",
+    "revision": "82e1f0c9afac067a2bedc24d87f93a4b"
   },
   {
-    "url": "/_nuxt/d3e2f8960f11a5c10cf6.js",
-    "revision": "1b1dbb9ba2582e1c9a62f1735d86ef03"
+    "url": "/_nuxt/7cc7d832117de4ee628f.js",
+    "revision": "a7df2e4c7d9f9b4d054d4690099240d3"
   },
   {
-    "url": "/_nuxt/d74d64263724cfa048ee.js",
-    "revision": "3637bcd3b9b9da9e8b32f7072a32aac5"
+    "url": "/_nuxt/808a8c31dc74e94bfe9d.js",
+    "revision": "9cf80b52b6c1c24cb608d724591a056d"
   },
   {
-    "url": "/_nuxt/ebcf7d81ab0c8f8f3d81.js",
-    "revision": "9873869797abf702a4b0da6339cae0a5"
+    "url": "/_nuxt/97f7951dde3db3b8ccd9.js",
+    "revision": "5e3f710251d1fa3e6c3cd155d7dca993"
   },
   {
-    "url": "/_nuxt/fe5083a052d17cc1af52.js",
-    "revision": "5f80a5a9f0ec1ba2ab54357cf4ae6c2d"
+    "url": "/_nuxt/9bea19192245f5d5e689.js",
+    "revision": "014ecdd5c9acb737d46ab5c1a119227e"
+  },
+  {
+    "url": "/_nuxt/f0a1e9f1fa4071c12d2d.js",
+    "revision": "95d227fa5571aeb857fa3fe9bc33d7dd"
   }
 ], {
-  "cacheId": "serverless-wedding-frontend",
+  "cacheId": "Blinging.love",
   "directoryIndex": "/",
   "cleanUrls": false
 })
@@ -49,5 +53,7 @@ workbox.skipWaiting()
 workbox.routing.registerRoute(new RegExp('/_nuxt/.*'), workbox.strategies.cacheFirst({}), 'GET')
 
 workbox.routing.registerRoute(new RegExp('/.*'), workbox.strategies.networkFirst({}), 'GET')
+
+workbox.routing.registerRoute(new RegExp('https://cdnjs.cloudflare.com/ajax/libs/skeleton/.*'), workbox.strategies.cacheFirst({"cacheableResponse":{"statuses":[0,200]}}), 'GET')
 
 workbox.routing.registerRoute(new RegExp('https://fonts.googleapis.com/.*'), workbox.strategies.cacheFirst({"cacheableResponse":{"statuses":[0,200]}}), 'GET')
