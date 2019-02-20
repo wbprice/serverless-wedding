@@ -102,14 +102,15 @@ impl RSVP {
             let attribute_value = match value {
                 Value::String(string) => {
                     if string != "" {
-                        return AttributeValue {
+                        AttributeValue {
                             s: Some(string.to_string()),
                             ..Default::default()
                         }
-                    }
-                    AttributeValue {
-                        null: true,
-                        ..Default::default()
+                    } else {
+                        AttributeValue {
+                            null: Some(true),
+                            ..Default::default()
+                        }
                     }
                 },
                 Value::Bool(boolean) => {
