@@ -101,8 +101,14 @@ impl RSVP {
             // Append to Attribute Values
             let attribute_value = match value {
                 Value::String(string) => {
+                    if string != "" {
+                        return AttributeValue {
+                            s: Some(string.to_string()),
+                            ..Default::default()
+                        }
+                    }
                     AttributeValue {
-                        s: Some(string.to_string()),
+                        null: true,
                         ..Default::default()
                     }
                 },
@@ -243,6 +249,7 @@ mod rsvp_tests {
             },
             Err(err) => {
                 println!("The update error is {:?}", err);
+                assert!(false)
             }
         }
     }
