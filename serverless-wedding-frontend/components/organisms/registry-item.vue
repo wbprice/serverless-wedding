@@ -46,7 +46,10 @@ export default {
   },
   computed: {
     link() {
-      return `${paymentRootUrl}/${this.cost}`
+      if (this.cost) {
+        return `${paymentRootUrl}/${this.cost}`
+      }
+      return paymentRootUrl
     }
   }
 }
