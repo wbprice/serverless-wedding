@@ -27,7 +27,7 @@
         :selected="dietary_restrictions"
         :value="dietary_restrictions"
         placeholder="None"
-        @input="updateDietaryRestriction" >
+        @input="updateDietaryRestrictions" >
         <option
           v-for="diet in dietaryRestrictions"
           :key="diet.value"
@@ -35,6 +35,14 @@
           {{ diet.label }}
         </option>
       </b-select>
+
+    </b-field>
+
+    <b-field label="If Other, add details">
+      <b-input
+        :disabled="otherDisabled"
+        :value="dietary_restrictions_other"
+        @input="updateDietaryRestrictionsOther" />
     </b-field>
 
   </Card>
@@ -64,6 +72,10 @@ export default {
     dietary_restrictions: {
       type: String,
       default: 'none'
+    },
+    dietary_restrictions_other: {
+      type: String,
+      default: null
     }
   },
   data() {
@@ -84,8 +96,17 @@ export default {
         {
           value: 'pescatarian',
           label: 'I like eating vegetables and fish'
+        },
+        {
+          value: 'other',
+          label: 'Something else (will add detail)'
         }
       ]
+    }
+  },
+  computed: {
+    otherDisabled() {
+      return this.dietary_restrictions != 'other'
     }
   },
   methods: {
@@ -96,11 +117,18 @@ export default {
         attending
       })
     },
-    updateDietaryRestriction(event) {
+    updateDietaryRestrictions(event) {
       const diet = this.dietaryRestrictions.find(diet => diet.value == event)
-      this.$store.commit('rsvp/set_dietary_restriction', {
+      this.$store.commit('rsvp/set_dietary_restrictions', {
         id: this.id,
         diet
+      })
+    },
+    updateDietaryRestrictionsOther(event) {
+      const value = event
+      this.$store.commit('rsvp/set_dietary_restrictions_other', {
+        id: this.id,
+        value
       })
     }
   }
@@ -119,6 +147,9 @@ export default {
 
 .field {
   margin-bottom: 1em;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .field .control {

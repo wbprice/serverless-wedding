@@ -10,7 +10,11 @@ export const state = () => ({
   household: []
 })
 
-const editableKeys = ['attending', 'dietary_restrictions']
+const editableKeys = [
+  'attending',
+  'dietary_restrictions',
+  'dietary_restrictions_other'
+]
 
 function set_person_state(state, id, callback) {
   const index = state.household.findIndex(person => person.id == id)
@@ -81,9 +85,15 @@ export const mutations = {
     })
   },
 
-  set_dietary_restriction(state, { id, diet }) {
+  set_dietary_restrictions(state, { id, diet }) {
     set_person_state(state, id, person => {
       person.dietary_restrictions = diet.value
+    })
+  },
+
+  set_dietary_restrictions_other(state, { id, value }) {
+    set_person_state(state, id, person => {
+      person.dietary_restrictions_other = value
     })
   }
 }
