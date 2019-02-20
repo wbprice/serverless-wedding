@@ -2,44 +2,48 @@ importScripts('/_nuxt/workbox.4c4f5ca6.js')
 
 workbox.precaching.precacheAndRoute([
   {
+    "url": "/_nuxt/03192d4cdb6de008ad1b.js",
+    "revision": "ac82aacb7850aa7d74b9782f37798e3b"
+  },
+  {
     "url": "/_nuxt/12f84eac744a4b1189aa.js",
     "revision": "9bba52f6a2a53a71e17bebc0a5b5cf97"
   },
   {
-    "url": "/_nuxt/2be36a8ce700d0a8e3f0.js",
-    "revision": "b5bde4c2a84823a1d5012979f618d34b"
+    "url": "/_nuxt/378dd75b5a237c7a2fd4.js",
+    "revision": "a4db1ab7d6a13a777064ea71c7722059"
   },
   {
-    "url": "/_nuxt/2faed5b1d352c0d53892.js",
-    "revision": "69b5d75ec54b4644d8f4f275e7b3f743"
+    "url": "/_nuxt/704b44419f9a0304d171.js",
+    "revision": "68db3ad9375675c7c5ee3267ee6f86d3"
   },
   {
-    "url": "/_nuxt/34bf80c16bf79c9bd615.js",
-    "revision": "2b069373f6ba4f4f137b4b7503b4effc"
+    "url": "/_nuxt/762cd7aafb3c97cec74a.js",
+    "revision": "121dc2b6b3c467bc2702d8e5698fd0e7"
   },
   {
-    "url": "/_nuxt/427c473bbdce82d55ffe.js",
-    "revision": "82e1f0c9afac067a2bedc24d87f93a4b"
+    "url": "/_nuxt/8beab813c9f847e2e1c4.js",
+    "revision": "f33d49cce2705ca881c93626ec0cebaf"
   },
   {
-    "url": "/_nuxt/7cc7d832117de4ee628f.js",
-    "revision": "a7df2e4c7d9f9b4d054d4690099240d3"
+    "url": "/_nuxt/8e572fe29235dddfb6ce.js",
+    "revision": "eafb41b286c1740133fb87685828f5af"
   },
   {
-    "url": "/_nuxt/808a8c31dc74e94bfe9d.js",
-    "revision": "9cf80b52b6c1c24cb608d724591a056d"
+    "url": "/_nuxt/bbaa6332a187b8876ee7.js",
+    "revision": "896702cc119acb873b965ad301fec913"
   },
   {
-    "url": "/_nuxt/97f7951dde3db3b8ccd9.js",
-    "revision": "5e3f710251d1fa3e6c3cd155d7dca993"
+    "url": "/_nuxt/bd5dac162f56c4065d6f.js",
+    "revision": "a2e06f9bcb9e5f111f729c31ec4b928f"
   },
   {
-    "url": "/_nuxt/f0a1e9f1fa4071c12d2d.js",
-    "revision": "95d227fa5571aeb857fa3fe9bc33d7dd"
+    "url": "/_nuxt/c08073998d1cd7f82ec7.js",
+    "revision": "b407a3cecc69f93682126b98c4f60313"
   },
   {
-    "url": "/_nuxt/f187410b8e2a20350f7f.js",
-    "revision": "35e879d00dd47e8064d1e83e0bf6d1e1"
+    "url": "/_nuxt/d42cc1c6688083d97ea8.js",
+    "revision": "0302cab8ace6ff123d7dce80931de400"
   }
 ], {
   "cacheId": "blinging.love",
