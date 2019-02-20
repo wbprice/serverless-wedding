@@ -10,7 +10,7 @@
         But if you insist on giving us a lift
         We would like to spread our adventurous wings
         With the help of some honeymoon bling
-        Our holiday will surely be a dream come true 
+        Our holiday will surely be a dream come true
         All from the THANKS of YOU!</p>
 
         <p>For those of who can’t come to town
@@ -18,10 +18,10 @@
         We will celebrate round two with you!</p>
       </section>
 
-      <Card 
-        v-for="(value, key, index) in registry" 
+      <Card
+        v-for="(value, key, index) in registry"
         :key="index">
-        <RegistryItem 
+        <RegistryItem
           :key="index"
           :cost="value.cost"
           :title="value.title"
@@ -56,7 +56,7 @@ export default {
         {
           title: 'Roundtrip Air Fare',
           cost: '218.88',
-          content: `As much as we love traveling, airfare is an inevitable and large expense of our trip. 
+          content: `As much as we love traveling, airfare is an inevitable and large expense of our trip.
           Fly us to the wedding, honeymoon, and back home.  We will definitely appreciate your generosity when we land safely at our destination!`,
           buttonText: 'Buy It',
           image: 'airfare.jpg'
@@ -72,7 +72,7 @@ export default {
         {
           title: 'Romantic Dinner',
           cost: '99.99',
-          content: `Dinner and drinks to refuel after a day of hiking. 
+          content: `Dinner and drinks to refuel after a day of hiking.
           We will definitley appreciate your generosity when we are enjoying the good foods like a true foodie should!`,
           buttonText: 'Buy It',
           image: 'dining.jpg'
@@ -80,7 +80,7 @@ export default {
         {
           title: 'Hang Gliding',
           cost: '168.88',
-          content: `To fufill the adventurous spirits within. 
+          content: `To fufill the adventurous spirits within.
           We will definitley appreciate your generosity when we are soaring amongst the birds!`,
           buttonText: 'Buy It',
           image: 'parasailing.jpg'
@@ -88,7 +88,7 @@ export default {
         {
           title: 'Spa for Two',
           cost: '68.88',
-          content: `Massage and relaxation would be a wonderful way of recovery after some long hikes. 
+          content: `Massage and relaxation would be a wonderful way of recovery after some long hikes.
           We will definitley appreciate your generosity when I am one with Jello.`,
           buttonText: 'Buy It',
           image: 'spa.jpg'
@@ -96,7 +96,7 @@ export default {
         {
           title: 'Horseback Riding',
           cost: '88.88',
-          content: `Horseback ride on some beautiful trails.  We will definitley appreciate your generosity when we are 
+          content: `Horseback ride on some beautiful trails.  We will definitley appreciate your generosity when we are
           soaking in the beautiful weather and views.`,
           buttonText: 'Buy It',
           image: 'horseback-riding.jpg'
@@ -104,15 +104,14 @@ export default {
         {
           title: 'Dancing',
           cost: '29.99',
-          content: `Who doesn't like to boogie woogie woogie? 
+          content: `Who doesn't like to boogie woogie woogie?
           We will definitley appreciate your generosity when the music makes us groovy.`,
           buttonText: 'Buy It',
           image: 'dance.jpg'
         },
         {
           title: 'Lucky Envelope',
-          cost: 'Tell Us What You Want Us To Do!',
-          content: 'The content',
+          content: 'Tell Us What You Want Us To Do!',
           buttonText: 'Buy It'
         }
       ]
@@ -124,5 +123,6 @@ export default {
 <style>
 .poem {
   font-size: 1.25em;
+  margin-bottom: 1.5em;
 }
 </style>
