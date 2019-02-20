@@ -12,7 +12,7 @@ export default {
 
 <style>
 .card {
-  padding: 1.5em;
+  padding: 2em 3em;
   box-shadow: inset 0 0 0 0.5em var(--white), inset 0 0 0 1em var(--lightslate);
   margin: 0 auto 1em auto;
   background: var(--white);
