@@ -16,7 +16,6 @@ use rusoto_dynamodb::{
     UpdateItemInput,
     UpdateItemError
 };
-use lambda_http::{StrMap};
 
 use crate::models::{Person};
 
@@ -30,7 +29,8 @@ pub struct RSVP {
     pub invitation_submitted: bool,
     pub reminder_submitted: bool,
     pub dietary_restrictions: String,
-    pub dietary_restrictions_other: String
+    pub dietary_restrictions_other: String,
+    pub children_count: String
 }
 
 impl RSVP {
@@ -44,7 +44,8 @@ impl RSVP {
             invitation_submitted: false.into(),
             reminder_submitted: false.into(),
             dietary_restrictions: String::from("None"),
-            dietary_restrictions_other: String::from("")
+            dietary_restrictions_other: String::from(""),
+            children_count: String::from("0")
         }
     }
 
@@ -60,7 +61,8 @@ impl RSVP {
             String::from("invitation_submitted"),
             String::from("reminder_submitted"),
             String::from("dietary_restrictions"),
-            String::from("dietary_restrictions_other")
+            String::from("dietary_restrictions_other"),
+            String::from("children_count")
         ];
 
         // Create a vector of (String, Value) tuples
@@ -239,7 +241,8 @@ mod rsvp_tests {
             "invitation_submitted": true,
             "reminder_submitted": true,
             "dietary_restrictions": "Vegetarian",
-            "dietary_restrictions_other": ""
+            "dietary_restrictions_other": "",
+            "children_count": "5.0"
         });
 
         match RSVP::patch(uuid, payload.clone()) {
