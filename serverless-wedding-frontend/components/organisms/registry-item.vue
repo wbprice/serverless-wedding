@@ -11,6 +11,7 @@
     <p>{{ content }}</p>
     <a 
       :href="link" 
+      target="_blank"
       class="button primary">{{ buttonText }}</a>
   </section>
 </template>
