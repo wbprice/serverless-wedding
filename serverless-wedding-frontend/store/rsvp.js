@@ -13,7 +13,8 @@ export const state = () => ({
 const editableKeys = [
   'attending',
   'dietary_restrictions',
-  'dietary_restrictions_other'
+  'dietary_restrictions_other',
+  'children_count'
 ]
 
 function set_person_state(state, id, callback) {
@@ -87,6 +88,9 @@ export const mutations = {
 
   set_dietary_restrictions(state, { id, diet }) {
     set_person_state(state, id, person => {
+      if (diet.value != 'other') {
+        person.dietary_restrictions_other = null
+      }
       person.dietary_restrictions = diet.value
     })
   },
@@ -94,6 +98,12 @@ export const mutations = {
   set_dietary_restrictions_other(state, { id, value }) {
     set_person_state(state, id, person => {
       person.dietary_restrictions_other = value
+    })
+  },
+
+  set_children_count(state, { id, value }) {
+    set_person_state(state, id, person => {
+      person.children_count = value
     })
   }
 }

@@ -9,6 +9,7 @@
         src="/paper-plane.png">
       <h2>We'll see you there!</h2>
       <p>Check the logistics page for more information!</p>
+      <p>(P.S. bring boardgames)</p>
       <nuxt-link
         class="button primary"
         to="/logistics">Logistics</nuxt-link>

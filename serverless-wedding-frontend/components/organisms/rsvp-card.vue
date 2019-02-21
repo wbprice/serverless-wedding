@@ -38,11 +38,20 @@
 
     </b-field>
 
-    <b-field label="If Other, add details">
+    <b-field label="If other, please add details">
       <b-input
         :disabled="otherDisabled"
         :value="dietary_restrictions_other"
         @input="updateDietaryRestrictionsOther" />
+    </b-field>
+
+    <b-field label="How many kids are you bringing?">
+      <b-input
+        :value="children_count"
+        type="number"
+        min="0"
+        max="10"
+        @input="updateChildrenCount" />
     </b-field>
 
   </Card>
@@ -76,6 +85,10 @@ export default {
     dietary_restrictions_other: {
       type: String,
       default: null
+    },
+    children_count: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -127,6 +140,13 @@ export default {
     updateDietaryRestrictionsOther(event) {
       const value = event
       this.$store.commit('rsvp/set_dietary_restrictions_other', {
+        id: this.id,
+        value
+      })
+    },
+    updateChildrenCount(event) {
+      const value = event
+      this.$store.commit('rsvp/set_children_count', {
         id: this.id,
         value
       })

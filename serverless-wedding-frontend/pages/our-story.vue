@@ -116,7 +116,7 @@ export default {
               heading: 'Ling Ling',
               content: `He pulled out a pretty handmade wooden puzzle box we bought at the farmers market the day before.
                         Why did he buy such a complicated box to put a ring in?  Lol.  He pulled out the ring and got on his
-                        knees and asked, "will you marry me?"  I saw a few people eyeing us and I said "Only if you show me
+                        knees and asked, "Will you marry me?"  I saw a few people eyeing us and I said "Only if you show me
                         your best dance moves!"  I'm sure this confused anyone nearby that it might even be a proposal.
                         He threw out a few dance moves and then hurriedly put the ring on my finger even without a response.
                         I was cracking up and laughing non-stop the whole time while he was dancing and putting the ring on my

@@ -54,6 +54,7 @@ h5 {
 .container h1 {
   font-size: 3em;
   margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .container h2 {
