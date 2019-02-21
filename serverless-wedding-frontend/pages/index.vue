@@ -88,6 +88,6 @@ sup {
 .title .card {
   font-size: 0.25em;
   line-height: 1em;
-  max-width: 12em;
+  max-width: 14em;
 }
 </style>
