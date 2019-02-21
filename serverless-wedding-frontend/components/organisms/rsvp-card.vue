@@ -23,28 +23,28 @@
       </b-radio>
     </div>
 
-    <b-field label="Dietary Restrictions">
-      <b-select
-        :selected="dietary_restrictions"
-        :value="dietary_restrictions"
-        placeholder="None"
-        @input="updateDietaryRestrictions" >
-        <option
-          v-for="diet in dietaryRestrictions"
-          :key="diet.value"
-          :value="diet.value">
-          {{ diet.label }}
-        </option>
-      </b-select>
+    <div class="field-group">
+      <b-field label="Dietary Restrictions">
+        <b-select
+          :selected="dietary_restrictions"
+          :value="dietary_restrictions"
+          @input="updateDietaryRestrictions" >
+          <option
+            v-for="diet in dietaryRestrictions"
+            :key="diet.value"
+            :value="diet.value">
+            {{ diet.label }}
+          </option>
+        </b-select>
+      </b-field>
 
-    </b-field>
-
-    <b-field label="If other, please add details below">
-      <b-input
-        :disabled="otherDisabled"
-        :value="dietary_restrictions_other"
-        @input="updateDietaryRestrictionsOther" />
-    </b-field>
+      <b-field label="If other, please add details below">
+        <b-input
+          :disabled="otherDisabled"
+          :value="dietary_restrictions_other"
+          @input="updateDietaryRestrictionsOther" />
+      </b-field>
+    </div>
 
     <b-field label="How many kids are you bringing?">
       <b-input
@@ -171,6 +171,13 @@ export default {
   max-width: 360px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.field-group {
+  padding: 0.5em;
+  max-width: 480px;
+  margin: 0 auto 1em auto;
+  border: 2px solid var(--salmon);
 }
 
 .field .control {
