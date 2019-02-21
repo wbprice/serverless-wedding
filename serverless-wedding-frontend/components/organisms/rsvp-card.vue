@@ -2,6 +2,7 @@
   <Card>
     <h2>{{ name }}</h2>
 
+    <b-field label="Can you make it?" />
     <div class="field">
       <b-radio 
         :name="id"
@@ -38,7 +39,7 @@
 
     </b-field>
 
-    <b-field label="If other, please add details">
+    <b-field label="If other, please add details below">
       <b-input
         :disabled="otherDisabled"
         :value="dietary_restrictions_other"
@@ -112,7 +113,7 @@ export default {
         },
         {
           value: 'other',
-          label: 'Something else (will add detail)'
+          label: 'Other (Please add detail below)'
         }
       ]
     }
