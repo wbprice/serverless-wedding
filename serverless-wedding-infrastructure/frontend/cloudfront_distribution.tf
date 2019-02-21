@@ -1,7 +1,14 @@
 resource "aws_cloudfront_distribution" "blinging_love_distribution" {
   origin {
-    domain_name = "${aws_s3_bucket.blinging_love_bucket.bucket_regional_domain_name}"
+    domain_name = "${aws_s3_bucket.blinging_love_bucket.website_endpoint}"
     origin_id   = "${local.s3_origin_id}"
+
+    custom_origin_config {
+      http_port = 80
+      https_port = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = ["TLSv1.2"]
+    }
   }
 
   viewer_certificate {
