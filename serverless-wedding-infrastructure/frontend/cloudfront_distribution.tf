@@ -1,6 +1,6 @@
 resource "aws_cloudfront_distribution" "blinging_love_distribution" {
   origin {
-    domain_name = "${aws_s3_bucket.blinging_love_bucket.bucket_regional_domain_name}"
+    domain_name = "${aws_s3_bucket.blinging_love_bucket.website_endpoint}"
     origin_id   = "${local.s3_origin_id}"
   }
 
