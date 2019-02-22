@@ -127,7 +127,7 @@ export default {
         },
         {
           value: 'pizza',
-          label: 'Pepperoni Pizza'
+          label: 'Pizza'
         }
       ]
     }
