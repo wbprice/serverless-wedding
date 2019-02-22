@@ -161,7 +161,7 @@ export default {
     },
     updateFoodPreference(event) {
       const value = event
-      this.$store.commit('rsvp/set_food_prefernece', {
+      this.$store.commit('rsvp/set_food_preference', {
         id: this.id,
         value
       })
