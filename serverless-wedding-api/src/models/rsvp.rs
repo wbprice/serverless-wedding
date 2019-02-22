@@ -30,7 +30,7 @@ pub struct RSVP {
     pub reminder_submitted: bool,
     pub dietary_restrictions: String,
     pub dietary_restrictions_other: String,
-    pub children_count: String
+    pub food_preference: String
 }
 
 impl RSVP {
@@ -45,7 +45,7 @@ impl RSVP {
             reminder_submitted: false.into(),
             dietary_restrictions: String::from("None"),
             dietary_restrictions_other: String::from(""),
-            children_count: String::from("0")
+            food_preference: String::from("4course")
         }
     }
 
@@ -62,7 +62,7 @@ impl RSVP {
             String::from("reminder_submitted"),
             String::from("dietary_restrictions"),
             String::from("dietary_restrictions_other"),
-            String::from("children_count")
+            String::from("food_preference")
         ];
 
         // Create a vector of (String, Value) tuples
