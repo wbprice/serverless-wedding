@@ -23,6 +23,20 @@
       </b-radio>
     </div>
 
+    <b-field label="What Do You Want To Eat?">
+      <b-select
+        :selected="food_preference"
+        :value="food_preference"
+        @input="updateFoodPreference" >
+        <option
+          v-for="food in foodPreferences"
+          :key="food.value"
+          :value="food.value">
+          {{ food.label }}
+        </option>
+      </b-select>
+    </b-field>
+
     <div class="field-group">
       <b-field label="Dietary Restrictions">
         <b-select
@@ -45,16 +59,6 @@
           @input="updateDietaryRestrictionsOther" />
       </b-field>
     </div>
-
-    <b-field label="How many kids are you bringing?">
-      <b-input
-        :value="children_count"
-        type="number"
-        min="0"
-        max="10"
-        @input="updateChildrenCount" />
-    </b-field>
-
   </Card>
 </template>
 
@@ -87,9 +91,9 @@ export default {
       type: String,
       default: null
     },
-    children_count: {
-      type: Number,
-      default: 0
+    food_preference: {
+      type: String,
+      default: '4course'
     }
   },
   data() {
@@ -114,6 +118,16 @@ export default {
         {
           value: 'other',
           label: 'Other (Please add detail below)'
+        }
+      ],
+      foodPreferences: [
+        {
+          value: '4course',
+          label: 'Four-Course Meal'
+        },
+        {
+          value: 'pizza',
+          label: 'Pepperoni Pizza'
         }
       ]
     }
@@ -145,9 +159,9 @@ export default {
         value
       })
     },
-    updateChildrenCount(event) {
+    updateFoodPreference(event) {
       const value = event
-      this.$store.commit('rsvp/set_children_count', {
+      this.$store.commit('rsvp/set_food_prefernece', {
         id: this.id,
         value
       })

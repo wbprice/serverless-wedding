@@ -14,7 +14,7 @@ const editableKeys = [
   'attending',
   'dietary_restrictions',
   'dietary_restrictions_other',
-  'children_count'
+  'food_preference'
 ]
 
 function set_person_state(state, id, callback) {
@@ -101,9 +101,9 @@ export const mutations = {
     })
   },
 
-  set_children_count(state, { id, value }) {
+  set_food_preference(state, { id, value }) {
     set_person_state(state, id, person => {
-      person.children_count = value
+      person.food_preference = value
     })
   }
 }

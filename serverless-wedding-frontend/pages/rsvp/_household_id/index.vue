@@ -9,9 +9,9 @@
         :name="person.name"
         :id="person.id"
         :attending="person.attending"
-        :children_count="person.children_count"
         :dietary_restrictions="person.dietary_restrictions"
         :dietary_restrictions_other="person.dietary_restrictions_other"
+        :food_preference="person.food_preference"
       />
 
       <button
