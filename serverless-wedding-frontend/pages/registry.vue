@@ -78,7 +78,7 @@ export default {
           image: '/dining.jpg'
         },
         {
-          title: 'Hang Gliding',
+          title: 'Adventure Package',
           cost: '168.88',
           content: `To fufill the adventurous spirits within.
           We will definitley appreciate your generosity when we are soaring amongst the birds!`,
