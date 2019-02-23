@@ -1,5 +1,4 @@
-const API_URL_ROOT =
-  'https://1laad1x9sg.execute-api.us-east-1.amazonaws.com/dev'
+const API_URL_ROOT = process.env.API_URL_ROOT
 
 export const state = () => ({
   request: {

@@ -3,6 +3,13 @@ const pkg = require('./package')
 module.exports = {
   mode: 'spa',
 
+  env: {
+    API_URL_ROOT:
+      process.env.NODE_ENV == 'prod'
+        ? `https://kevbnnob5d.execute-api.us-east-1.amazonaws.com/prod/`
+        : `https://1laad1x9sg.execute-api.us-east-1.amazonaws.com/dev/`
+  },
+
   /*
   ** Headers of the page
   */
