@@ -112,7 +112,8 @@ export default {
         {
           title: 'Lucky Envelope',
           content: 'Tell Us What You Want Us To Do!',
-          buttonText: 'Buy It'
+          buttonText: 'Buy It',
+          image: '/lucky-envelope.jpg'
         }
       ]
     }
