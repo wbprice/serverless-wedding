@@ -12,13 +12,13 @@ module "backend" {
 }
 
 output "rsvp_table_name" {
-    value = "${backend.rsvp_table.name}"
+    value = "${module.backend.rsvp_table_name}"
 }
 
 output "rsvp_table_id_index_name" {
-    value = "${backend.rsvp_table_id_index_name}"
+    value = "${module.backend.rsvp_table_id_index_name}"
 }
 
 output "api_role_arn" {
-    value = "${backend.serverless_wedding_api_iam_role.arn}"
+    value = "${module.backend.api_role_arn}"
 }

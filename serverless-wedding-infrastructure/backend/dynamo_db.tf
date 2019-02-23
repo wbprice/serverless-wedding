@@ -4,7 +4,7 @@ locals {
 }
 
 resource "aws_dynamodb_table" "rsvp_table" {
-    name = "rsvp-${environment_code}-table"
+    name = "rsvp-${var.environment_code}-table"
     read_capacity = 10
     write_capacity = 10
     hash_key = "household_id"
