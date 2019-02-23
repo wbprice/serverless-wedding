@@ -5,7 +5,7 @@ module.exports = {
 
   env: {
     API_URL_ROOT:
-      process.env.NODE_ENV == 'prod'
+      process.env.NODE_ENV == 'production'
         ? `https://kevbnnob5d.execute-api.us-east-1.amazonaws.com/prod/`
         : `https://1laad1x9sg.execute-api.us-east-1.amazonaws.com/dev/`
   },
