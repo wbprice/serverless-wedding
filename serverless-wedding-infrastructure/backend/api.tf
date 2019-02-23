@@ -3,7 +3,7 @@ data "template_file" "serverless_wedding_api_assume_role_policy" {
 }
 
 resource "aws_iam_role" "serverless_wedding_api_iam_role" {
-    name = "serverless-wedding-api-iam-role"
+    name = "serverless-wedding-api-${environment_code}-iam-role"
 
     assume_role_policy = "${data.template_file.serverless_wedding_api_assume_role_policy.rendered}"
 }
@@ -18,7 +18,7 @@ data "template_file" "serverless_wedding_api_iam_policy" {
 }
 
 resource "aws_iam_role_policy" "serverless_wedding_api_iam_policy" {
-    name = "serverless-wedding-api-iam-policy"
+    name = "serverless-wedding-api-${environment_code}-iam-policy"
     role = "${aws_iam_role.serverless_wedding_api_iam_role.id}"
 
     policy = "${data.template_file.serverless_wedding_api_iam_policy.rendered}"

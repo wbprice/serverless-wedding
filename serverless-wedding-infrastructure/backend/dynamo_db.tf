@@ -1,10 +1,10 @@
 
 locals {
-    rsvp_table_id_index_name = "rsvp_id_index"
+    rsvp_table_id_index_name = "rsvp-id-index"
 }
 
 resource "aws_dynamodb_table" "rsvp_table" {
-    name = "rsvp_table"
+    name = "rsvp-${environment_code}-table"
     read_capacity = 10
     write_capacity = 10
     hash_key = "household_id"
