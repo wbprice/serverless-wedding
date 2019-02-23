@@ -100,24 +100,28 @@ export default {
     return {
       dietaryRestrictions: [
         {
-          value: 'vegetarian',
-          label: 'Only vegetables, no animal products please.'
-        },
-        {
-          value: 'gluten-free',
-          label: "I don't do bread"
-        },
-        {
           value: 'none',
-          label: 'I can eat anything'
+          label: 'None - I can eat anything'
         },
         {
           value: 'pescatarian',
-          label: 'I like eating vegetables and fish'
+          label: 'Pescatarian - Vegetables & Fish'
+        },
+        {
+          value: 'vegetarian',
+          label: 'Vegetarian - No meat, please'
+        },
+        {
+          value: 'vegan',
+          label: 'Vegan - No Animal Products'
+        },
+        {
+          value: 'gluten-free',
+          label: 'Gluten-Free - No Bread'
         },
         {
           value: 'other',
-          label: 'Other (Please add detail below)'
+          label: 'Other (Please specify)'
         }
       ],
       foodPreferences: [
