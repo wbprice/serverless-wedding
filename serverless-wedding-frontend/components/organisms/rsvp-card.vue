@@ -25,6 +25,7 @@
 
     <b-field label="What Do You Want To Eat?">
       <b-select
+        :disabled="disabled"
         :selected="food_preference"
         :value="food_preference"
         @input="updateFoodPreference" >
@@ -40,6 +41,7 @@
     <div class="field-group">
       <b-field label="Dietary Restrictions">
         <b-select
+          :disabled="disabled"
           :selected="dietary_restrictions"
           :value="dietary_restrictions"
           @input="updateDietaryRestrictions" >
@@ -139,6 +141,9 @@ export default {
   computed: {
     otherDisabled() {
       return this.dietary_restrictions != 'other'
+    },
+    disabled() {
+      return this.attending == false
     }
   },
   methods: {
