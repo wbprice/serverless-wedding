@@ -125,10 +125,11 @@
       <h2>Local Activities</h2>
       <p>Estes Park is known for it's natural beauty and outdoor attractions</p>
       <ul>
-        <li><a href="https://www.visitestespark.com/events/community-all-levels-yoga/5316/">Free Yoga on 7/5/19 from 6-7 PM</a><li>
+        <li><a href="https://www.visitestespark.com/events/community-all-levels-yoga/5316/">Free Yoga on 7/5/19 from 6-7 PM</a></li>
         <li>Rocky Mountain National Park</li>
         <li>Horseback Riding</li>
         <li>Visit <a href="https://www.tripadvisor.com/Tourism-g60945-Estes_Park_Colorado-Vacations.html">TripAdvisor</a> for other ideas</li>
+        <li><a href="https://colorado.com/events">Colorado.com Events</a></li>
       </ul>
     </Card>
 
