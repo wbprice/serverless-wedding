@@ -8,7 +8,7 @@
           We have almost everything under the sun.<br>
           Your presence would be a gift.<br>
           But if you insist on giving us a lift,<br>
-          we would like to spread our adventurous wings<br>
+          We would like to spread our adventurous wings<br>
           With the help of some honeymoon bling<br>
           Our holiday will surely be a dream come true<br>
           All thanks to you!</p><br>
