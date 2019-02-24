@@ -61,13 +61,13 @@
         class="venue"
         alt="A mountain lodge"
         src="/venue.jpg" >
-      <p>The venue for the ceremony and reception will be a mountain home in Estes Park, CO</p>
+      <p>The venue for the ceremony and reception will be a mountain home in Estes Park, CO.</p>
       <ul>
-        <li>If you party too hard on the night of the wedding, we'll have beds for 5 couples on a first-come, first served basis</li>
-        <li>The house doesn't have air conditioning</li>
+        <li>If you party too hard on the night of the wedding, we'll have beds for 5 couples on a first-come, first served basis.</li>
+        <li>The house doesn't have air conditioning.</li>
         <li>There are bears in the area. Please secure all trash. You'll need to lock doors and windows each time you leave the property or your car.</li>
-        <li>No smoking</li>
-        <li>We have one high chair</li>
+        <li>No smoking.</li>
+        <li>We have one high chair.</li>
       </ul>
     </Card>
 
@@ -79,6 +79,7 @@
     <Card>
       <h2>Food</h2>
       <p>Chef Grant from GB Culinary will prepare a four course farm-to-table menu.</p>
+      <p>We'll order pizza for those who have simpler tastes.</p>
     </Card>
 
     <Card>
