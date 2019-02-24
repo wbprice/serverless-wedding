@@ -28,9 +28,29 @@
 
       <h4>Shuttle</h4>
       <ul>
-        <li><a href="https://estesparkshuttle.com">Estes Park Shuttle</a></li>
-        <li><a href="https://denversairporttransportation.com">denversairporttransportation.com</a></li>
-        <li><a href="https://towncartoairportdenver.com">towncartoairportdenver.com</a></li>
+        <li>
+          <a href="https://estesparkshuttle.com">Estes Park Shuttle</a>
+          <ul>
+            <li>(970) 586-5151</li>
+            <li>$45 one way or $85.00 per person for round trip</li>
+            <li>Use our special coupon code to get 10% off!  Codeword: "blinginglove"</li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://denversairporttransportation.com">Denvers Airport Transportation</a>
+          <ul>
+            <li>(720) 579-6135</li>
+            <li>SUV 5 people $195</li>
+            <li>14 passengers Mercedes Sprinters minibus $375</li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://towncartoairportdenver.com">Town Car Airport Denver</a>
+          <ul>
+            <li>(303) 587-8882</li>
+            <li>7 people $250</li>
+          </ul>
+        </li>
       </ul>
 
     </Card>
@@ -50,7 +70,7 @@
       <ul>
         <li>We'll have beds for 5 couples, available on a first-come, first served basis</li>
         <li>The house doesn't have air conditioning</li>
-        <li>There are bears in the area. Please secure all trash. You'll need to lock doors and windows each time you leave the property.</li>
+        <li>There are bears in the area. Please secure all trash. You'll need to lock doors and windows each time you leave the property. Cars too.</li>
         <li>No smoking</li>
         <li>We have one high chair</li>
       </ul>
@@ -58,7 +78,7 @@
 
     <Card>
       <h2>Food</h2>
-      <p>Chef Grant from GB Culinary will prepare a four course Farm-to-table menu</p>
+      <p>Chef Grant from GB Culinary will prepare a four course farm-to-table menu.</p>
     </Card>
 
     <Card>
