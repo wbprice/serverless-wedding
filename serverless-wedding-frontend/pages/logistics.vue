@@ -81,7 +81,11 @@
 
     <Card>
       <h2>Local Activities</h2>
-      
+      <ul>
+        <li>Rocky Mountain National Park</li>
+        <li>Horseback Riding</li>
+        <li>Visit <a href="https://www.tripadvisor.com/Tourism-g60945-Estes_Park_Colorado-Vacations.html">TripAdvisor</a> for other ideas</li>
+      </ul>
     </Card>
 
   </div>
