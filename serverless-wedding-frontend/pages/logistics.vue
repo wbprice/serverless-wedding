@@ -72,15 +72,37 @@
       <p>Estes is not a big town.  Anywhere you can find lodging is fine.</p>
       <h3>Suggestions</h3>
       <ul>
-        <li>Historic Crag's Lodge</li>
-        <li>The Ridgeline Hotel Estes Park</li>
-        <li>The Stanley Hotel</li>
-        <li>AirBnB / Homeaway</li>
+        <li>
+          <a href="https://www.diamondresorts.com/destinations/property/The-Historic-Crags-Lodge">
+            Historic Crag's Lodge
+          </a>
+        </li>
+        <li>
+          <a href="https://ridgelinehotel.com/">
+            The Ridgeline Hotel Estes Park
+          </a>
+        </li>
+        <li>
+          <a href="https://www.stanleyhotel.com/">
+            The Stanley Hotel
+          </a>
+        </li>
+        <li>
+          <a href="https://www.airbnb.com/a/Estes-Park--United-States">
+            AirBnB
+          </a>
+        </li>
+        <li>
+          <a href="https://www.homeaway.com/d/128/estes-park">
+            Homeaway
+          </a>
+        </li>
       </ul>
     </Card>
 
     <Card>
       <h2>Local Activities</h2>
+      <p>Estes Park is known for it's natural beauty and outdoor attractions</p>
       <ul>
         <li>Rocky Mountain National Park</li>
         <li>Horseback Riding</li>
