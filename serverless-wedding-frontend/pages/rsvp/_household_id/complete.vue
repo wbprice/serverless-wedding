@@ -10,6 +10,8 @@
       <h2>We'll see you there!</h2>
       <p>Check the logistics page for more information!</p>
       <p>(P.S. bring boardgames)</p>
+      <p>Look out for an invite on Facebook for further interactions and updates!</p>
+
       <nuxt-link
         class="button primary"
         to="/logistics">Logistics</nuxt-link>
