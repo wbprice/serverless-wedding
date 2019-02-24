@@ -56,11 +56,6 @@
     </Card>
 
     <Card>
-      <h2>Rehearsal Afternoon</h2>
-      <p>TBD</p>
-    </Card>
-
-    <Card>
       <h2>Venue</h2>
       <img
         class="venue"
@@ -74,6 +69,11 @@
         <li>No smoking</li>
         <li>We have one high chair</li>
       </ul>
+    </Card>
+
+    <Card>
+      <h2>Rehearsal Afternoon</h2>
+      <p>TBD</p>
     </Card>
 
     <Card>
