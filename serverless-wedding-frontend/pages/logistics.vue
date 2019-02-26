@@ -130,7 +130,7 @@
         <li>Horseback Riding</li>
         <li>Visit <a href="https://www.tripadvisor.com/Tourism-g60945-Estes_Park_Colorado-Vacations.html">TripAdvisor</a> for other ideas</li>
         <li><a href="https://colorado.com/events">Colorado.com Events</a></li>
-        <li><a href="https://estes-park.com/free-shuttle-buses/">Free shuttle around town and to parks</a><li>
+        <li><a href="https://estes-park.com/free-shuttle-buses/">Free shuttle around town and to parks</a></li>
       </ul>
     </Card>
 
