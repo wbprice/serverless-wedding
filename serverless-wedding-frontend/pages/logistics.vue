@@ -3,6 +3,37 @@
     <h1>Logistics</h1>
 
     <Card>
+      <h2>Tentative Schedule</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10:00AM</td>
+            <td>Blaine must overcome three challenges to prove his love</td>
+          </tr>
+          <tr>
+            <td>10:30AM</td>
+            <td>Chinese Tea Ceremony</td>
+          </tr>
+          <tr>
+            <td>11:00AM</td>
+            <td>American Ceremony</td>
+          </tr>
+          <tr>
+            <td>11:30AM</td>
+            <td>Reception</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+
+    <Card>
       <h2>Air Travel</h2>
       <p>The closest airport is Denver International Airport (DEN).
       The last time we flew to Denver we used <a href="https://www.flyfrontier.com/">Frontier Airlines</a>.</p>
@@ -154,5 +185,25 @@ export default {
 
 ul {
   margin-bottom: 16px;
+}
+
+table {
+  border: 2px solid var(--slate);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+}
+
+thead tr {
+  background: var(--slate);
+}
+
+thead th {
+  color: var(--white);
+  padding: 0.25em;
+}
+
+tbody td {
+  padding: 0.25em;
 }
 </style>
