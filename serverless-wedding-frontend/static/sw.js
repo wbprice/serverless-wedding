@@ -6,8 +6,8 @@ workbox.precaching.precacheAndRoute([
     "revision": "9bba63ffcc7043b5d700d96a283682ac"
   },
   {
-    "url": "/_nuxt/1219f3de3ce6e1b3726f.js",
-    "revision": "dc54a53998cd7b0b62acc176406886aa"
+    "url": "/_nuxt/0e3fe5327bd9fc98c757.js",
+    "revision": "cb237adf0a8748f87d7d664a5b387d5e"
   },
   {
     "url": "/_nuxt/12f84eac744a4b1189aa.js",
@@ -34,16 +34,16 @@ workbox.precaching.precacheAndRoute([
     "revision": "b9d88c9c94f3f4d66eb32c0059d5bef1"
   },
   {
+    "url": "/_nuxt/a505ad88529689f4dba0.js",
+    "revision": "fe2c3366ee0e3b9da9cfbdf861f7fd1e"
+  },
+  {
     "url": "/_nuxt/bbaa6332a187b8876ee7.js",
     "revision": "896702cc119acb873b965ad301fec913"
   },
   {
     "url": "/_nuxt/c08073998d1cd7f82ec7.js",
     "revision": "b407a3cecc69f93682126b98c4f60313"
-  },
-  {
-    "url": "/_nuxt/dad3367561a084a4438c.js",
-    "revision": "2a604d98f859ebdc2c2166c5c3372065"
   }
 ], {
   "cacheId": "blinging.love",
