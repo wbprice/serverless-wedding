@@ -18,6 +18,11 @@
           We will celebrate round two with you!</p>
       </section>
 
+      <div class="registry-heading">
+        <h2>We'll be travelling all over Colorado for our honeymoon!</h2>
+        <p>Here's a short list of some of the things we want to do!</p>
+      </div>
+
       <Card
         v-for="(value, key, index) in registry"
         :key="index">
@@ -117,5 +122,13 @@ export default {
 .poem {
   font-size: 1.25em;
   margin-bottom: 1.5em;
+}
+
+.registry-heading {
+  margin-bottom: 1em;
+}
+
+.registry-heading p {
+  font-size: 1.25em;
 }
 </style>
