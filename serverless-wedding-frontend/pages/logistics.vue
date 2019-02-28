@@ -3,37 +3,6 @@
     <h1>Logistics</h1>
 
     <Card>
-      <h2>Tentative Schedule</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Activity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>10:00AM</td>
-            <td>Blaine must overcome three challenges to prove his love</td>
-          </tr>
-          <tr>
-            <td>10:30AM</td>
-            <td>Chinese Tea Ceremony</td>
-          </tr>
-          <tr>
-            <td>11:00AM</td>
-            <td>American Ceremony</td>
-          </tr>
-          <tr>
-            <td>11:30AM</td>
-            <td>Reception</td>
-          </tr>
-        </tbody>
-      </table>
-    </Card>
-
-    <Card>
       <h2>Air Travel</h2>
       <p>The closest airport is Denver International Airport (DEN).
       The last time we flew to Denver we used <a href="https://www.flyfrontier.com/">Frontier Airlines</a>.</p>
@@ -106,6 +75,39 @@
       <h2>Rehearsal Afternoon</h2>
       <p>TBD</p>
     </Card>
+
+    <Card>
+      <h2>Tentative Schedule</h2>
+      <h2>July 6th, 2019</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10:00AM</td>
+            <td>Blaine must overcome three challenges to prove his love</td>
+          </tr>
+          <tr>
+            <td>10:30AM</td>
+            <td>Chinese Tea Ceremony</td>
+          </tr>
+          <tr>
+            <td>11:00AM</td>
+            <td>American Ceremony</td>
+          </tr>
+          <tr>
+            <td>11:30AM</td>
+            <td>Reception</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+
 
     <Card>
       <h2>Food</h2>
