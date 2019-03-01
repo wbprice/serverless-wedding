@@ -80,6 +80,9 @@
       <h2>Tentative Schedule</h2>
       <h2>July 6th, 2019</h2>
 
+      <h2>Dress</h2>
+      <p>Dressy casual, semi-formal</p>
+
       <table>
         <thead>
           <tr>
