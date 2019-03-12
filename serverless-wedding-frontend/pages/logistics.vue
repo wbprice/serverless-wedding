@@ -72,8 +72,8 @@
     </Card>
 
     <Card>
-      <h2>Rehearsal Afternoon</h2>
-      <p>TBD</p>
+      <h2>Rehearsal</h2>
+      <p>We're going to bed early, so we won't have a rehearsal.  We're just going to be creative and wing it.</p>
     </Card>
 
     <Card>
