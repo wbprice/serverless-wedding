@@ -121,7 +121,7 @@
     <Card>
       <h2>Entertainment</h2>
       <p>Bring a boardgame to play!</p>
-      <p>We're planning to have a billiards table and a hot tub, so bring a bathing suit!</p>
+      <p>We'll have a firepit and a fooseball table! Woo!</p>
     </Card>
 
     <Card>
