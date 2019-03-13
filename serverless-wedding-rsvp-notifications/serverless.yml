@@ -1,0 +1,24 @@
+service: serverless-wedding-rsvp-notifications
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: dev
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  role: ${file(../serverless-wedding-infrastructure/config.${self:provider.stage}.json):api_role_arn.value}
+
+custom:
+  vars: ${file(../serverless-wedding-infrastructure/config.${self:provider.stage}.json)}
+
+functions:
+  rsvp-notification:
+    handler: handler.send_rsvp_notification
+    events:
+      - stream:
+          type: dynamodb
+          arn:  ${self:custom.vars.rsvp_table_stream_arn.value}
+          batchSize: 10
+          startingPosition: LATEST
+
+        
