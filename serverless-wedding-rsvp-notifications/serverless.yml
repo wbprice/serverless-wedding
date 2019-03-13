@@ -12,6 +12,8 @@ plugins:
 
 custom:
   vars: ${file(../serverless-wedding-infrastructure/config.${self:provider.stage}.json)}
+  pythonRequirements:
+    dockerizePip: non-linux
 
 functions:
   rsvp-notification:
