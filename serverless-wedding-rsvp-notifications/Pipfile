@@ -10,3 +10,7 @@ boto3 = "*"
 
 [requires]
 python_version = "3.7"
+
+[dev-packages]
+pylint = "*"
+autopep8 = "*"

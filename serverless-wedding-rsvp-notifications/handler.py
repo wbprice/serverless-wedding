@@ -1,10 +1,14 @@
 import logging
 import boto3
+import os
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-boto3.resource('dynamodb')
+sns = boto3.resources("sns")
+topic = sns.Topic(os.environ["RSVP_HANDLER_SNS_TOPIC_ARN"])
+
+boto3.resource("dynamodb")
 deserializer = boto3.dynamodb.types.TypeDeserializer()
 
 def deserialize_dynamodb_record(record):
@@ -28,4 +32,10 @@ def send_rsvp_notification(event, context):
 
         # If this isn't a modify event, quit the loop early
         if record["eventName"] != "MODFIY":
-            continue
+        	continue
+
+		# Otherwise, push the changes to the SNS topic
+		topic.publish(
+			Message = json.dumps(record_dictionary),
+			Subject = "RSVP Notfication"
+		)

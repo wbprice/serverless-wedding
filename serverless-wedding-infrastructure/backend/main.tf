@@ -22,3 +22,7 @@ output "api_role_arn" {
 output "rsvp_handler_role_arn" {
     value = "${aws_iam_role.serverless_wedding_rsvp_handler_iam_role.arn}"
 }
+
+output "rsvp_handler_sns_topic_arn" {
+    value = "${aws_sns_topic.rsvp_update_notifications.arn}"
+}

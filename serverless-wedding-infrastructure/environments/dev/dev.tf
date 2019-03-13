@@ -30,3 +30,7 @@ output "api_role_arn" {
 output "rsvp_handler_role_arn" {
     value = "${module.backend.rsvp_handler_role_arn}"
 }
+
+output "rsvp_handler_sns_topic_arn" {
+    value = "${module.backend.rsvp_handler_sns_topic_arn}"
+}

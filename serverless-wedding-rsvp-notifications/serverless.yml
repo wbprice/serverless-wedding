@@ -18,6 +18,8 @@ custom:
 functions:
   rsvp-notification:
     handler: handler.send_rsvp_notification
+    environment:
+      RSVP_HANDLER_SNS_TOPIC_ARN: ${file(../serverless-wedding-infrastructure/config.${self:provider.stage}.json):rsvp_handler_sns_topic_arn.value}
     events:
       - stream:
           type: dynamodb
