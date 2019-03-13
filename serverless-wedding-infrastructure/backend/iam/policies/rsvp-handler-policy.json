@@ -1,0 +1,32 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "dynamodb:GetRecords", 
+        "dynamodb:GetShardIterator", 
+        "dynamodb:DescribeStream", 
+        "dynamodb:ListStreams"
+      ],
+      "Effect": "Allow",
+      "Resource": ["${rsvp_table_stream_arn}"]
+    },
+    {
+      "Action": [
+        "SNS:Publish"
+      ],
+      "Effect": "Allow",
+      "Resource": ["${rsvp_handler_sns_topic}"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["logs:*"],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Action": ["cloudwatch:*"],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
