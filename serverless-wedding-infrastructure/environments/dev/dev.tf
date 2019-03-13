@@ -26,3 +26,7 @@ output "rsvp_table_stream_arn" {
 output "api_role_arn" {
     value = "${module.backend.api_role_arn}"
 }
+
+output "rsvp_handler_role_arn" {
+    value = "${module.backend.rsvp_handler_role_arn}"
+}

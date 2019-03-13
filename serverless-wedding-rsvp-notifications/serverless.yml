@@ -3,10 +3,12 @@ service: serverless-wedding-rsvp-notifications
 provider:
   name: aws
   runtime: python3.6
-  stage: dev
-  region: us-east-1
   stage: ${opt:stage, 'dev'}
-  role: ${file(../serverless-wedding-infrastructure/config.${self:provider.stage}.json):api_role_arn.value}
+  region: us-east-1
+  role: ${file(../serverless-wedding-infrastructure/config.${self:provider.stage}.json):rsvp_handler_role_arn.value}
+
+plugins:
+  - serverless-python-requirements
 
 custom:
   vars: ${file(../serverless-wedding-infrastructure/config.${self:provider.stage}.json)}

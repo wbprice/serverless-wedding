@@ -18,3 +18,7 @@ output "rsvp_table_stream_arn" {
 output "api_role_arn" {
     value = "${aws_iam_role.serverless_wedding_api_iam_role.arn}"
 }
+
+output "rsvp_handler_role_arn" {
+    value = "${aws_iam_role.serverless_wedding_rsvp_handler_iam_role.arn}"
+}
