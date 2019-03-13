@@ -3,6 +3,12 @@
     <h1>RSVP</h1>
 
     <section v-if="householdId && household.length">
+
+      <header>
+        <h2>We want to have you at our wedding!</h2>
+        <p>Please reply by <em>April 15th, 2019</em></p>
+      </header>
+
       <RSVPCard
         v-for="person in household"
         :key="person.id"
@@ -24,7 +30,7 @@
       <div class="card">
         <img
           alt="An email being sent"
-          class="big icon" 
+          class="big icon"
           src="message.png">
 
         <h2>Your Invite's In The Mail!</h2>
@@ -77,4 +83,7 @@ export default {
 </script>
 
 <style>
+.rsvp header {
+  margin-bottom: 2em;
+}
 </style>

@@ -63,17 +63,17 @@
         src="/venue.jpg" >
       <p>The venue for the ceremony and reception will be a mountain home in Estes Park, CO.</p>
       <ul>
-        <li>If you party too hard on the night of the wedding, we'll have beds for 5 couples on a first-come, first served basis.</li>
+        <li>If you party too hard on the night of the wedding, we'll have beds for 6 couples (+1 single) on a first-come, first served basis.</li>
         <li>The house doesn't have air conditioning.</li>
         <li>There are bears in the area. Please secure all trash. You'll need to lock doors and windows each time you leave the property or your car.</li>
         <li>No smoking.</li>
-        <li>We have one high chair.</li>
+        <li>Please bring your own booster seats if you have children.</li>
       </ul>
     </Card>
 
     <Card>
-      <h2>Rehearsal Afternoon</h2>
-      <p>TBD</p>
+      <h2>Rehearsal</h2>
+      <p>We're going to bed early, so we won't have a rehearsal.  We're just going to be creative and wing it.</p>
     </Card>
 
     <Card>
@@ -121,7 +121,7 @@
     <Card>
       <h2>Entertainment</h2>
       <p>Bring a boardgame to play!</p>
-      <p>We're planning to have a billiards table and a hot tub, so bring a bathing suit!</p>
+      <p>We'll have a firepit and a fooseball table! Woo!</p>
     </Card>
 
     <Card>
