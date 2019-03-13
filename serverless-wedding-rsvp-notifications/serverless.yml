@@ -26,5 +26,3 @@ functions:
           arn:  ${self:custom.vars.rsvp_table_stream_arn.value}
           batchSize: 10
           startingPosition: LATEST
-
-        

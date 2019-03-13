@@ -24,7 +24,11 @@ def create_message_text(record):
     person = record["name"]
     rsvp = "YES" if record["attending"] else "NO"
 
-    return f"{person} RSVPd {rsvp} to the wedding invite!"
+    return f"""
+{person} RSVPd {rsvp} to the wedding invite!
+Their food preference is {record["food_preference"]}
+Their dietary restrictions are {record["dietary_restrictions"]}
+    """
 
 
 def send_rsvp_notification(event, context):
@@ -44,13 +48,15 @@ def send_rsvp_notification(event, context):
 
         # Otherwise, push the changes to the SNS topic
         try:
+            message = create_message_text(record_dictionary)
             response = sns.publish(
                 TopicArn = SNS_TOPIC_ARN,
-                Message = create_message_text(record_dictionary),
+                Message = message,
                 Subject = "RSVP Notfication"
             )
 
             logger.info("Published a message to the SNS topic with ARN: {}".format(SNS_TOPIC_ARN))
+            logger.info("The text of the message was: {}".format(message))
             logger.info("The response was: {}".format(response))
         except Exception as e:
             logger.error("There was an error publishing to the topic: {}".format(e))
