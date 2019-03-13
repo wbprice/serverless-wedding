@@ -20,6 +20,13 @@ def deserialize_dynamodb_record(record):
    return {key: deserializer.deserialize(value) for key, value in record.copy().items()}
 
 
+def create_message_text(record):
+    person = record["name"]
+    rsvp = "YES" if record["attending"] else "NO"
+
+    return f"{person} RSVPd {rsvp} to the wedding invite!"
+
+
 def send_rsvp_notification(event, context):
     """
     This function should send Ling Ling a notification whenever someone changes their RSVP status
@@ -36,11 +43,10 @@ def send_rsvp_notification(event, context):
             continue
 
         # Otherwise, push the changes to the SNS topic
-
         try:
             response = sns.publish(
-                TopicArn=SNS_TOPIC_ARN,
-                Message = json.dumps(record_dictionary),
+                TopicArn = SNS_TOPIC_ARN,
+                Message = create_message_text(record_dictionary),
                 Subject = "RSVP Notfication"
             )
 
