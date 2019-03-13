@@ -9,6 +9,8 @@ resource "aws_dynamodb_table" "rsvp_table" {
     write_capacity = 10
     hash_key = "household_id"
     range_key = "name"
+    stream_enabled = true
+    stream_view_type = "NEW_IMAGE"
 
     global_secondary_index {
         name               = "${local.rsvp_table_id_index_name}"
