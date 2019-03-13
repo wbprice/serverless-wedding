@@ -23,7 +23,3 @@ resource "aws_iam_role_policy" "serverless_wedding_api_iam_policy" {
 
     policy = "${data.template_file.serverless_wedding_api_iam_policy.rendered}"
 }
-
-resource "aws_sns_topic" "rsvp_update_notifications" {
-  name = "rsvp-updates-${var.environment_code}-sns-topic"
-}
