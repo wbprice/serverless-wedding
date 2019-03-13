@@ -32,10 +32,10 @@ def send_rsvp_notification(event, context):
 
         # If this isn't a modify event, quit the loop early
         if record["eventName"] != "MODFIY":
-        	continue
+            continue
 
-		# Otherwise, push the changes to the SNS topic
-		topic.publish(
-			Message = json.dumps(record_dictionary),
-			Subject = "RSVP Notfication"
-		)
+        # Otherwise, push the changes to the SNS topic
+        topic.publish(
+            Message = json.dumps(record_dictionary),
+            Subject = "RSVP Notfication"
+        )
