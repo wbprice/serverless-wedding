@@ -78,10 +78,7 @@
 
     <Card>
       <h2>Tentative Schedule</h2>
-      <h2>July 6th, 2019</h2>
-
-      <h2>Dress</h2>
-      <p>Dressy casual, semi-formal</p>
+      <h3>July 6th, 2019</h3>
 
       <table>
         <thead>
@@ -109,6 +106,9 @@
           </tr>
         </tbody>
       </table>
+
+      <h2>Dress</h2>
+      <p>Dressy casual, semi-formal</p>
     </Card>
 
 
