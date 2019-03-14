@@ -15,21 +15,33 @@
       <h4>Rent a Car</h4>
       <p>Boulder, CO is a a good halfway point to grab food and do other shopping.</p>
       <ul>
-        <li><a href="https://priceline.com">Priceline.com</a></li>
-        <li><a href="https://kayak.com">Kayak.com</a></li>
-        <li><a href="https://carrentals.com">CarRentals.com</a></li>
+        <li><a
+          target="_blank"
+          href="https://priceline.com">Priceline.com</a></li>
+        <li><a
+          target="_blank"
+          href="https://kayak.com">Kayak.com</a></li>
+        <li><a
+          target="_blank"
+          href="https://carrentals.com">CarRentals.com</a></li>
       </ul>
 
       <h4>Ride Share</h4>
       <ul>
-        <li><a href="https://www.lyft.com/rider/airports/den">Lyft</a></li>
-        <li><a href="https://www.uber.com/global/en/airports/den/">Uber</a></li>
+        <li><a
+          target="_blank"
+          href="https://www.lyft.com/rider/airports/den">Lyft</a></li>
+        <li><a
+          target="_blank"
+          href="https://www.uber.com/global/en/airports/den/">Uber</a></li>
       </ul>
 
       <h4>Shuttle</h4>
       <ul>
         <li>
-          <a href="https://estesparkshuttle.com">Estes Park Shuttle</a>
+          <a
+            target="_blank"
+            href="https://estesparkshuttle.com">Estes Park Shuttle</a>
           <ul>
             <li>(970) 586-5151</li>
             <li>$45 one way or $85.00 per person for round trip</li>
@@ -37,7 +49,9 @@
           </ul>
         </li>
         <li>
-          <a href="https://denversairporttransportation.com">Denvers Airport Transportation</a>
+          <a
+            target="_blank"
+            href="https://denversairporttransportation.com">Denvers Airport Transportation</a>
           <ul>
             <li>(720) 579-6135</li>
             <li>SUV 5 people $195</li>
@@ -45,7 +59,9 @@
           </ul>
         </li>
         <li>
-          <a href="https://towncartoairportdenver.com">Town Car Airport Denver</a>
+          <a
+            target="_blank"
+            href="https://towncartoairportdenver.com">Town Car Airport Denver</a>
           <ul>
             <li>(303) 587-8882</li>
             <li>7 people $250</li>
@@ -130,27 +146,37 @@
       <h3>Suggestions</h3>
       <ul>
         <li>
-          <a href="https://www.diamondresorts.com/destinations/property/The-Historic-Crags-Lodge">
+          <a
+            target="_blank"
+            href="https://www.diamondresorts.com/destinations/property/The-Historic-Crags-Lodge">
             Historic Crag's Lodge
           </a>
         </li>
         <li>
-          <a href="https://ridgelinehotel.com/">
+          <a
+            target="_blank"
+            href="https://ridgelinehotel.com/">
             The Ridgeline Hotel Estes Park
           </a>
         </li>
         <li>
-          <a href="https://www.stanleyhotel.com/">
+          <a
+            target="_blank"
+            href="https://www.stanleyhotel.com/">
             The Stanley Hotel
           </a>
         </li>
         <li>
-          <a href="https://www.airbnb.com/a/Estes-Park--United-States">
+          <a
+            target="_blank"
+            href="https://www.airbnb.com/a/Estes-Park--United-States">
             AirBnB
           </a>
         </li>
         <li>
-          <a href="https://www.homeaway.com/d/128/estes-park">
+          <a
+            target="_blank"
+            href="https://www.homeaway.com/d/128/estes-park">
             Homeaway
           </a>
         </li>
@@ -161,12 +187,20 @@
       <h2>Local Activities</h2>
       <p>Estes Park is known for it's natural beauty and outdoor attractions</p>
       <ul>
-        <li><a href="https://www.visitestespark.com/events/community-all-levels-yoga/5316/">Free Yoga on 7/5/19 from 6-7 PM</a></li>
+        <li><a
+          target="_blank"
+          href="https://www.visitestespark.com/events/community-all-levels-yoga/5316/">Free Yoga on 7/5/19 from 6-7 PM</a></li>
         <li>Rocky Mountain National Park</li>
         <li>Horseback Riding</li>
-        <li>Visit <a href="https://www.tripadvisor.com/Tourism-g60945-Estes_Park_Colorado-Vacations.html">TripAdvisor</a> for other ideas</li>
-        <li><a href="https://colorado.com/events">Colorado.com Events</a></li>
-        <li><a href="https://estes-park.com/free-shuttle-buses/">Free shuttle around town and to parks</a></li>
+        <li>Visit <a
+          target="_blank"
+          href="https://www.tripadvisor.com/Tourism-g60945-Estes_Park_Colorado-Vacations.html">TripAdvisor</a> for other ideas</li>
+        <li><a
+          target="_blank"
+          href="https://colorado.com/events">Colorado.com Events</a></li>
+        <li><a
+          target="_blank"
+          href="https://estes-park.com/free-shuttle-buses/">Free shuttle around town and to parks</a></li>
       </ul>
     </Card>
 
