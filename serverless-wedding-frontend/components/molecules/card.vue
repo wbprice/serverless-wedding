@@ -19,6 +19,10 @@ export default {
   color: var(--darkslate);
 }
 
+.card img {
+  max-width: 100%;
+}
+
 .card .button {
   border-width: 2px;
   margin: 1em 0 0.5em 0;
