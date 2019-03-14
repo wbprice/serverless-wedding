@@ -1,4 +1,4 @@
-service: serverless-wedding-rsvp-notifications
+service: serverless-wedding-rsvp-handler
 
 provider:
   name: aws
