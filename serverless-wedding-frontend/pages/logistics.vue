@@ -77,7 +77,14 @@
         class="venue"
         alt="A mountain lodge"
         src="/venue.jpg" >
+
       <p>The venue for the ceremony and reception will be a mountain home in Estes Park, CO.</p>
+
+      <address>
+        1421 Sunny Mead Lane<br>
+        Estes Park, CO 80517
+      </address>
+
       <ul>
         <li>If you party too hard on the night of the wedding, we'll have beds for 6 couples (+1 single) on a first-come, first served basis.</li>
         <li>The house doesn't have air conditioning.</li>
@@ -244,5 +251,12 @@ thead th {
 
 tbody td {
   padding: 0.25em;
+}
+
+address {
+  border: 4px solid var(--slate);
+  max-width: 320px;
+  margin: 1em auto;
+  padding: 0.5em;
 }
 </style>

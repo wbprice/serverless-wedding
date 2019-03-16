@@ -23,7 +23,8 @@
         class="big icon"
         src="/money.png">
       <h2>Sorry you can't make it!</h2>
-      <p>There's always the registry!</p>
+      <p>We're planning a housewarming / we eloped celebration on 8/31/2019 for our Hampton Roads friends!</p>
+      <p>In the meantime, there's always the registry!</p>
       <nuxt-link
         class="button primary"
         to="/registry">Registry</nuxt-link>
