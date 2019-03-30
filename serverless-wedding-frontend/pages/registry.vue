@@ -19,8 +19,15 @@
       </section>
 
       <div class="registry-heading">
-        <h2>We'll be travelling all over Colorado for our honeymoon!</h2>
-        <p>Here's a short list of some of the things we want to do!</p>
+        <h2>Wedding Registry</h2>
+        <a
+          class="button primary"
+          href="https://www.amazon.com/wedding/share/blinginglove">Amazon Registry</a>
+      </div>
+
+      <div class="registry-heading">
+        <h2>Honeymoon Registry</h2>
+        <p>Here's a short list of some of the things we want to do in Colorado!</p>
       </div>
 
       <Card
@@ -126,6 +133,10 @@ export default {
 
 .registry-heading {
   margin-bottom: 1em;
+}
+
+.registry-heading h2 {
+  margin-bottom: 0.5em;
 }
 
 .registry-heading p {
