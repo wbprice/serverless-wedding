@@ -90,6 +90,7 @@
         <li>There are bears in the area. Please secure all trash. You'll need to lock doors and windows each time you leave the property or your car.</li>
         <li>No smoking.</li>
         <li>Please bring your own booster seats if you have children.</li>
+        <li>Check out is at 10am on July 7th.</li>
       </ul>
     </Card>
 
