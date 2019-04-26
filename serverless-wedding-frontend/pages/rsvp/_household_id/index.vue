@@ -6,7 +6,7 @@
 
       <header>
         <h2>We want to have you at our wedding!</h2>
-        <p>Please reply by <em>April 22nd, 2019</em></p>
+        <p>Please reply before <em>5 days</em></p>
       </header>
 
       <RSVPCard
