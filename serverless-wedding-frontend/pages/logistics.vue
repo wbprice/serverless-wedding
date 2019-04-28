@@ -8,6 +8,121 @@
       The last time we flew to Denver we used <a href="https://www.flyfrontier.com/">Frontier Airlines</a>.</p>
     </Card>
 
+    <ChatBubble
+      heading="Ling Ling"
+      content="✈ is flying to Denver, CO">
+      <h1>We purchased our flights to Denver!</h1>
+      <p>We are flying Frontier Airlines on 7/2-7/21!</p>
+
+      <p>I also did some extra research for the people flying out of Norfolk: All Flight listed below are Direct Flights</p>
+
+      <p>
+        <a href="https://flyfrontier.com">Frontier</a>
+        <ul>
+          <li>"$35 CARRY-ON BAG 24"" H x 16"" W x 10""D** & Under 35 lbs<br><i>Think: Backpacks & small suitcases"</i></li>
+          <li>"$30 CHECKED BAG 62 linear inches** & Under 50 lbs<br><i>Think: Large duffel bags & suitcases"</i></li>
+          <li>"FREE PERSONAL ITEM 14"" H x 18"" W x 8""D**<br><i>Think: Purses, laptop bags & kid backpacks"</i></li>
+        </ul>
+      </p>
+
+      <section>
+        <h2>Good days to fly to Denver with Frontier:</h2>
+        <table>
+          <tr>
+            <td>6/27</td>
+            <td>$109.00</td>
+          </tr>
+          <tr>
+            <td>6/30</td>
+            <td>$109.00</td>
+          </tr>
+          <tr>
+            <td>7/02</td>
+            <td>$110.00</td>
+          </tr>
+          <tr>
+            <td>7/04</td>
+            <td>$109.00</td>
+          </tr>
+        </table>
+      </section>
+
+      <section>
+        <h2>Good days to fly home to Norfolk with Frontier:</h2>
+        <table>
+          <tr>
+            <td>7/7</td>
+            <td>$169.00</td>
+          </tr>
+          <tr>
+            <td>7/9</td>
+            <td>$199.00</td>
+          </tr>
+          <tr>
+            <td>7/7</td>
+            <td>$169.00</td>
+          </tr>
+          <tr>
+            <td>7/11</td>
+            <td>$139.00</td>
+          </tr>
+          <tr>
+            <td>7/14</td>
+            <td>$169.00</td>
+          </tr>
+        </table>
+      </section>
+
+      <section>
+        <h2>Good days to fly home to Norfolk with United: $30 Checked Bag</h2>
+        <table>
+          <tr>
+            <td>7/7</td>
+            <td>$163.00</td>
+          </tr>
+          <tr>
+            <td>7/8</td>
+            <td>$177.00</td>
+          </tr>
+          <tr>
+            <td>7/9</td>
+            <td>$177.00</td>
+          </tr>
+          <tr>
+            <td>7/10</td>
+            <td>$177.00</td>
+          </tr>
+          <tr>
+            <td>7/11</td>
+            <td>$177.00</td>
+          </tr>
+          <tr>
+            <td>7/12</td>
+            <td>$177.00</td>
+          </tr>
+          <tr>
+            <td>7/13</td>
+            <td>$177.00</td>
+          </tr>
+          <tr>
+            <td>7/14</td>
+            <td>$177.00</td>
+          </tr>
+        </table>
+      </section>
+
+      Yes you can mix and match airlines! You can choose 1 airline 1 way and another airline the way home!
+
+      This is after researching all the airlines that fly out of Norfolk:
+
+      <ul>
+        <li>allegiantair - Does not fly to Denver</li>
+        <li>American Airlines $492 pp</li>
+        <li>Delta $298 pp Free Carry on + Personal Item $30 Checked</li>
+        <li>Southwest $400 First 2 bags fly free!</li>
+      </ul>
+    </ChatBubble>
+
     <Card>
       <h2>Location</h2>
       <h3>Estes Park, CO</h3>
@@ -216,10 +331,12 @@
 
 <script>
 import Card from './../components/molecules/card.vue'
+import ChatBubble from './../components/organisms/chat-bubble'
 
 export default {
   components: {
-    Card
+    Card,
+    ChatBubble
   }
 }
 </script>
