@@ -9,6 +9,9 @@
       </div>
       <div class="chat-bubble-content">
         {{ content }}
+        <div class="markup-content">
+          <slot />
+        </div>
       </div>
     </div>
   </div>
@@ -117,5 +120,38 @@ export default {
 .chat-bubble-ling {
   text-align: right;
   align-self: flex-end;
+}
+
+.markup-content p {
+  margin: 1em 0em;
+}
+
+.markup-content h1,
+.markup-content h2 {
+  font-size: 1.25em;
+}
+
+.markup-content table {
+  width: 100%;
+  margin: 1em 0em;
+  border: none;
+}
+
+.markup-content table tr:nth-child(odd) {
+  background: var(--salmon);
+  color: var(--white);
+}
+
+.markup-content table td {
+  padding: 0.5em;
+}
+
+.markup-content ul {
+  margin: 1em 0;
+  padding: 0 1em;
+}
+
+.markup-content ul li {
+  list-style-type: square;
 }
 </style>
