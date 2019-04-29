@@ -138,7 +138,7 @@ export default {
 }
 
 .markup-content table tr:nth-child(odd) {
-  background: var(--salmon);
+  background: var(--lightsalmon);
   color: var(--white);
 }
 

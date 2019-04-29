@@ -19,6 +19,7 @@ export default {
 <style>
 :root {
   --salmon: #db6156;
+  --lightsalmon: #ecb0aa;
   --red: rgba(179, 0, 27, 1);
   --yellow: rgba(255, 231, 76, 1);
   --white: rgba(255, 255, 255, 1);
