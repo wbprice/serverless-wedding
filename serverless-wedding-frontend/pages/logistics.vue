@@ -227,20 +227,28 @@
         </thead>
         <tbody>
           <tr>
-            <td>10:00AM</td>
-            <td>Blaine must overcome three challenges to prove his love</td>
+            <td>9:45AM</td>
+            <td>Opening</td>
           </tr>
           <tr>
-            <td>10:30AM</td>
+            <td>9:50AM</td>
+            <td>Fetching of the Bride Ceremony</td>
+          </tr>
+          <tr>
+            <td>10:10AM</td>
             <td>Chinese Tea Ceremony</td>
           </tr>
           <tr>
-            <td>11:00AM</td>
+            <td>10:20AM</td>
             <td>American Ceremony</td>
           </tr>
           <tr>
-            <td>11:30AM</td>
-            <td>Reception</td>
+            <td>10:40AM</td>
+            <td>Family Portraits</td>
+          </tr>
+          <tr>
+            <td>11:00AM</td>
+            <td>Cabin Brunch Reception</td>
           </tr>
         </tbody>
       </table>
