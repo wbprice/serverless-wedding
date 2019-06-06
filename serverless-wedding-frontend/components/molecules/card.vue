@@ -27,4 +27,12 @@ export default {
   border-width: 2px;
   margin: 1em 0 0.5em 0;
 }
+
+.card h2 {
+  margin-bottom: 0.25em;
+}
+
+.card p {
+  margin: 1em 0;
+}
 </style>
