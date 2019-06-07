@@ -1,5 +1,5 @@
 <template>
-  <div class="our-story container">
+  <div class="logistics container">
     <h1>Logistics</h1>
 
     <Card>
@@ -356,32 +356,5 @@ export default {
 
 ul {
   margin-bottom: 16px;
-}
-
-table {
-  border: 2px solid var(--slate);
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 1em;
-}
-
-thead tr {
-  background: var(--slate);
-}
-
-thead th {
-  color: var(--white);
-  padding: 0.25em;
-}
-
-tbody td {
-  padding: 0.25em;
-}
-
-address {
-  border: 4px solid var(--slate);
-  max-width: 400px;
-  margin: 1em auto;
-  padding: 1em;
 }
 </style>

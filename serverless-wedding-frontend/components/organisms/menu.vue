@@ -20,7 +20,8 @@ export default {
         { route: '/our-story', label: 'Our Story' },
         { route: '/logistics', label: 'Logistics' },
         { route: '/rsvp', label: 'RSVP' },
-        { route: '/registry', label: 'Registry' }
+        { route: '/registry', label: 'Registry' },
+        { route: '/bash', label: 'Bash' }
       ]
     }
   }
