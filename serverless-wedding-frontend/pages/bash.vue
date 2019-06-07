@@ -10,7 +10,9 @@
 
     <Card>
       <h2>Venue</h2>
-      <img src="https://placehold.it/300x150">
+      <img 
+        alt="bash 2 menu"
+        src="/bash-2-venue.jpg">
 
       <p>Please join us around <time>Saturday, August 31, 2019 at 5pm at this address:</time></p>
       <address>
